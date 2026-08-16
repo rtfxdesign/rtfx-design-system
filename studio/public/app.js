@@ -238,17 +238,100 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function renderProjectMedia(project) {
     const list = $('#projMediaList');
-    if (!project.mediaFiles?.length) {
-      list.innerHTML = '<span class="dim">No media files in this project folder.</span>';
+    if (!project.pageMedia?.some((group) => group.items.length)) {
+      list.innerHTML = '<span class="dim">No rearrangeable page media detected.</span>';
       return;
     }
-    list.innerHTML = project.mediaFiles.map((media) => {
-      const source = projectMediaUrl(project, media.src);
-      const preview = media.isVideo ? '<span class="pm-kind">VIDEO</span>'
-        : `<img src="${escapeHtml(source)}" alt="" loading="lazy">`;
-      return `<div class="pm-thumb">${preview}<span class="pm-label">${escapeHtml(media.filename)}</span></div>`;
+    list.innerHTML = project.pageMedia.filter((group) => group.items.length).map((group) => {
+      const items = group.items.map((media, index) => {
+        const source = projectMediaUrl(project, media.isVideo ? (media.poster || media.src) : media.src);
+        const preview = source
+          ? `<img src="${escapeHtml(source)}" alt="" loading="lazy">`
+          : `<span class="pm-kind">${media.isVideo ? 'VIDEO' : 'MEDIA'}</span>`;
+        const label = media.caption || media.filename;
+        return `<article class="pm-item" draggable="true" data-media-id="${escapeHtml(media.id)}">
+          <div class="pm-thumb">${preview}<span class="pm-index">${String(index + 1).padStart(2, '0')}</span></div>
+          <div class="pm-copy"><span class="pm-label">${escapeHtml(label)}</span><span class="pm-file">${escapeHtml(media.filename)}</span></div>
+          <div class="pm-actions">
+            <button type="button" data-action="media-up" aria-label="Move ${escapeHtml(media.filename)} earlier" ${index === 0 ? 'disabled' : ''}>↑</button>
+            <button type="button" data-action="media-down" aria-label="Move ${escapeHtml(media.filename)} later" ${index === group.items.length - 1 ? 'disabled' : ''}>↓</button>
+            <button type="button" class="pm-remove" data-action="media-remove" aria-label="Remove ${escapeHtml(media.filename)}">Remove</button>
+          </div>
+        </article>`;
+      }).join('');
+      return `<section class="pm-group" data-group-id="${escapeHtml(group.id)}">
+        <div class="pm-group-head"><span>${escapeHtml(group.label)}</span><span>${group.items.length} item${group.items.length === 1 ? '' : 's'}</span></div>
+        <div class="pm-items">${items}</div>
+      </section>`;
     }).join('');
   }
+
+  async function savePageMediaOrder(group) {
+    if (!state.selectedProject) return;
+    const orderedIds = $$('.pm-item', group).map((item) => item.dataset.mediaId);
+    projectList.classList.add('is-busy');
+    try {
+      await requestJson(`/api/projects/${encodeURIComponent(state.selectedProject.slug)}/page-media/order`, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ groupId: group.dataset.groupId, orderedIds })
+      });
+      await loadProjects(state.selectedProject.slug);
+    } catch (error) {
+      alert(`Reorder failed: ${error.message}`);
+      await loadProjects(state.selectedProject.slug);
+    } finally { projectList.classList.remove('is-busy'); }
+  }
+
+  $('#projMediaList').addEventListener('click', async (event) => {
+    const button = event.target.closest('[data-action]');
+    if (!button || !state.selectedProject) return;
+    const item = button.closest('.pm-item');
+    const group = button.closest('.pm-group');
+    if (button.dataset.action === 'media-remove') {
+      const label = $('.pm-label', item)?.textContent || 'this media item';
+      if (!confirm(`Remove "${label}" from this project page? Unused local files will also be deleted.`)) return;
+      button.disabled = true;
+      try {
+        await requestJson(`/api/projects/${encodeURIComponent(state.selectedProject.slug)}/page-media/${encodeURIComponent(item.dataset.mediaId)}`, { method: 'DELETE' });
+        await loadProjects(state.selectedProject.slug);
+      } catch (error) { alert(`Remove failed: ${error.message}`); button.disabled = false; }
+      return;
+    }
+    const sibling = button.dataset.action === 'media-up' ? item.previousElementSibling : item.nextElementSibling;
+    if (!sibling) return;
+    if (button.dataset.action === 'media-up') item.parentElement.insertBefore(item, sibling);
+    else item.parentElement.insertBefore(sibling, item);
+    await savePageMediaOrder(group);
+  });
+
+  let draggedMedia = null;
+  $('#projMediaList').addEventListener('dragstart', (event) => {
+    draggedMedia = event.target.closest('.pm-item');
+    if (!draggedMedia) return;
+    draggedMedia.classList.add('is-dragging');
+    event.dataTransfer.effectAllowed = 'move';
+    event.dataTransfer.setData('text/plain', draggedMedia.dataset.mediaId);
+  });
+  $('#projMediaList').addEventListener('dragover', (event) => {
+    const target = event.target.closest('.pm-item');
+    if (!draggedMedia || !target || target === draggedMedia
+      || target.closest('.pm-group') !== draggedMedia.closest('.pm-group')) return;
+    event.preventDefault();
+    const bounds = target.getBoundingClientRect();
+    target.parentElement.insertBefore(draggedMedia, event.clientY < bounds.top + bounds.height / 2 ? target : target.nextSibling);
+  });
+  $('#projMediaList').addEventListener('drop', async (event) => {
+    if (!draggedMedia) return;
+    event.preventDefault();
+    const group = draggedMedia.closest('.pm-group');
+    draggedMedia.classList.remove('is-dragging');
+    draggedMedia = null;
+    await savePageMediaOrder(group);
+  });
+  $('#projMediaList').addEventListener('dragend', () => {
+    if (draggedMedia) draggedMedia.classList.remove('is-dragging');
+    draggedMedia = null;
+  });
 
   projectSelect.addEventListener('change', () => selectProject(projectSelect.value));
   projectList.addEventListener('click', (event) => {

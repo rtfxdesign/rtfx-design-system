@@ -7,13 +7,16 @@ const { after, before, test } = require('node:test');
 const {
   app,
   assertPublishableBranch,
+  deletePageMediaHtml,
   decodeHtml,
   escapeHtml,
   ffmpegPath,
   optimizeImage,
   optimizeVideo,
+  parsePageMediaHtml,
   parseProjectHtml,
-  plainText
+  plainText,
+  reorderPageMediaHtml
 } = require('./server');
 const { safeArtUrl } = require('./generator');
 
@@ -76,6 +79,27 @@ test('project parser returns the project page fields', () => {
   assert.ok(project.title);
   assert.ok(project.category);
   assert.ok(project.heroImg);
+  assert.equal(project.pageMedia.length, 3);
+  assert.equal(project.pageMedia.reduce((total, group) => total + group.items.length, 0), 12);
+});
+
+test('page media can be reordered within a section and deleted', () => {
+  const fixture = `<section><h2>Playback</h2><div class="fig-grid">
+    <figure><img src="media/a.webp"><figcaption>Alpha</figcaption></figure>
+    <figure class="vid"><video src="media/b.mp4" poster="media/b-poster.webp"></video><figcaption>Beta</figcaption></figure>
+  </div></section>`;
+  const group = parsePageMediaHtml(fixture)[0];
+  assert.equal(group.label, 'Playback');
+  assert.deepEqual(group.items.map(item => item.caption), ['Alpha', 'Beta']);
+
+  const reordered = reorderPageMediaHtml(fixture, group.id, [group.items[1].id, group.items[0].id]);
+  assert.ok(reordered.indexOf('media/b.mp4') < reordered.indexOf('media/a.webp'));
+
+  const reorderedGroup = parsePageMediaHtml(reordered)[0];
+  const deleted = deletePageMediaHtml(reordered, reorderedGroup.items[0].id);
+  assert.doesNotMatch(deleted.html, /media\/b\.mp4/);
+  assert.match(deleted.html, /media\/a\.webp/);
+  assert.deepEqual(deleted.removedSources.sort(), ['media/b-poster.webp', 'media/b.mp4']);
 });
 
 test('Studio serves the dashboard and read-only APIs', async () => {

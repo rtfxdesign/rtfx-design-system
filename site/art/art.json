@@ -1,41 +1,15 @@
 [
   {
-    "id": "art-001",
-    "title": "Feedback Bloom · Study 01",
-    "category": "Generative & Feedback",
+    "id": "art-1786919804339",
+    "title": "Peacock Eyes",
+    "category": "Motion & VJ Loops",
     "year": "2026",
-    "tools": "Arena · TouchDesigner · Optical Feedback",
-    "description": "Video feedback folded back through mirrored geometry, left to evolve into self-organizing organic structures, captured as a loopable spatial canvas.",
-    "mediaType": "image",
-    "src": "../assets/portfolio_lightroom/allen_portfolio047.webp",
-    "poster": "../assets/portfolio_lightroom/allen_portfolio047.webp",
-    "featured": true,
-    "createdAt": "2026-08-16T18:00:00.000Z"
-  },
-  {
-    "id": "art-002",
-    "title": "Synthetic Topology",
-    "category": "Neural & Spatial",
-    "year": "2026",
-    "tools": "Generative AI · Custom Upscaling · GLSL",
-    "description": "Exploration of high-dimensional topological forms synthesized for large-scale immersive projections and dark architecture.",
-    "mediaType": "image",
-    "src": "../assets/portfolio_lightroom/allen_portfolio050.webp",
-    "poster": "../assets/portfolio_lightroom/allen_portfolio050.webp",
-    "featured": true,
-    "createdAt": "2026-08-16T18:00:00.000Z"
-  },
-  {
-    "id": "art-003",
-    "title": "Monolith Signal",
-    "category": "Light & Architecture",
-    "year": "2025",
-    "tools": "TouchDesigner · NotchLC · Volumetric Light",
-    "description": "Architectural study of high-contrast volumetric illumination slicing through dark space.",
-    "mediaType": "image",
-    "src": "../assets/portfolio_lightroom/allen_portfolio055.webp",
-    "poster": "../assets/portfolio_lightroom/allen_portfolio055.webp",
-    "featured": true,
-    "createdAt": "2026-08-16T18:00:00.000Z"
+    "tools": "Stablediffusion, After Effects",
+    "description": "",
+    "mediaType": "video",
+    "src": "../assets/art/art-1786919804339.mp4",
+    "poster": "../assets/art/art-1786919804339-poster.webp",
+    "featured": false,
+    "createdAt": "2026-08-16T22:37:34.804Z"
   }
 ]

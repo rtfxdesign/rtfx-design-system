@@ -522,11 +522,18 @@ function parseCliJson(output) {
 }
 
 function deployToNetlify(production = false) {
-  const npx = process.platform === 'win32' ? 'npx.cmd' : 'npx';
-  const args = ['netlify', 'deploy'];
-  if (production) args.push('--prod');
-  args.push('--site', productionSiteId, '--dir', '.', '--json');
-  return parseCliJson(runFile(npx, args, { cwd: siteDir }));
+  const netlifyArgs = ['netlify', 'deploy'];
+  if (production) netlifyArgs.push('--prod');
+  netlifyArgs.push('--site', productionSiteId, '--dir', '.', '--json');
+  const command = process.platform === 'win32' ? 'cmd.exe' : 'npx';
+  const args = process.platform === 'win32' ? ['/d', '/s', '/c', 'npx', ...netlifyArgs] : netlifyArgs;
+  return parseCliJson(runFile(command, args, { cwd: siteDir }));
+}
+
+function assertPublishableBranch(branch) {
+  if (branch !== 'main') {
+    throw new Error(`Publishing is only allowed from main. Current branch: ${branch || 'detached HEAD'}.`);
+  }
 }
 
 async function verifyDeploy(url) {
@@ -561,7 +568,7 @@ app.post('/api/deploy', async (req, res) => {
 
   try {
     const branch = runFile('git', ['branch', '--show-current']).trim();
-    if (branch !== 'main') throw new Error(`Publishing is only allowed from main. Current branch: ${branch || 'detached HEAD'}.`);
+    assertPublishableBranch(branch);
 
     const status = runFile('git', ['status', '--porcelain', '--untracked-files=all']);
     const changes = status.split(/\r?\n/).filter(Boolean);
@@ -637,6 +644,7 @@ if (require.main === module) {
 
 module.exports = {
   app,
+  assertPublishableBranch,
   decodeHtml,
   escapeHtml,
   ffmpegPath,

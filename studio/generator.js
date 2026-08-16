@@ -53,12 +53,12 @@ function generateArtPage() {
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Art & Visual Studies — RT/FX</title>
-<meta name="description" content="Personal art, generative studies, feedback systems, and spatial visuals by Allen Grabo (Manu et machina).">
+<title>Art Gallery — RT/FX</title>
+<meta name="description" content="Personal art, generative visual studies, optical feedback systems, and spatial textures by Allen Grabo.">
 <link rel="canonical" href="https://rtfx.space/art/">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Art & Visual Studies — RT/FX">
-<meta property="og:description" content="Personal art, generative studies, feedback systems, and spatial visuals by Allen Grabo (Manu et machina).">
+<meta property="og:title" content="Art Gallery — RT/FX">
+<meta property="og:description" content="Personal art, generative visual studies, optical feedback systems, and spatial textures by Allen Grabo.">
 <meta property="og:image" content="../assets/og-image-1200x630.png">
 <meta property="og:url" content="https://rtfx.space/art/">
 <meta name="twitter:card" content="summary_large_image">
@@ -76,8 +76,10 @@ function generateArtPage() {
 .art-grid figcaption p { font-size: 13px; color: var(--c-ink-2); line-height: 1.5; margin-top: 4px; }
 .art-grid .ph { aspect-ratio: 16/10; width: 100%; display: block; overflow: hidden; background: #0E0E0E; position: relative; }
 .art-grid .ph img, .art-grid .ph video { width: 100%; height: 100%; object-fit: cover; display: block; }
+.hero h1.fh { margin: 12px 0 16px; }
 </style>
 <script src="../js/site.js" defer></script>
+<script src="../js/field.js" defer></script>
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
@@ -97,8 +99,8 @@ function generateArtPage() {
 <main id="main">
 <div class="hero bg-grid">
 <div class="wrap">
-<span class="label">Personal Works · Generative Studies · Manu et Machina</span>
-<h1 class="display-xl">Art made at<br>the edge of the machine.</h1>
+<span class="label">Personal Works · Generative Studies · Autonomous Visuals</span>
+<h1 class="fh"><canvas class="fieldh" data-text="ART GALLERY" aria-hidden="true"></canvas><span class="sr">Art Gallery</span></h1>
 <p class="sub">Autonomous visual systems, optical feedback blooms, spatial textures, and cinematic forms crafted for architectural canvas and live space.</p>
 <div class="tickrule" aria-hidden="true"></div>
 </div>
@@ -118,7 +120,7 @@ ${cardsHtml}
 <footer>
 <div class="wrap foot">
 <img src="../assets/rtfx-wordmark-white.svg" alt="RT/FX">
-<span class="note">Art & Visual Studies · RT/FX · Creative technology · Washington, DC</span>
+<span class="note">Art Gallery · RT/FX · Creative technology · Washington, DC</span>
 <span class="links">
   <a href="../index.html">Home</a>
   <a href="index.html">Art</a>

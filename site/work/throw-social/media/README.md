@@ -1,20 +1,18 @@
-# Throw Social — media drop folder
+# Throw Social — production media
 
-The page references these EXACT filenames from your Drive `throwsocial` folder.
-Copy them here (compress first — see below):
+The case study uses locally hosted, web-ready media from `E:\6. Projects\ThrowSocial`.
 
-Videos (compress to ≤15MB each: 1080p, H.264, ~4Mbps, strip audio):
-- thrill09.mp4   (hero)
-- resolume07.mp4, resolume08.mp4, resolume09.mp4   (playback section)
-- thrill01.mp4, thrill05.mp4, thrill07.mp4, thrill10.mp4   (live section)
+Video delivery:
+- `room-live.mp4` — live footage; hero; 1080p H.264, 30 fps, silent, fast-start.
+- `throwsocial-bgloop.mp4` — original authored content; 1080p H.264, 24 fps, silent, fast-start.
+- `resolume07.mp4`, `resolume08.mp4`, `resolume09.mp4` — playback section.
+- `thrill01.mp4`, `thrill05.mp4`, `thrill07.mp4`, `thrill09.mp4`, `thrill10.mp4` — live footage.
 
-Images (export as compressed PNG/WebP ≤500KB, keep the same filename):
-- IMG_3778.png   (LED screen-config screenshot)
-- Untitled-20251229-223959-0406-2x.png   (content frame)
-- Screenshot 2025-12-29 222946.png   (playback layout)
+Still delivery:
+- `screen-map.{webp,jpg}` — LED processor and receiving-card layout.
+- `content-frame.{webp,jpg}` — content authored for the room geometry.
+- `venue-output.{webp,jpg}` — the mapped LED surface in the venue.
+- `poster-*.{webp,jpg}` — dedicated video posters.
+- `og.webp` — 1200×630 social card.
 
-Also add: og.webp — 1200×630 crop of a thrill clip frame, used as the share image.
-(_pending-poster.png and the three placeholder PNGs here are stand-ins — overwrite/delete freely.)
-
-FFmpeg one-liner per video:
-ffmpeg -i IN.mp4 -vf scale=-2:1080 -c:v libx264 -crf 26 -preset slow -an -movflags +faststart OUT.mp4
+Preserve the source files. Site videos stay at or below 15 MiB and use `+faststart`; images use a 1920px maximum long edge with WebP and JPEG variants.

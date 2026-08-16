@@ -73,7 +73,7 @@ RTFX Studio is the local editing and publishing control surface for the portfoli
 2. Double-click `run-studio.bat`, or run `npm run studio`.
 3. Open `http://localhost:3000`.
 4. Use **Art Gallery** to add or remove work. Images become 1920 px WebP + JPEG; videos become 1080p H.264 MP4 with fast-start and a WebP poster.
-5. Use **Projects** to edit project copy, replace a hero image, or prepare additional project media.
+5. Use **Projects** to edit project copy, replace a hero image, prepare additional project media, and rearrange or remove media already placed on the page. Reordering stays within each page section; removal only deletes local files when no other page references them.
 6. Use **Publish portfolio** when ready. Studio will refuse to publish from any branch other than `main`, refuse unrelated changes outside `site/`, push the site commit to GitHub, validate a Netlify draft URL, and then update `https://rtfx.space`.
 
 Studio auto-detects FFmpeg from `FFMPEG_PATH`, the local HeavyM installation, or the system `PATH`. Run `npm test` for the local safety and API checks.

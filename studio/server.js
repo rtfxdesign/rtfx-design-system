@@ -2,6 +2,7 @@ const express = require('express');
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
+const crypto = require('crypto');
 const { execFileSync } = require('child_process');
 const { generateArtPage } = require('./generator');
 
@@ -100,6 +101,159 @@ function safeArtId(value) {
   const id = String(value || '');
   if (!/^[a-zA-Z0-9_-]+$/.test(id)) throw new Error('Invalid artwork id.');
   return id;
+}
+
+function safeMediaId(value) {
+  const id = String(value || '');
+  if (!/^group-\d+-[a-f0-9]{12}$/.test(id)) throw new Error('Invalid page media id.');
+  return id;
+}
+
+function findFigGridBlocks(html) {
+  const blocks = [];
+  const opening = /<div\b[^>]*class=(['"])[^'"]*\bfig-grid\b[^'"]*\1[^>]*>/gi;
+  let match;
+  while ((match = opening.exec(html)) !== null) {
+    const token = /<\/?div\b[^>]*>/gi;
+    token.lastIndex = opening.lastIndex;
+    let depth = 1;
+    let closing;
+    while ((closing = token.exec(html)) !== null) {
+      depth += /^<\/div/i.test(closing[0]) ? -1 : 1;
+      if (depth === 0) {
+        blocks.push({
+          start: match.index,
+          openEnd: opening.lastIndex,
+          closeStart: closing.index,
+          end: token.lastIndex
+        });
+        opening.lastIndex = token.lastIndex;
+        break;
+      }
+    }
+    if (depth !== 0) throw new Error('Could not parse a project media grid.');
+  }
+  return blocks;
+}
+
+function figureSources(figureHtml) {
+  const sources = [];
+  for (const match of figureHtml.matchAll(/\b(?:src|poster)\s*=\s*(['"])(.*?)\1/gi)) sources.push(match[2]);
+  for (const match of figureHtml.matchAll(/\bsrcset\s*=\s*(['"])(.*?)\1/gi)) {
+    match[2].split(',').forEach(entry => sources.push(entry.trim().split(/\s+/, 1)[0]));
+  }
+  return [...new Set(sources.filter(Boolean))];
+}
+
+function parsePageMediaHtml(html) {
+  return findFigGridBlocks(html).map((block, groupIndex) => {
+    const groupId = `group-${groupIndex + 1}`;
+    const before = html.slice(0, block.start);
+    const headings = [...before.matchAll(/<h2\b[^>]*>([\s\S]*?)<\/h2>/gi)];
+    const label = headings.length ? plainText(headings.at(-1)[1]) : `Media group ${groupIndex + 1}`;
+    const inner = html.slice(block.openEnd, block.closeStart);
+    const figurePattern = /<figure\b[\s\S]*?<\/figure>/gi;
+    const items = [...inner.matchAll(figurePattern)].map((figureMatch, itemIndex) => {
+      const figureHtml = figureMatch[0];
+      const sources = figureSources(figureHtml);
+      const primary = (figureHtml.match(/<video\b[^>]*\bsrc=(['"])(.*?)\1/i)
+        || figureHtml.match(/<img\b[^>]*\bsrc=(['"])(.*?)\1/i)
+        || figureHtml.match(/<source\b[^>]*\bsrcset=(['"])(.*?)\1/i));
+      const src = primary ? primary[2].split(',')[0].trim().split(/\s+/, 1)[0] : sources[0] || '';
+      const posterMatch = figureHtml.match(/<video\b[^>]*\bposter=(['"])(.*?)\1/i);
+      const captionMatch = figureHtml.match(/<figcaption\b[^>]*>([\s\S]*?)<\/figcaption>/i);
+      const digest = crypto.createHash('sha1').update(figureHtml).digest('hex').slice(0, 12);
+      return {
+        id: `${groupId}-${digest}`,
+        order: itemIndex,
+        src,
+        poster: posterMatch ? posterMatch[2] : '',
+        filename: src ? path.basename(src.split(/[?#]/, 1)[0]) : `Media ${itemIndex + 1}`,
+        isVideo: /<video\b/i.test(figureHtml),
+        caption: captionMatch ? plainText(captionMatch[1]) : '',
+        sources,
+        html: figureHtml
+      };
+    });
+    return { id: groupId, label, items, block, inner };
+  });
+}
+
+function replaceMediaGroup(html, group, figures) {
+  const withoutFigures = group.inner.replace(/<figure\b[\s\S]*?<\/figure>/gi, '').trim();
+  if (withoutFigures) throw new Error('This media grid contains unsupported custom markup.');
+  if (figures.length === 0) return html.slice(0, group.block.start) + html.slice(group.block.end);
+  const leading = group.inner.match(/^\s*/)[0];
+  const trailing = group.inner.match(/\s*$/)[0];
+  const replacement = `${leading}${figures.join('\n')}${trailing}`;
+  return html.slice(0, group.block.openEnd) + replacement + html.slice(group.block.closeStart);
+}
+
+function reorderPageMediaHtml(html, groupId, orderedIds) {
+  const group = parsePageMediaHtml(html).find(item => item.id === groupId);
+  if (!group) throw new Error('Page media group not found.');
+  const currentIds = group.items.map(item => item.id);
+  if (!Array.isArray(orderedIds) || orderedIds.length !== currentIds.length
+    || new Set(orderedIds).size !== currentIds.length
+    || currentIds.some(id => !orderedIds.includes(id))) {
+    throw new Error('The media order does not match the current page. Refresh Studio and try again.');
+  }
+  const byId = new Map(group.items.map(item => [item.id, item.html]));
+  return replaceMediaGroup(html, group, orderedIds.map(id => byId.get(id)));
+}
+
+function deletePageMediaHtml(html, mediaId) {
+  const groups = parsePageMediaHtml(html);
+  const group = groups.find(item => item.items.some(media => media.id === mediaId));
+  if (!group) throw new Error('Page media item not found. Refresh Studio and try again.');
+  const target = group.items.find(item => item.id === mediaId);
+  return {
+    html: replaceMediaGroup(html, group, group.items.filter(item => item.id !== mediaId).map(item => item.html)),
+    removedSources: target.sources
+  };
+}
+
+function walkHtmlFiles(directory) {
+  return fs.readdirSync(directory, { withFileTypes: true }).flatMap(entry => {
+    if (entry.name === '.netlify') return [];
+    const fullPath = path.join(directory, entry.name);
+    if (entry.isDirectory()) return walkHtmlFiles(fullPath);
+    return /\.html$/i.test(entry.name) && entry.name !== '_preview.html' ? [fullPath] : [];
+  });
+}
+
+function sourceToLocalPath(htmlPath, source) {
+  const clean = String(source || '').split(/[?#]/, 1)[0];
+  if (!clean || /^(?:[a-z]+:|\/\/|#)/i.test(clean)) return null;
+  let decoded;
+  try { decoded = decodeURIComponent(clean); } catch { return null; }
+  return decoded.startsWith('/')
+    ? path.resolve(siteDir, decoded.replace(/^\/+/, ''))
+    : path.resolve(path.dirname(htmlPath), decoded);
+}
+
+function removeUnreferencedProjectFiles(slug, sources) {
+  const projectDir = path.join(workDir, slug);
+  const mediaDir = path.join(projectDir, 'media');
+  const candidates = [...new Set(sources.map(source => sourceToLocalPath(path.join(projectDir, 'index.html'), source)).filter(Boolean))]
+    .filter(file => file.startsWith(path.resolve(mediaDir) + path.sep));
+  const htmlFiles = walkHtmlFiles(siteDir);
+  const referenced = new Set();
+  for (const htmlFile of htmlFiles) {
+    const source = fs.readFileSync(htmlFile, 'utf8');
+    for (const mediaSource of figureSources(source)) {
+      const resolved = sourceToLocalPath(htmlFile, mediaSource);
+      if (resolved) referenced.add(path.normalize(resolved).toLowerCase());
+    }
+  }
+  const deleted = [];
+  for (const candidate of candidates) {
+    if (!referenced.has(path.normalize(candidate).toLowerCase()) && fs.existsSync(candidate)) {
+      fs.unlinkSync(candidate);
+      deleted.push(path.basename(candidate));
+    }
+  }
+  return deleted;
 }
 
 function removeFileIfInside(filePath, parentDir) {
@@ -303,10 +457,16 @@ function parseProjectHtml(slug) {
     }
   }
 
+  const pageMedia = parsePageMediaHtml(html).map(group => ({
+    id: group.id,
+    label: group.label,
+    items: group.items.map(({ html: figureHtml, sources, ...item }) => item)
+  }));
+
   return {
     slug, title, tagline, idx, category, location, timeframe, role,
     description, challenge, response, outcome, heroImg, stats,
-    mediaFiles, sections
+    mediaFiles, pageMedia, sections
   };
 }
 
@@ -510,6 +670,40 @@ app.post('/api/projects/:slug/media', upload.single('mediaFile'), (req, res) => 
   }
 });
 
+// POST /api/projects/:slug/page-media/order — reorder figures within one page section
+app.post('/api/projects/:slug/page-media/order', (req, res) => {
+  try {
+    const slug = safeSlug(req.params.slug);
+    const htmlPath = path.join(workDir, slug, 'index.html');
+    if (!fs.existsSync(htmlPath)) return res.status(404).json({ success: false, error: 'Project not found.' });
+    const groupId = String(req.body.groupId || '');
+    if (!/^group-\d+$/.test(groupId)) return res.status(400).json({ success: false, error: 'Invalid page media group.' });
+    const html = fs.readFileSync(htmlPath, 'utf8');
+    const updated = reorderPageMediaHtml(html, groupId, req.body.orderedIds);
+    fs.writeFileSync(htmlPath, updated, 'utf8');
+    res.json({ success: true, project: parseProjectHtml(slug) });
+  } catch (error) {
+    res.status(400).json({ success: false, error: error.message });
+  }
+});
+
+// DELETE /api/projects/:slug/page-media/:mediaId — remove a figure and unreferenced local files
+app.delete('/api/projects/:slug/page-media/:mediaId', (req, res) => {
+  try {
+    const slug = safeSlug(req.params.slug);
+    const mediaId = safeMediaId(req.params.mediaId);
+    const htmlPath = path.join(workDir, slug, 'index.html');
+    if (!fs.existsSync(htmlPath)) return res.status(404).json({ success: false, error: 'Project not found.' });
+    const html = fs.readFileSync(htmlPath, 'utf8');
+    const result = deletePageMediaHtml(html, mediaId);
+    fs.writeFileSync(htmlPath, result.html, 'utf8');
+    const deletedFiles = removeUnreferencedProjectFiles(slug, result.removedSources);
+    res.json({ success: true, deletedFiles, project: parseProjectHtml(slug) });
+  } catch (error) {
+    res.status(400).json({ success: false, error: error.message });
+  }
+});
+
 // =====================================================================
 //  DEPLOY API
 // =====================================================================
@@ -645,11 +839,15 @@ if (require.main === module) {
 module.exports = {
   app,
   assertPublishableBranch,
+  deletePageMediaHtml,
   decodeHtml,
   escapeHtml,
   ffmpegPath,
+  findFigGridBlocks,
   optimizeImage,
   optimizeVideo,
+  parsePageMediaHtml,
   parseProjectHtml,
-  plainText
+  plainText,
+  reorderPageMediaHtml
 };

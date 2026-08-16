@@ -1,0 +1,16 @@
+{
+  "name": "rtfx-design-system",
+  "version": "1.0.0",
+  "description": "RTFX Design System, Static Site, and Local Studio Upload Manager",
+  "main": "studio/server.js",
+  "scripts": {
+    "studio": "node studio/server.js",
+    "deploy": "npx netlify-cli deploy --prod --site 22603409-7492-45e0-ba10-37b2cbcb8a39 --dir site"
+  },
+  "dependencies": {
+    "express": "^4.21.2",
+    "multer": "^1.4.5-lts.1"
+  },
+  "author": "Allen Grabo / RTFX Design LLC",
+  "license": "UNLICENSED"
+}

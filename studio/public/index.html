@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>RTFX STUDIO · Art & Media Manager</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Martian+Mono:wght@300;400;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="app-layout">
+  <!-- Header / Topbar -->
+  <header class="topbar">
+    <div class="topbar-in">
+      <div class="brand">
+        <span class="mark">rtfx</span>
+        <span class="sub-mark">/ STUDIO · ART MANAGER</span>
+      </div>
+      <div class="top-actions">
+        <a href="http://localhost:3000/site/index.html" target="_blank" class="btn btn-ghost">Preview Site ↗</a>
+        <button id="btnDeploy" class="btn btn-primary">Deploy to Netlify ⚡</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content Area -->
+  <main class="main-content">
+    <div class="grid-container">
+      
+      <!-- Left: Upload Panel -->
+      <section class="panel upload-panel">
+        <div class="panel-head">
+          <span class="micro">01 // INGESTION</span>
+          <h2>Upload Artwork</h2>
+          <p class="dim">Auto-transcodes videos (1080p, faststart) &amp; optimizes images (1920px WebP/JPG).</p>
+        </div>
+
+        <form id="uploadForm">
+          <!-- Dropzone -->
+          <div id="dropzone" class="dropzone">
+            <input type="file" id="fileInput" name="mediaFile" accept="image/*,video/*" required>
+            <div class="drop-prompt">
+              <span class="drop-icon">↓</span>
+              <p><b>Drag &amp; drop artwork here</b> or click to browse</p>
+              <span class="drop-hint">Supports MP4, MOV, WebM, PNG, JPG, TIFF, WebP</span>
+            </div>
+            <div id="filePreview" class="file-preview" hidden>
+              <div id="previewMedia"></div>
+              <span id="previewName" class="file-name"></span>
+              <button type="button" id="btnClearFile" class="btn-clear">Change file</button>
+            </div>
+          </div>
+
+          <!-- Metadata Fields -->
+          <div class="form-fields">
+            <div class="field">
+              <label for="fTitle">Artwork Title</label>
+              <input type="text" id="fTitle" name="title" placeholder="e.g. Feedback Bloom · Study 04" required>
+            </div>
+
+            <div class="field-row">
+              <div class="field">
+                <label for="fCategory">Category / Series</label>
+                <select id="fCategory" name="category">
+                  <option value="Generative & Feedback">Generative &amp; Feedback</option>
+                  <option value="Neural & Spatial">Neural &amp; Spatial</option>
+                  <option value="Projection & Architecture">Projection &amp; Architecture</option>
+                  <option value="Motion & VJ Loops">Motion &amp; VJ Loops</option>
+                  <option value="Light & Sculpture">Light &amp; Sculpture</option>
+                  <option value="Abstract Studies">Abstract Studies</option>
+                </select>
+              </div>
+
+              <div class="field">
+                <label for="fYear">Year</label>
+                <input type="text" id="fYear" name="year" value="2026" placeholder="2026">
+              </div>
+            </div>
+
+            <div class="field">
+              <label for="fTools">Tools / Medium</label>
+              <input type="text" id="fTools" name="tools" placeholder="e.g. TouchDesigner · GLSL · Optical Feedback">
+            </div>
+
+            <div class="field">
+              <label for="fDescription">Artist Statement / Description</label>
+              <textarea id="fDescription" name="description" rows="3" placeholder="Brief technical & aesthetic description of the piece..."></textarea>
+            </div>
+
+            <div class="field-check">
+              <label>
+                <input type="checkbox" id="fFeatured" name="featured" value="true" checked>
+                <span>Feature in highlight reel / homepage</span>
+              </label>
+            </div>
+          </div>
+
+          <button type="submit" id="btnSubmit" class="btn btn-submit">
+            <span class="btn-text">Optimize &amp; Publish Artwork →</span>
+            <span class="btn-loading" hidden>Processing &amp; Optimizing...</span>
+          </button>
+        </form>
+      </section>
+
+      <!-- Right: Artwork Catalog -->
+      <section class="panel catalog-panel">
+        <div class="panel-head flex-between">
+          <div>
+            <span class="micro">02 // CATALOG</span>
+            <h2>Active Artworks (<span id="artCount">0</span>)</h2>
+          </div>
+          <span class="status-pill"><span class="dot"></span>Live in /art/</span>
+        </div>
+
+        <div id="artList" class="art-list">
+          <div class="loading-state">Loading catalog...</div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- Deploy Console Modal -->
+  <div id="deployModal" class="modal" hidden>
+    <div class="modal-card">
+      <div class="modal-head">
+        <h3>🚀 Deployment Pipeline</h3>
+        <button id="btnCloseModal" class="btn-close">×</button>
+      </div>
+      <div id="deployLogs" class="deploy-terminal"></div>
+    </div>
+  </div>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>

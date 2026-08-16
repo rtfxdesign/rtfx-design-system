@@ -1,0 +1,8 @@
+:root{
+--m-snap:160ms; /* @kind other */
+--m-glitch:200ms; /* @kind other */
+--m-draw:340ms; /* @kind other */
+--e-snap:steps(3); /* @kind other */
+--e-draw:cubic-bezier(.16,1,.3,1); /* @kind other */
+}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition-duration:.01ms!important}}

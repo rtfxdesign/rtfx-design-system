@@ -1,0 +1,15 @@
+:root{
+--f-display:'Martian Mono',ui-monospace,monospace; /* @kind font */
+--f-body:'Space Grotesk',system-ui,sans-serif; /* @kind font */
+--t-display-xl:clamp(38px,7vw,88px); /* @kind font */
+--t-display-l:clamp(28px,4.4vw,54px); /* @kind font */
+--t-display-m:clamp(21px,2.9vw,34px); /* @kind font */
+}
+.display-xl{font-family:var(--f-display);font-weight:700;font-size:var(--t-display-xl);letter-spacing:-.055em;line-height:.9}
+.display-l{font-family:var(--f-display);font-weight:700;font-size:var(--t-display-l);letter-spacing:-.05em;line-height:1}
+.display-m{font-family:var(--f-display);font-weight:600;font-size:var(--t-display-m);letter-spacing:-.045em;line-height:1.08}
+.heading{font-family:var(--f-display);font-weight:600;font-size:18px;letter-spacing:-.035em}
+.body-s{font-size:13px;line-height:1.6;color:var(--c-ink-2)}
+.data{font-family:var(--f-display);font-size:12.5px;letter-spacing:-.01em}
+.label{font-family:var(--f-display);font-size:11px;letter-spacing:.16em;text-transform:uppercase;font-weight:500;color:var(--c-ink-3)}
+.micro{font-family:var(--f-display);font-size:10px;letter-spacing:.2em;text-transform:uppercase;font-weight:500;color:var(--c-ink-3)}

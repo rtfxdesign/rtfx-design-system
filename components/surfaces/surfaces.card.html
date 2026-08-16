@@ -1,0 +1,22 @@
+<!-- @dsCard group="Components" viewport="700x400" name="Surfaces" subtitle="WorkCard, Panel, SpecHeader, SectionHead" -->
+<!DOCTYPE html><html><head><meta charset="utf-8"><link rel="stylesheet" href="../../styles.css">
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script src="../../_ds_bundle.js"></script>
+</head><body><div id="root"></div>
+<script type="text/babel">
+const { WorkCard, Panel, SpecHeader, SectionHead } = window.RTFXDesignSystem_ceb80c;
+ReactDOM.createRoot(document.getElementById('root')).render(
+  <div style={{padding:20,display:'grid',gridTemplateColumns:'300px 1fr',gap:20,alignItems:'start'}}>
+    <WorkCard idx="004" status="live" statusLabel="Live" title="Revd Cycling"
+      desc="House rig — 44-panel wall, 96 fixtures, one operator surface."
+      tags={["LED","DMX",{label:"Show control",accent:true}]}/>
+    <div style={{display:'flex',flexDirection:'column',gap:16}}>
+      <SectionHead num="02" title="Selected builds" style={{marginBottom:0}}/>
+      <Panel inline="static" padding="var(--s-4)"><span className="micro">Featured panel — amber inline</span></Panel>
+      <SpecHeader items={[{k:'Client',v:'Revd Cycling'},{k:'Venue',v:'Hyattsville, MD'},{k:'Date',v:'2026.08'},{k:'Role',v:'Integration'},{k:'Duration',v:'6 weeks'},{k:'Status',v:'Running',live:true}]}/>
+    </div>
+  </div>
+);
+</script></body></html>

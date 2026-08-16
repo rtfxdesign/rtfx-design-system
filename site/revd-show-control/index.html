@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>REVd Cycling — Show Control System | RT/FX</title>
+<meta name="description" content="Show control system design for REVd Cycling — one Stream Deck per room driving an LED wall and DMX lighting, so instructors never touch software.">
+<link rel="canonical" href="https://rtfx.space/revd-show-control/">
+<meta property="og:type" content="article">
+<meta property="og:title" content="REVd Cycling — Show Control System">
+<meta property="og:description" content="One Stream Deck per room drives the LED wall and the lighting rig. Instructors press labelled buttons; no application window is ever touched.">
+<meta property="og:image" content="https://rtfx.space/revd-show-control/media/wall-phases.webp">
+<meta property="og:image:alt" content="The REVd LED wall running a peak-phase scene behind spin bikes">
+<meta property="og:url" content="https://rtfx.space/revd-show-control/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#000000">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon-180.png">
+<link rel="stylesheet" href="../css/site.css">
+<script src="../js/site.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="topbar">
+<div class="topbar-in">
+<a class="tb-logo" href="../index.html"><img src="../assets/rtfx-wordmark-white.svg" alt="RT/FX — home"></a>
+<nav aria-label="Site"><a href="../index.html#work">← Selected work</a><a href="../archive/index.html">Archive</a><a href="../index.html#contact">Contact</a></nav>
+<span class="status st-live tb-right"><span class="dot"></span>Running</span>
+</div>
+</header>
+<main id="main">
+<div class="case-hero bg-grid">
+<div class="wrap">
+<span class="micro crumb"><a href="../index.html#work">Work</a> <span style="color:var(--c-rule)">/</span> <span style="color:var(--c-ink)">001 · Show control system</span></span>
+<h1 class="display-l">REVd Cycling</h1>
+<p class="display-m" style="color:var(--c-ink-2)">The instructor never touches software.</p>
+<p class="maxm mt-5" style="color:var(--c-ink-2)">A boutique cycling studio wanted a room that reacts — LED wall, moving light, strobes, all shifting with the class. What it could not have was an instructor crouched over a laptop mid-ride. So the whole system collapses into fifteen labelled buttons.</p>
+<div class="tickrule" aria-hidden="true"></div>
+<div class="csh-grid">
+<div class="csh-cell"><span class="k">Client</span><span class="v">REVd Cycling</span></div>
+<div class="csh-cell"><span class="k">Rooms</span><span class="v">Cycle · Reformer</span></div>
+<div class="csh-cell"><span class="k">Surfaces</span><span class="v">2 × Stream Deck, 5×3</span></div>
+<div class="csh-cell"><span class="k">Visuals</span><span class="v">Resolume Arena / OSC</span></div>
+<div class="csh-cell"><span class="k">Lighting</span><span class="v">MyDMX 3 / MIDI</span></div>
+<div class="csh-cell"><span class="k">Control</span><span class="v">Bitfocus Companion</span></div>
+<div class="csh-cell"><span class="k">Date</span><span class="v">2026.08</span></div>
+<div class="csh-cell"><span class="k">Status</span><span class="v status st-live"><span class="dot"></span>Running</span></div>
+</div>
+<figure class="hero-media vid">
+<span class="ph chamfer"><video src="https://rtfx.space/revd-show-control/media/hero.mp4" poster="https://rtfx.space/revd-show-control/media/hero.webp" preload="metadata" muted loop playsinline aria-label="The REVd cycle room reacting to a class — LED wall and lighting shifting together"></video><button class="vplay" type="button" aria-pressed="false">▶ Play clip</button></span>
+<figcaption class="micro">Fig 01 · Two-room rig — LED wall + DMX lighting</figcaption>
+</figure>
+</div>
+</div>
+<section aria-labelledby="s-brief">
+<div class="wrap">
+<div class="sec-head"><div class="sec-t"><span class="sec-num">00</span><h2 id="s-brief" class="display-m">The brief</h2></div></div>
+<p class="lede">Two rooms. One studio PC. A wraparound LED wall, a DMX rig, and a class schedule that never pauses for a technical problem.</p>
+<div class="maxm mt-5">
+<p class="mb-5" style="color:var(--c-ink-2)">The studio already owned good equipment — Resolume Arena driving the wall, MyDMX 3 driving the fixtures. The problem was never capability. It was that running a class meant alt-tabbing between two professional VJ applications while pedalling, and nobody was going to do that at 6am.</p>
+<p style="color:var(--c-ink-2)">The system I built puts a Stream Deck in each room and hides everything else. Visuals travel over OSC. Lighting travels over MIDI through a virtual cable. The two paths are deliberately independent, so a failure in one leaves the other running — and the room stays usable while it gets fixed.</p>
+</div>
+<div class="stats">
+<div><b>15</b><span>buttons per room</span></div>
+<div><b>13</b><span>Resolume layers</span></div>
+<div><b>22</b><span>state variables</span></div>
+<div><b>0</b><span>windows touched</span></div>
+</div>
+</div>
+</section>
+<section aria-labelledby="s-interface">
+<div class="wrap">
+<div class="sec-head">
+<div class="sec-t"><span class="sec-num">01</span><h2 id="s-interface" class="display-m">One press, one action</h2></div>
+<p class="sec-note">Every button does exactly one thing, and its face says what that thing is. No holds, no double-taps, no hidden modes. The single exception is <b style="color:var(--c-ink)">Blackout All</b>, which toggles — because the one moment you need to kill the room, you also need to bring it back.</p>
+</div>
+<div class="fig-grid">
+<figure><span class="ph chamfer"><img src="https://rtfx.space/revd-show-control/media/deck-icons.webp" alt="A five by three grid of custom Stream Deck button faces: Blackout All, Lights Red, Podium Mid, REVd, Warm Up, Blackout Lights, Lights Strobe, Podium Blackout, BPM half, Build, Blackout Wall, Red Strobe, BPM double and Peak." loading="lazy"></span><figcaption>The live run page. Every icon was drawn for this system — phase, tempo, podium, wash, blackout — so the surface reads at a glance in a dark room.</figcaption></figure>
+<figure><span class="ph chamfer"><img src="https://rtfx.space/revd-show-control/media/deck-main.webp" alt="The same button grid with two buttons outlined in green, indicating the REVd overlay and the red wash are currently live." loading="lazy"></span><figcaption>Green outline = that state is live, on every button, always.</figcaption></figure>
+<figure><span class="ph chamfer"><img src="https://rtfx.space/revd-show-control/media/deck-instructor.webp" alt="A Companion page named INSTRUCTOR showing REVd, Lights Red, LED Wall, Text, Start Class, Home and Reset All buttons." loading="lazy"></span><figcaption>The setup page — built, tested, and intentionally locked away.</figcaption></figure>
+</div>
+<div class="cham-box mt-6"><div class="in" style="padding:24px">
+<span class="micro" style="display:block;margin-bottom:8px;color:var(--c-accent)">The interesting constraint</span>
+<p class="body-s maxm">Every setup screen exists and works. The room deck simply cannot navigate to it — surface groups restrict each deck to a single page. Opening the full instructor workflow later is a configuration change, not new construction. Shipping less than was built is what made version one safe to hand over.</p>
+</div></div>
+</div>
+</section>
+<section aria-labelledby="s-room">
+<div class="wrap">
+<div class="sec-head">
+<div class="sec-t"><span class="sec-num">02</span><h2 id="s-room" class="display-m">The room, running</h2></div>
+<p class="sec-note">Three phases — Warm Up, Build, Peak — each a source and mask pair on the wall, each clearing every other phase as it fires. Nothing can bleed between them, and no phase can be half-live.</p>
+</div>
+<div class="fig-grid">
+<figure class="vid"><span class="ph chamfer"><video src="https://rtfx.space/revd-show-control/media/wall-phases.mp4" poster="https://rtfx.space/revd-show-control/media/wall-phases.webp" preload="metadata" muted loop playsinline aria-label="The LED wall running a peak-phase scene, wrapping the room while the wash tracks it"></video><button class="vplay" type="button" aria-pressed="false">▶ Play clip</button></span><figcaption>Peak phase — the wall wraps the room, the wash tracks it.</figcaption></figure>
+<figure class="vid"><span class="ph chamfer"><video src="https://rtfx.space/revd-show-control/media/milestone-overlay.mp4" preload="metadata" muted loop playsinline aria-label="A milestone overlay reading Congrats Group 1 on the LED wall"></video><button class="vplay" type="button" aria-pressed="false">▶ Play clip</button></span><figcaption>Milestone overlay — a dedicated text layer, picked from a sub-page.</figcaption></figure>
+<figure class="vid"><span class="ph chamfer"><video src="https://rtfx.space/revd-show-control/media/deck-press.mp4" preload="metadata" muted loop playsinline aria-label="A hand pressing the Stream Deck as the room changes colour"></video><button class="vplay" type="button" aria-pressed="false">▶ Play clip</button></span><figcaption>The entire interface, mid-class.</figcaption></figure>
+<figure class="vid"><span class="ph chamfer"><video src="https://rtfx.space/revd-show-control/media/room-wide.mp4" preload="metadata" muted loop playsinline aria-label="Wide view of the cycle room under red wash with the wall live"></video><button class="vplay" type="button" aria-pressed="false">▶ Play clip</button></span><figcaption>Cycle room, red wash, wall live.</figcaption></figure>
+<figure class="vid"><span class="ph chamfer"><video src="https://rtfx.space/revd-show-control/media/wall-minimal.mp4" preload="metadata" muted loop playsinline aria-label="A minimal blue arc scene on the otherwise black LED wall"></video><button class="vplay" type="button" aria-pressed="false">▶ Play clip</button></span><figcaption>Black is the resting state — no effect may lift the black level.</figcaption></figure>
+<figure class="vid"><span class="ph chamfer"><video src="https://rtfx.space/revd-show-control/media/podium-red.mp4" preload="metadata" muted loop playsinline aria-label="The podium fixture glowing red while the rest of the room holds its state"></video><button class="vplay" type="button" aria-pressed="false">▶ Play clip</button></span><figcaption>Podium is its own zone — wash changes never disturb it.</figcaption></figure>
+</div>
+<figure class="mt-6" style="margin:32px 0 0">
+<span class="ph chamfer" style="aspect-ratio:16/7;overflow:hidden"><img src="https://rtfx.space/revd-show-control/media/room-mirror.webp" alt="Wide view of the cycle studio: a large LED wall showing blue and magenta graphics behind rows of spin bikes, reflected in a mirrored wall." loading="lazy" style="width:100%;height:100%;object-fit:cover"></span>
+<figcaption class="micro" style="margin-top:8px">Between classes, wall idling.</figcaption>
+</figure>
+</div>
+</section>
+<section aria-labelledby="s-signal">
+<div class="wrap">
+<div class="sec-head">
+<div class="sec-t"><span class="sec-num">03</span><h2 id="s-signal" class="display-m">Two paths that don't need each other</h2></div>
+<p class="sec-note">This separation is the load-bearing decision in the whole build. Visuals and lighting never share a transport. When something breaks, the half that still works tells you where to look.</p>
+</div>
+<figure class="diag" role="img" aria-label="Signal flow diagram: a Stream Deck in each room connects over the network to Bitfocus Companion on the studio PC. Companion splits into two independent paths — OSC on port 7000 to Resolume Arena, which drives the LED wall; and a MIDI note-on message through the loopMIDI virtual port to MyDMX 3, which drives DMX universe one: the Tetra fixtures, neon, and LED strip.">
+<div class="node hot"><b>Stream Deck</b><span>per room</span></div>
+<div class="down">↓ network</div>
+<div class="node hot"><b>Bitfocus Companion</b><span>state · feedback · paging</span></div>
+<div class="split">
+<div style="display:grid;justify-items:center">
+<div class="down">↓ OSC :7000</div>
+<div class="node"><b>Resolume Arena</b><span>composition</span></div>
+<div class="down">↓</div>
+<div class="node"><b>LED wall</b><span>the room's surface</span></div>
+</div>
+<div style="display:grid;justify-items:center">
+<div class="down">↓ MIDI note on</div>
+<div class="node"><b>loopMIDI</b><span>virtual port</span></div>
+<div class="down">↓</div>
+<div class="node"><b>MyDMX 3</b><span>showfile</span></div>
+<div class="down">↓</div>
+<div class="node"><b>DMX universe 1</b><span>tetra · neon · strip</span></div>
+</div>
+</div>
+</figure>
+<p class="body-s maxm mt-5"><i>Companion holds all state itself rather than reading it back — which is why the button outlines can be trusted even when the applications behind them are minimised and forgotten.</i></p>
+</div>
+</section>
+<section aria-labelledby="s-glass">
+<div class="wrap">
+<div class="sec-head">
+<div class="sec-t"><span class="sec-num">04</span><h2 id="s-glass" class="display-m">Behind the glass</h2></div>
+<p class="sec-note">Under the surface it is ordinary professional tooling, wired so that nobody has to look at it. Scenes live in MyDMX with their own fade times; Companion only ever sends a trigger.</p>
+</div>
+<div class="fig-grid">
+<figure><span class="ph chamfer"><img src="https://rtfx.space/revd-show-control/media/rack.webp" alt="An equipment rack containing a myDMX interface, network switches, wireless receivers labelled Cycle and Reformer, a power conditioner and an audio mixer." loading="lazy"></span><figcaption>One rack, two rooms, one studio PC.</figcaption></figure>
+<figure><span class="ph chamfer"><img src="https://rtfx.space/revd-show-control/media/mydmx-midi.webp" alt="A MyDMX dialog titled MIDI Triggering for Cycle Wash Red, set to Note On, channel 1, number 60, on value 127." loading="lazy"></span><figcaption>One convention, applied without exception: Note On, ch 1, vel 127.</figcaption></figure>
+<figure><span class="ph chamfer"><img src="https://rtfx.space/revd-show-control/media/mydmx-shortcuts.webp" alt="A MyDMX shortcuts preference pane listing scenes: Cycle Wash Red, Cycle Wash Magenta, Cycle Wash Strobe, Cycle Blackout, Reformer Red, Reformer Magenta, Reformer Strobe, Reformer Blackout, Podium On and Podium Off, each bound to a MIDI port." loading="lazy"></span><figcaption>Scenes are banked by zone — Cycle wash, Reformer, podium, strip — so the three lighting zones stay permanently independent. No scene spans them.</figcaption></figure>
+</div>
+</div>
+</section>
+<section aria-labelledby="s-rules">
+<div class="wrap">
+<div class="sec-head">
+<div class="sec-t"><span class="sec-num">05</span><h2 id="s-rules" class="display-m">Rules the system has to keep</h2></div>
+<p class="sec-note">These were written down before the build and checked after every change. They are the difference between a room that works and a room that mostly works.</p>
+</div>
+<ol class="rules maxm">
+<li><b>Instructors never see software</b><p>No workflow may require a window, a mouse, or a decision about Resolume.</p></li>
+<li><b>One press, one action</b><p>No holds, no double-taps, no hidden functions.</p></li>
+<li><b>The green outline is always true</b><p>Every state change updates every sibling, in the same action list.</p></li>
+<li><b>Zones stay independent</b><p>A wash change must never disturb the podium or the other room.</p></li>
+<li><b>Blackouts always fully recover</b><p>From any state, kill and restore must return a usable room.</p></li>
+<li><b>Black is the resting state</b><p>No effect may lift the black level of the wall.</p></li>
+<li><b>Phases are exclusive</b><p>Never two live at once. Never zero after a press.</p></li>
+</ol>
+</div>
+</section>
+<section aria-labelledby="s-docs">
+<div class="wrap">
+<div class="sec-head">
+<div class="sec-t"><span class="sec-num">06</span><h2 id="s-docs" class="display-m">Handed over, not just installed</h2></div>
+<p class="sec-note">The build shipped with two documents: a technical reference for whoever maintains it, and a one-page quick guide for whoever teaches the class.</p>
+</div>
+<div class="maxm">
+<p class="mb-5" style="color:var(--c-ink-2)">A show control system that only its builder understands is a liability. The documentation is what makes it an asset — it lets someone else add a lighting scene in a year without quietly breaking the blackouts, and lets a new instructor run the room on their first morning.</p>
+<p style="color:var(--c-ink-2)">The instructor guide never mentions Resolume, MyDMX, MIDI or OSC. It describes fifteen buttons and three rules, and nothing else:</p>
+<ul style="list-style:none;display:grid;gap:10px;margin:24px 0" class="body-s">
+<li><b style="color:var(--c-ink)">Green outline = live.</b> That button or state is currently active.</li>
+<li><b style="color:var(--c-ink)">One press = one action.</b> No holds, no double-taps, no hidden functions.</li>
+<li><b style="color:var(--c-ink)">One phase at a time.</b> Warm Up, Build and Peak are exclusive — the last one pressed wins.</li>
+</ul>
+<a class="btn" href="https://rtfx.space/revd-show-control/docs/REVd-Instructor-Quick-Guide.pdf">Instructor quick guide · PDF · 1 page ↗</a>
+</div>
+</div>
+</section>
+<section aria-label="More projects">
+<div class="wrap">
+<nav class="pn" aria-label="Adjacent projects">
+<a class="prev" href="../archive/index.html"><span class="in"><span class="micro">← Previous</span><span class="t">Field Archive</span><span class="c">Residencies · systems · studies</span></span></a>
+<a class="next" href="../work/porsche-studio-portland/index.html"><span class="in"><span class="micro">Next →</span><span class="t">Porsche Studio Portland</span><span class="c">Immersive experience center</span></span></a>
+</nav>
+</div>
+</section>
+</main>
+<footer>
+<div class="wrap foot">
+<img src="../assets/rtfx-wordmark-white.svg" alt="RT/FX">
+<span class="note">REVd Cycling · Show control system design, integration and documentation by rtfx design · Case study · August 2026</span>
+<span class="links"><a href="../index.html">Home</a><a href="../archive/index.html">Archive</a><a href="../index.html#contact">Contact</a></span>
+</div>
+</footer>
+</body>
+</html>

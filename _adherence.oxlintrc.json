@@ -1,0 +1,252 @@
+{
+  "plugins": [
+    "react",
+    "import"
+  ],
+  "rules": {
+    "react/forbid-elements": [
+      "warn",
+      {
+        "forbid": []
+      }
+    ],
+    "no-restricted-imports": [
+      "warn",
+      {
+        "patterns": [
+          {
+            "group": [
+              "components/core/**",
+              "components/site/**",
+              "components/surfaces/**",
+              "site/js/**",
+              "ui_kits/website/**"
+            ],
+            "message": "Import design-system components from 'index.js', not component internals."
+          }
+        ]
+      }
+    ],
+    "no-restricted-syntax": [
+      "warn",
+      {
+        "selector": "Literal[value=/#[0-9a-fA-F]{3,8}\\b/]",
+        "message": "Raw hex color — use a design-system color token via var()."
+      },
+      {
+        "selector": "Literal[value=/\\b\\d+px\\b/]",
+        "message": "Raw px value — use a design-system spacing token via var()."
+      },
+      {
+        "selector": "Literal[value=/font-family\\s*:\\s*(?!['\\\"]?(?:Martian Mono|Space Grotesk))/i]",
+        "message": "Font not provided by the design system. Available: Martian Mono, Space Grotesk."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='Button'] > JSXAttribute > JSXIdentifier[name!=/^(?:variant|arrow|disabled|href|onClick|style|children|key|ref|className|style|children)$/]",
+        "message": "<Button> doesn't accept that prop. Declared props: variant, arrow, disabled, href, onClick, style, children."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='Button'] > JSXAttribute[name.name='variant'] > Literal[value!=/^(?:outline|fill|ghost)$/]",
+        "message": "<Button> variant must be one of 'outline' | 'fill' | 'ghost'."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='Panel'] > JSXAttribute > JSXIdentifier[name!=/^(?:inline|small|padding|style|innerStyle|children|key|ref|className|style|children)$/]",
+        "message": "<Panel> doesn't accept that prop. Declared props: inline, small, padding, style, innerStyle, children."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='Panel'] > JSXAttribute[name.name='inline'] > Literal[value!=/^(?:none|hover|static)$/]",
+        "message": "<Panel> inline must be one of 'none' | 'hover' | 'static'."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='SectionHead'] > JSXAttribute > JSXIdentifier[name!=/^(?:num|title|note|style|key|ref|className|style|children)$/]",
+        "message": "<SectionHead> doesn't accept that prop. Declared props: num, title, note, style."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='SiteFooter'] > JSXAttribute > JSXIdentifier[name!=/^(?:note|motto|style|key|ref|className|style|children)$/]",
+        "message": "<SiteFooter> doesn't accept that prop. Declared props: note, motto, style."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='SpecHeader'] > JSXAttribute > JSXIdentifier[name!=/^(?:items|style|key|ref|className|style|children)$/]",
+        "message": "<SpecHeader> doesn't accept that prop. Declared props: items, style."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='Status'] > JSXAttribute > JSXIdentifier[name!=/^(?:state|style|children|key|ref|className|style|children)$/]",
+        "message": "<Status> doesn't accept that prop. Declared props: state, style, children."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='Status'] > JSXAttribute[name.name='state'] > Literal[value!=/^(?:live|ok|idle)$/]",
+        "message": "<Status> state must be one of 'live' | 'ok' | 'idle'."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='Tag'] > JSXAttribute > JSXIdentifier[name!=/^(?:accent|style|children|key|ref|className|style|children)$/]",
+        "message": "<Tag> doesn't accept that prop. Declared props: accent, style, children."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='TickRule'] > JSXAttribute > JSXIdentifier[name!=/^(?:vertical|dim|style|key|ref|className|style|children)$/]",
+        "message": "<TickRule> doesn't accept that prop. Declared props: vertical, dim, style."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='Topbar'] > JSXAttribute > JSXIdentifier[name!=/^(?:mark|suffix|logoSrc|links|right|style|key|ref|className|style|children)$/]",
+        "message": "<Topbar> doesn't accept that prop. Declared props: mark, suffix, logoSrc, links, right, style."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='WorkCard'] > JSXAttribute > JSXIdentifier[name!=/^(?:idx|title|desc|tags|status|statusLabel|cta|href|onClick|thumb|style|key|ref|className|style|children)$/]",
+        "message": "<WorkCard> doesn't accept that prop. Declared props: idx, title, desc, tags, status, statusLabel, cta, href, onClick, thumb, style."
+      },
+      {
+        "selector": "JSXOpeningElement[name.name='WorkCard'] > JSXAttribute[name.name='status'] > Literal[value!=/^(?:live|ok|idle)$/]",
+        "message": "<WorkCard> status must be one of 'live' | 'ok' | 'idle'."
+      }
+    ]
+  },
+  "overrides": [
+    {
+      "files": [
+        "**/index.js"
+      ],
+      "rules": {
+        "no-restricted-imports": "off"
+      }
+    }
+  ],
+  "x-omelette": {
+    "components": {
+      "Button": {
+        "replaces": []
+      },
+      "Panel": {
+        "replaces": []
+      },
+      "SectionHead": {
+        "replaces": []
+      },
+      "SiteFooter": {
+        "replaces": []
+      },
+      "SpecHeader": {
+        "replaces": []
+      },
+      "Status": {
+        "replaces": []
+      },
+      "Tag": {
+        "replaces": []
+      },
+      "TickRule": {
+        "replaces": []
+      },
+      "Topbar": {
+        "replaces": []
+      },
+      "WorkCard": {
+        "replaces": []
+      }
+    },
+    "tokens": [
+      "--border-default",
+      "--border-soft",
+      "--c-accent",
+      "--c-accent-2",
+      "--c-bg",
+      "--c-ink",
+      "--c-ink-2",
+      "--c-ink-3",
+      "--c-live",
+      "--c-no",
+      "--c-ok",
+      "--c-on-accent",
+      "--c-panel",
+      "--c-raise",
+      "--c-rule",
+      "--c-rule-soft",
+      "--chamfer",
+      "--chamfer-sm",
+      "--e-draw",
+      "--e-snap",
+      "--f-body",
+      "--f-display",
+      "--gutter",
+      "--hairline",
+      "--inline-gap",
+      "--link",
+      "--link-hover",
+      "--m-draw",
+      "--m-glitch",
+      "--m-snap",
+      "--measure",
+      "--s-1",
+      "--s-2",
+      "--s-3",
+      "--s-4",
+      "--s-5",
+      "--s-6",
+      "--s-7",
+      "--s-8",
+      "--s-9",
+      "--surface-card",
+      "--surface-page",
+      "--surface-well",
+      "--t-display-l",
+      "--t-display-m",
+      "--t-display-xl",
+      "--text-body",
+      "--text-dim",
+      "--text-primary"
+    ],
+    "tokenKinds": {
+      "--c-bg": "color",
+      "--c-panel": "color",
+      "--c-raise": "color",
+      "--c-rule": "color",
+      "--c-rule-soft": "color",
+      "--c-ink": "color",
+      "--c-ink-2": "color",
+      "--c-ink-3": "color",
+      "--c-accent": "color",
+      "--c-accent-2": "color",
+      "--c-live": "color",
+      "--c-on-accent": "color",
+      "--c-ok": "color",
+      "--c-no": "color",
+      "--surface-page": "color",
+      "--surface-card": "color",
+      "--surface-well": "color",
+      "--border-default": "color",
+      "--border-soft": "color",
+      "--text-primary": "font",
+      "--text-body": "font",
+      "--text-dim": "font",
+      "--link": "color",
+      "--link-hover": "color",
+      "--f-display": "font",
+      "--f-body": "font",
+      "--t-display-xl": "font",
+      "--t-display-l": "font",
+      "--t-display-m": "font",
+      "--s-1": "spacing",
+      "--s-2": "spacing",
+      "--s-3": "spacing",
+      "--s-4": "spacing",
+      "--s-5": "spacing",
+      "--s-6": "spacing",
+      "--s-7": "spacing",
+      "--s-8": "spacing",
+      "--s-9": "spacing",
+      "--gutter": "spacing",
+      "--measure": "spacing",
+      "--chamfer": "spacing",
+      "--chamfer-sm": "spacing",
+      "--hairline": "spacing",
+      "--inline-gap": "spacing",
+      "--m-snap": "other",
+      "--m-glitch": "other",
+      "--m-draw": "other",
+      "--e-snap": "other",
+      "--e-draw": "other"
+    },
+    "fontFamilies": [
+      "Martian Mono",
+      "Space Grotesk"
+    ]
+  }
+}

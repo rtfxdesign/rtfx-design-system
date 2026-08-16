@@ -5,7 +5,8 @@
   "main": "studio/server.js",
   "scripts": {
     "studio": "node studio/server.js",
-    "deploy": "npx netlify-cli deploy --prod --site 22603409-7492-45e0-ba10-37b2cbcb8a39 --dir site"
+    "test": "node --check studio/server.js && node --check studio/public/app.js && node --test studio/*.test.js",
+    "deploy": "npx netlify-cli deploy --prod --site 570ae585-ebd5-4f35-a1ca-aa8f1c9b00e5 --dir site"
   },
   "dependencies": {
     "express": "^4.21.2",

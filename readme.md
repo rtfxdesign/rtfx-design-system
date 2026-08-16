@@ -64,3 +64,16 @@ No form controls exist in the kit; none are built. **Intentional additions: none
 - **Fonts load from Google Fonts CDN** (`tokens/fonts.css` @import). No font binaries were provided — supply WOFF2s to self-host and I'll write real `@font-face` rules.
 - UI-kit case imagery is **hotlinked from rtfx.space** (webp) — copy files into `assets/` for offline use if wanted.
 - Press/active states and a pictographic icon set are undefined in v0.4 — flagged above, not invented. Live-site photography reads warm/amber-lit rooms on black, consistent with the palette.
+
+## Local Studio
+
+RTFX Studio is the local editing and publishing control surface for the portfolio. It is intentionally not exposed as a public admin page: it edits this checkout, prepares media with the local FFmpeg installation, commits changes to GitHub, validates a Netlify preview, and then publishes the static site.
+
+1. Check out `main` and make sure it is current with GitHub.
+2. Double-click `run-studio.bat`, or run `npm run studio`.
+3. Open `http://localhost:3000`.
+4. Use **Art Gallery** to add or remove work. Images become 1920 px WebP + JPEG; videos become 1080p H.264 MP4 with fast-start and a WebP poster.
+5. Use **Projects** to edit project copy, replace a hero image, or prepare additional project media.
+6. Use **Publish portfolio** when ready. Studio will refuse to publish from any branch other than `main`, refuse unrelated changes outside `site/`, push the site commit to GitHub, validate a Netlify draft URL, and then update `https://rtfx.space`.
+
+Studio auto-detects FFmpeg from `FFMPEG_PATH`, the local HeavyM installation, or the system `PATH`. Run `npm test` for the local safety and API checks.

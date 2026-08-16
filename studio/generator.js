@@ -4,6 +4,17 @@ const path = require('path');
 const artJsonPath = path.resolve(__dirname, '../site/art/art.json');
 const artHtmlPath = path.resolve(__dirname, '../site/art/index.html');
 
+function escapeHtml(value) {
+  return String(value ?? '').replace(/[&<>'"]/g, (character) => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;'
+  })[character]);
+}
+
+function safeArtUrl(value) {
+  const url = String(value || '').replace(/\\/g, '/');
+  return /^\.\.\/assets\/art\/[a-zA-Z0-9_-]+\.(?:webp|jpe?g|mp4)$/i.test(url) ? url : '';
+}
+
 function generateArtPage() {
   let artworks = [];
   try {
@@ -17,31 +28,38 @@ function generateArtPage() {
   artworks.forEach((art, i) => {
     const numDisplay = String(i + 1).padStart(2, '0');
     const isVideo = art.mediaType === 'video';
+    const title = escapeHtml(art.title || 'Untitled Study');
+    const category = escapeHtml(art.category || 'Generative & Spatial');
+    const year = escapeHtml(art.year || '');
+    const tools = escapeHtml(art.tools || '');
+    const description = escapeHtml(art.description || '');
+    const src = escapeHtml(safeArtUrl(art.src));
+    const poster = escapeHtml(safeArtUrl(art.poster));
 
     let mediaTag = '';
     if (isVideo) {
       mediaTag = `
         <figure class="vid"><span class="ph chamfer">
-          <video src="${art.src}" poster="${art.poster || ''}" preload="metadata" muted loop playsinline aria-label="${art.title}"></video>
+          <video src="${src}" poster="${poster}" preload="metadata" muted loop playsinline aria-label="${title}"></video>
           <button class="vplay" type="button" aria-pressed="false">▶ Play clip</button>
         </span>
         <figcaption>
-          <span class="micro">${numDisplay} · ${art.category} · ${art.year}</span>
-          <b class="art-t">${art.title}</b>
-          <span class="art-tools">${art.tools || ''}</span>
-          <p>${art.description || ''}</p>
+          <span class="micro">${numDisplay} · ${category} · ${year}</span>
+          <b class="art-t">${title}</b>
+          <span class="art-tools">${tools}</span>
+          <p>${description}</p>
         </figcaption>
         </figure>`;
     } else {
       mediaTag = `
         <figure class="ai"><span class="in"><span class="ph chamfer">
-          <img src="${art.src}" alt="${art.title}" loading="lazy">
+          <img src="${src}" alt="${title}" loading="lazy">
         </span>
         <figcaption>
-          <span class="micro">${numDisplay} · ${art.category} · ${art.year}</span>
-          <b class="art-t">${art.title}</b>
-          <span class="art-tools">${art.tools || ''}</span>
-          <p>${art.description || ''}</p>
+          <span class="micro">${numDisplay} · ${category} · ${year}</span>
+          <b class="art-t">${title}</b>
+          <span class="art-tools">${tools}</span>
+          <p>${description}</p>
         </figcaption></span>
         </figure>`;
     }
@@ -138,7 +156,7 @@ ${cardsHtml}
   console.log(`Generated ${artHtmlPath} with ${artworks.length} artworks.`);
 }
 
-module.exports = { generateArtPage };
+module.exports = { escapeHtml, generateArtPage, safeArtUrl };
 
 if (require.main === module) {
   generateArtPage();

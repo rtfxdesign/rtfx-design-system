@@ -6,6 +6,7 @@ const path = require('node:path');
 const { after, before, test } = require('node:test');
 const {
   app,
+  assertPublishableBranch,
   decodeHtml,
   escapeHtml,
   ffmpegPath,
@@ -95,10 +96,8 @@ test('Studio serves the dashboard and read-only APIs', async () => {
   assert.ok(projectPayload.projects.length >= 1);
 });
 
-test('publish endpoint stops safely away from main', async () => {
-  const response = await fetch(`${baseUrl}/api/deploy`, { method: 'POST' });
-  const body = await response.text();
-  assert.equal(response.status, 200);
-  assert.match(body, /Publishing is only allowed from main/);
-  assert.match(body, /"success":false/);
+test('publish branch guard only allows main', () => {
+  assert.doesNotThrow(() => assertPublishableBranch('main'));
+  assert.throws(() => assertPublishableBranch('agent/unfinished'), /Publishing is only allowed from main/);
+  assert.throws(() => assertPublishableBranch(''), /detached HEAD/);
 });

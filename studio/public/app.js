@@ -1,207 +1,346 @@
 document.addEventListener('DOMContentLoaded', () => {
-  const dropzone = document.getElementById('dropzone');
-  const fileInput = document.getElementById('fileInput');
-  const filePreview = document.getElementById('filePreview');
-  const previewMedia = document.getElementById('previewMedia');
-  const previewName = document.getElementById('previewName');
-  const btnClearFile = document.getElementById('btnClearFile');
-  const uploadForm = document.getElementById('uploadForm');
-  const btnSubmit = document.getElementById('btnSubmit');
-  const artList = document.getElementById('artList');
-  const artCount = document.getElementById('artCount');
-  
-  const btnDeploy = document.getElementById('btnDeploy');
-  const deployModal = document.getElementById('deployModal');
-  const btnCloseModal = document.getElementById('btnCloseModal');
-  const deployLogs = document.getElementById('deployLogs');
+  const $ = (selector, root = document) => root.querySelector(selector);
+  const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
+  const state = { projects: [], selectedProject: null };
 
-  // 1. Load Artworks
-  function loadArtworks() {
-    fetch('/api/art')
-      .then(res => res.json())
-      .then(data => {
-        if (!data.success) throw new Error(data.error);
-        renderArtworks(data.artworks);
-      })
-      .catch(err => {
-        artList.innerHTML = `<div class="error">Error loading artworks: ${err.message}</div>`;
-      });
+  function escapeHtml(value = '') {
+    return String(value).replace(/[&<>'"]/g, (character) => ({
+      '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;'
+    })[character]);
+  }
+
+  function encodePath(value = '') {
+    return String(value).split('/').filter((segment) => segment && segment !== '.')
+      .map((segment) => encodeURIComponent(segment)).join('/');
+  }
+
+  function projectMediaUrl(project, source) {
+    if (!source) return '';
+    if (/^https?:\/\//i.test(source) || source.startsWith('/')) return source;
+    return `/work/${encodeURIComponent(project.slug)}/${encodePath(source)}`;
+  }
+
+  async function requestJson(url, options) {
+    const response = await fetch(url, options);
+    let data;
+    try { data = await response.json(); }
+    catch { throw new Error(`Request failed with HTTP ${response.status}.`); }
+    if (!response.ok || !data.success) throw new Error(data.error || `Request failed with HTTP ${response.status}.`);
+    return data;
+  }
+
+  function setButtonBusy(button, busy, busyText = 'Working...') {
+    button.disabled = busy;
+    const normal = $('.btn-text', button);
+    const loading = $('.btn-loading', button);
+    if (normal) normal.hidden = busy;
+    if (loading) {
+      loading.hidden = !busy;
+      if (busy) loading.textContent = busyText;
+    }
+  }
+
+  // Tabs
+  $$('.tab').forEach((tab) => {
+    tab.addEventListener('click', () => {
+      const tabName = tab.dataset.tab;
+      $$('.tab').forEach((item) => item.classList.toggle('active', item === tab));
+      $('#tab-art').hidden = tabName !== 'art';
+      $('#tab-projects').hidden = tabName !== 'projects';
+      if (tabName === 'projects' && state.projects.length === 0) loadProjects();
+    });
+  });
+
+  // Art gallery
+  const dropzone = $('#dropzone');
+  const fileInput = $('#fileInput');
+  const filePreview = $('#filePreview');
+  const previewMedia = $('#previewMedia');
+  const previewName = $('#previewName');
+  const uploadForm = $('#uploadForm');
+  const btnSubmit = $('#btnSubmit');
+  const artList = $('#artList');
+  const artCount = $('#artCount');
+
+  async function loadArtworks() {
+    try {
+      const data = await requestJson('/api/art');
+      renderArtworks(data.artworks);
+    } catch (error) {
+      artList.innerHTML = `<div class="error">${escapeHtml(error.message)}</div>`;
+    }
   }
 
   function renderArtworks(artworks) {
     artCount.textContent = artworks.length;
     if (artworks.length === 0) {
-      artList.innerHTML = `<div class="empty-state">No artworks published yet. Upload your first piece on the left!</div>`;
+      artList.innerHTML = '<div class="empty-state">No artworks published yet. Upload the first piece on the left.</div>';
       return;
     }
-
-    artList.innerHTML = artworks.map(art => {
-      const isVideo = art.mediaType === 'video';
-      const mediaHtml = isVideo
-        ? `<div class="card-media"><video src="${art.src}" poster="${art.poster || ''}" muted playsinline></video><span class="badge-video">VIDEO</span></div>`
-        : `<div class="card-media"><img src="${art.src}" alt="${art.title}" loading="lazy"></div>`;
-
-      return `
-        <div class="art-card" data-id="${art.id}">
-          ${mediaHtml}
-          <div class="card-title">${art.title}</div>
-          <div class="card-meta">${art.category} · ${art.year}</div>
-          <div class="card-desc">${art.description || 'No description provided.'}</div>
-          <div class="card-actions">
-            <button class="btn-del" onclick="deleteArtwork('${art.id}', '${art.title.replace(/'/g, "\\'")}')">Remove ✗</button>
-          </div>
-        </div>
-      `;
+    artList.innerHTML = artworks.map((art) => {
+      const title = escapeHtml(art.title || 'Untitled Study');
+      const source = escapeHtml(art.src || '');
+      const poster = escapeHtml(art.poster || '');
+      const media = art.mediaType === 'video'
+        ? `<div class="card-media"><video src="${source}" poster="${poster}" muted playsinline preload="metadata"></video><span class="badge-video">VIDEO</span></div>`
+        : `<div class="card-media"><img src="${source}" alt="${title}" loading="lazy"></div>`;
+      return `<article class="art-card" data-id="${escapeHtml(art.id)}">
+        ${media}<div class="card-title">${title}</div>
+        <div class="card-meta">${escapeHtml(art.category)} · ${escapeHtml(art.year)}</div>
+        <div class="card-desc">${escapeHtml(art.description || 'No description provided.')}</div>
+        <div class="card-actions"><a class="btn-view" href="/site/art/" target="_blank" rel="noopener">View ↗</a>
+        <button class="btn-del" type="button" data-action="delete-art" data-title="${title}">Remove ✗</button></div>
+      </article>`;
     }).join('');
   }
 
-  window.deleteArtwork = function(id, title) {
-    if (!confirm(`Are you sure you want to remove "${title}" from the art gallery?`)) return;
-    fetch(`/api/art/${id}`, { method: 'DELETE' })
-      .then(res => res.json())
-      .then(data => {
-        if (data.success) {
-          loadArtworks();
-        } else {
-          alert('Error: ' + data.error);
-        }
-      });
-  };
-
-  // 2. Drag & Drop Handling
-  ['dragenter', 'dragover'].forEach(name => {
-    dropzone.addEventListener(name, (e) => {
-      e.preventDefault();
-      dropzone.classList.add('dragover');
-    });
-  });
-
-  ['dragleave', 'drop'].forEach(name => {
-    dropzone.addEventListener(name, (e) => {
-      e.preventDefault();
-      dropzone.classList.remove('dragover');
-    });
-  });
-
-  dropzone.addEventListener('drop', (e) => {
-    if (e.dataTransfer.files && e.dataTransfer.files[0]) {
-      fileInput.files = e.dataTransfer.files;
-      handleFileSelected(fileInput.files[0]);
+  artList.addEventListener('click', async (event) => {
+    const button = event.target.closest('[data-action="delete-art"]');
+    if (!button) return;
+    const card = button.closest('[data-id]');
+    const title = button.dataset.title || 'this artwork';
+    if (!confirm(`Remove "${title}" and its generated media from the art gallery?`)) return;
+    button.disabled = true;
+    try {
+      await requestJson(`/api/art/${encodeURIComponent(card.dataset.id)}`, { method: 'DELETE' });
+      await loadArtworks();
+    } catch (error) {
+      alert(`Remove failed: ${error.message}`);
+      button.disabled = false;
     }
   });
 
+  ['dragenter', 'dragover'].forEach((name) => dropzone.addEventListener(name, (event) => {
+    event.preventDefault();
+    dropzone.classList.add('dragover');
+  }));
+  ['dragleave', 'drop'].forEach((name) => dropzone.addEventListener(name, (event) => {
+    event.preventDefault();
+    dropzone.classList.remove('dragover');
+  }));
+  dropzone.addEventListener('drop', (event) => {
+    if (!event.dataTransfer.files?.[0]) return;
+    fileInput.files = event.dataTransfer.files;
+    showFilePreview(event.dataTransfer.files[0]);
+  });
   fileInput.addEventListener('change', () => {
-    if (fileInput.files && fileInput.files[0]) {
-      handleFileSelected(fileInput.files[0]);
-    }
+    if (fileInput.files?.[0]) showFilePreview(fileInput.files[0]);
   });
 
-  function handleFileSelected(file) {
+  function showFilePreview(file) {
     previewName.textContent = `${file.name} (${(file.size / 1024 / 1024).toFixed(2)} MB)`;
-    previewMedia.innerHTML = '';
-
-    if (file.type.startsWith('image/')) {
-      const img = document.createElement('img');
-      img.src = URL.createObjectURL(file);
-      previewMedia.appendChild(img);
-    } else if (file.type.startsWith('video/')) {
-      const vid = document.createElement('video');
-      vid.src = URL.createObjectURL(file);
-      vid.controls = true;
-      vid.muted = true;
-      previewMedia.appendChild(vid);
-    }
-
+    previewMedia.replaceChildren();
+    const objectUrl = URL.createObjectURL(file);
+    const media = document.createElement(file.type.startsWith('video/') ? 'video' : 'img');
+    media.src = objectUrl;
+    media.addEventListener('load', () => URL.revokeObjectURL(objectUrl), { once: true });
+    media.addEventListener('loadedmetadata', () => URL.revokeObjectURL(objectUrl), { once: true });
+    if (media.tagName === 'VIDEO') { media.controls = true; media.muted = true; }
+    previewMedia.appendChild(media);
     filePreview.hidden = false;
-    dropzone.querySelector('.drop-prompt').hidden = true;
+    $('.drop-prompt', dropzone).hidden = true;
   }
 
-  btnClearFile.addEventListener('click', (e) => {
-    e.stopPropagation();
+  $('#btnClearFile').addEventListener('click', (event) => {
+    event.stopPropagation();
     fileInput.value = '';
     filePreview.hidden = true;
-    previewMedia.innerHTML = '';
-    dropzone.querySelector('.drop-prompt').hidden = false;
+    previewMedia.replaceChildren();
+    $('.drop-prompt', dropzone).hidden = false;
   });
 
-  // 3. Form Submit
-  uploadForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-    if (!fileInput.files || !fileInput.files[0]) {
-      alert('Please select or drop a media file first.');
-      return;
-    }
-
-    const formData = new FormData(uploadForm);
-    btnSubmit.disabled = true;
-    btnSubmit.querySelector('.btn-text').hidden = true;
-    btnSubmit.querySelector('.btn-loading').hidden = false;
-
-    fetch('/api/upload', {
-      method: 'POST',
-      body: formData
-    })
-    .then(res => res.json())
-    .then(data => {
-      if (!data.success) throw new Error(data.error);
+  uploadForm.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    if (!fileInput.files?.[0]) { alert('Select or drop a media file first.'); return; }
+    setButtonBusy(btnSubmit, true, 'Processing & optimizing...');
+    try {
+      const data = await requestJson('/api/upload', { method: 'POST', body: new FormData(uploadForm) });
       uploadForm.reset();
       filePreview.hidden = true;
-      previewMedia.innerHTML = '';
-      dropzone.querySelector('.drop-prompt').hidden = false;
-      loadArtworks();
-      alert(`Artwork "${data.artwork.title}" successfully processed and added to /art/!`);
-    })
-    .catch(err => {
-      alert('Upload failed: ' + err.message);
-    })
-    .finally(() => {
-      btnSubmit.disabled = false;
-      btnSubmit.querySelector('.btn-text').hidden = false;
-      btnSubmit.querySelector('.btn-loading').hidden = true;
-    });
+      previewMedia.replaceChildren();
+      $('.drop-prompt', dropzone).hidden = false;
+      await loadArtworks();
+      alert(`"${data.artwork.title}" is ready in the local /art/ page. Publish when you are ready.`);
+    } catch (error) { alert(`Upload failed: ${error.message}`); }
+    finally { setButtonBusy(btnSubmit, false); }
   });
 
-  // 4. Deploy Trigger
-  btnDeploy.addEventListener('click', () => {
-    if (!confirm('Deploy latest changes & artworks directly to Netlify production (rtfxv2)?')) return;
-    deployModal.hidden = false;
-    deployLogs.textContent = 'Initializing deployment stream...\n';
+  // Project editor
+  const projectList = $('#projList');
+  const projectCount = $('#projCount');
+  const projectSelect = $('#projSelect');
+  const projectForm = $('#projForm');
+  const btnSaveProject = $('#btnSaveProject');
 
-    fetch('/api/deploy', { method: 'POST' })
-      .then(response => {
-        const reader = response.body.getReader();
-        const decoder = new TextDecoder();
+  async function loadProjects(preferredSlug = state.selectedProject?.slug) {
+    try {
+      const data = await requestJson('/api/projects');
+      state.projects = data.projects;
+      projectCount.textContent = data.projects.length;
+      projectSelect.innerHTML = '<option value="">— Choose a project —</option>' + data.projects
+        .map((project) => `<option value="${escapeHtml(project.slug)}">${escapeHtml(project.title || project.slug)}</option>`).join('');
+      renderProjects();
+      if (preferredSlug && data.projects.some((project) => project.slug === preferredSlug)) selectProject(preferredSlug);
+    } catch (error) { projectList.innerHTML = `<div class="error">${escapeHtml(error.message)}</div>`; }
+  }
 
-        function readStream() {
-          reader.read().then(({ done, value }) => {
-            if (done) return;
-            const chunk = decoder.decode(value);
-            const lines = chunk.split('\n\n');
-            lines.forEach(line => {
-              if (line.startsWith('data: ')) {
-                try {
-                  const payload = JSON.parse(line.replace('data: ', ''));
-                  if (payload.log) {
-                    deployLogs.textContent += payload.log + '\n';
-                    deployLogs.scrollTop = deployLogs.scrollHeight;
-                  }
-                } catch(e){}
-              }
-            });
-            readStream();
-          });
-        }
-        readStream();
-      })
-      .catch(err => {
-        deployLogs.textContent += `Deploy error: ${err.message}\n`;
+  function renderProjects() {
+    if (state.projects.length === 0) {
+      projectList.innerHTML = '<div class="empty-state">No editable project pages found.</div>';
+      return;
+    }
+    projectList.innerHTML = state.projects.map((project) => {
+      const hero = projectMediaUrl(project, project.heroImg);
+      const media = hero
+        ? `<div class="card-media"><img src="${escapeHtml(hero)}" alt="" loading="lazy"></div>`
+        : '<div class="card-media card-media-empty"><span>NO HERO</span></div>';
+      const selected = state.selectedProject?.slug === project.slug ? ' selected' : '';
+      return `<article class="art-card${selected}" data-project="${escapeHtml(project.slug)}">
+        ${media}<div class="card-title">${escapeHtml(project.title || project.slug)}</div>
+        <div class="card-meta">${escapeHtml(project.category || 'Project page')}</div>
+        <div class="card-desc">${escapeHtml(project.description || 'No overview text found.')}</div>
+        <div class="card-actions"><button class="btn-edit" type="button" data-action="edit-project">Edit</button>
+        <a class="btn-view" href="/site/work/${encodeURIComponent(project.slug)}/" target="_blank" rel="noopener">Preview ↗</a></div>
+      </article>`;
+    }).join('');
+  }
+
+  function selectProject(slug) {
+    const project = state.projects.find((item) => item.slug === slug);
+    if (!project) {
+      state.selectedProject = null;
+      projectForm.hidden = true;
+      projectSelect.value = '';
+      renderProjects();
+      return;
+    }
+    state.selectedProject = project;
+    projectSelect.value = project.slug;
+    projectForm.hidden = false;
+    $('#pTitle').value = project.title || '';
+    $('#pIdx').value = project.idx || '';
+    $('#pTagline').value = project.tagline || '';
+    $('#pCategory').value = project.category || '';
+    $('#pLocation').value = project.location || '';
+    $('#pTimeframe').value = project.timeframe || '';
+    $('#pRole').value = project.role || '';
+    $('#pDesc').value = project.description || '';
+    $('#pChallenge').value = project.challenge || '';
+    $('#pResponse').value = project.response || '';
+    $('#pOutcome').value = project.outcome || '';
+    const hero = projectMediaUrl(project, project.heroImg);
+    $('#projHeroPreview').innerHTML = hero
+      ? `<img src="${escapeHtml(hero)}" alt="Current hero for ${escapeHtml(project.title)}">`
+      : '<span class="dim">No hero image detected.</span>';
+    renderProjectMedia(project);
+    renderProjects();
+  }
+
+  function renderProjectMedia(project) {
+    const list = $('#projMediaList');
+    if (!project.mediaFiles?.length) {
+      list.innerHTML = '<span class="dim">No media files in this project folder.</span>';
+      return;
+    }
+    list.innerHTML = project.mediaFiles.map((media) => {
+      const source = projectMediaUrl(project, media.src);
+      const preview = media.isVideo ? '<span class="pm-kind">VIDEO</span>'
+        : `<img src="${escapeHtml(source)}" alt="" loading="lazy">`;
+      return `<div class="pm-thumb">${preview}<span class="pm-label">${escapeHtml(media.filename)}</span></div>`;
+    }).join('');
+  }
+
+  projectSelect.addEventListener('change', () => selectProject(projectSelect.value));
+  projectList.addEventListener('click', (event) => {
+    const button = event.target.closest('[data-action="edit-project"]');
+    if (!button) return;
+    selectProject(button.closest('[data-project]').dataset.project);
+    projectForm.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+
+  projectForm.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    if (!state.selectedProject) return;
+    const payload = {
+      title: $('#pTitle').value, tagline: $('#pTagline').value, category: $('#pCategory').value,
+      location: $('#pLocation').value, timeframe: $('#pTimeframe').value, role: $('#pRole').value,
+      description: $('#pDesc').value, challenge: $('#pChallenge').value,
+      response: $('#pResponse').value, outcome: $('#pOutcome').value
+    };
+    setButtonBusy(btnSaveProject, true, 'Saving page...');
+    try {
+      await requestJson(`/api/projects/${encodeURIComponent(state.selectedProject.slug)}`, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload)
       });
+      await loadProjects(state.selectedProject.slug);
+      alert('Project page saved locally. Use Preview Site to review it, then publish when ready.');
+    } catch (error) { alert(`Save failed: ${error.message}`); }
+    finally { setButtonBusy(btnSaveProject, false); }
   });
 
-  btnCloseModal.addEventListener('click', () => {
-    deployModal.hidden = true;
+  $('#heroFileInput').addEventListener('change', async (event) => {
+    const file = event.target.files?.[0];
+    if (!file || !state.selectedProject) return;
+    const data = new FormData();
+    data.append('heroFile', file);
+    event.target.disabled = true;
+    try {
+      await requestJson(`/api/projects/${encodeURIComponent(state.selectedProject.slug)}/hero`, { method: 'POST', body: data });
+      await loadProjects(state.selectedProject.slug);
+    } catch (error) { alert(`Hero upload failed: ${error.message}`); }
+    finally { event.target.value = ''; event.target.disabled = false; }
   });
 
-  // Initial load
+  $('#mediaFileInput').addEventListener('change', async (event) => {
+    const file = event.target.files?.[0];
+    if (!file || !state.selectedProject) return;
+    const data = new FormData();
+    data.append('mediaFile', file);
+    event.target.disabled = true;
+    try {
+      await requestJson(`/api/projects/${encodeURIComponent(state.selectedProject.slug)}/media`, { method: 'POST', body: data });
+      await loadProjects(state.selectedProject.slug);
+      alert('Media optimized and added to this project’s media library.');
+    } catch (error) { alert(`Media upload failed: ${error.message}`); }
+    finally { event.target.value = ''; event.target.disabled = false; }
+  });
+
+  // Publish pipeline
+  const btnDeploy = $('#btnDeploy');
+  const deployModal = $('#deployModal');
+  const deployLogs = $('#deployLogs');
+  btnDeploy.addEventListener('click', async () => {
+    if (!confirm('Commit the current site changes, validate a Netlify preview, and publish them to rtfx.space?')) return;
+    deployModal.hidden = false;
+    deployLogs.textContent = 'Initializing publish pipeline...\n';
+    btnDeploy.disabled = true;
+    try {
+      const response = await fetch('/api/deploy', { method: 'POST' });
+      if (!response.ok || !response.body) throw new Error(`Publish request failed with HTTP ${response.status}.`);
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder();
+      let buffer = '';
+      while (true) {
+        const { done, value } = await reader.read();
+        buffer += decoder.decode(value || new Uint8Array(), { stream: !done });
+        const messages = buffer.split('\n\n');
+        buffer = messages.pop() || '';
+        messages.forEach((message) => {
+          if (!message.startsWith('data: ')) return;
+          try {
+            const payload = JSON.parse(message.slice(6));
+            if (payload.log) {
+              deployLogs.textContent += `${payload.log}\n`;
+              deployLogs.scrollTop = deployLogs.scrollHeight;
+            }
+          } catch { /* Ignore partial event data. */ }
+        });
+        if (done) break;
+      }
+    } catch (error) { deployLogs.textContent += `Publish failed: ${error.message}\n`; }
+    finally { btnDeploy.disabled = false; }
+  });
+
+  $('#btnCloseModal').addEventListener('click', () => { deployModal.hidden = true; });
   loadArtworks();
 });

@@ -1,6 +1,7 @@
 # Dependencies
 node_modules/
 .npm/
+.netlify/
 
 # OS and temporary files
 .DS_Store

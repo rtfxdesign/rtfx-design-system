@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>RTFX STUDIO · Art & Media Manager</title>
+<title>RTFX STUDIO · Site Manager</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Martian+Mono:wght@300;400;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -16,19 +16,27 @@
     <div class="topbar-in">
       <div class="brand">
         <span class="mark">rtfx</span>
-        <span class="sub-mark">/ STUDIO · ART MANAGER</span>
+        <span class="sub-mark">/ STUDIO</span>
       </div>
       <div class="top-actions">
-        <a href="http://localhost:3000/site/index.html" target="_blank" class="btn btn-ghost">Preview Site ↗</a>
-        <button id="btnDeploy" class="btn btn-primary">Deploy to Netlify ⚡</button>
+        <span class="local-state">Local workspace</span>
+        <a href="/site/index.html" target="_blank" class="btn btn-ghost">Preview Site ↗</a>
+        <button id="btnDeploy" class="btn btn-primary">Publish portfolio →</button>
       </div>
     </div>
   </header>
 
-  <!-- Main Content Area -->
-  <main class="main-content">
+  <!-- Tab Bar -->
+  <nav class="tab-bar">
+    <button class="tab active" data-tab="art">Art Gallery</button>
+    <button class="tab" data-tab="projects">Projects</button>
+  </nav>
+
+  <!-- ============================================================= -->
+  <!--  TAB: ART GALLERY                                             -->
+  <!-- ============================================================= -->
+  <main class="main-content" id="tab-art">
     <div class="grid-container">
-      
       <!-- Left: Upload Panel -->
       <section class="panel upload-panel">
         <div class="panel-head">
@@ -38,7 +46,6 @@
         </div>
 
         <form id="uploadForm">
-          <!-- Dropzone -->
           <div id="dropzone" class="dropzone">
             <input type="file" id="fileInput" name="mediaFile" accept="image/*,video/*" required>
             <div class="drop-prompt">
@@ -53,13 +60,11 @@
             </div>
           </div>
 
-          <!-- Metadata Fields -->
           <div class="form-fields">
             <div class="field">
               <label for="fTitle">Artwork Title</label>
               <input type="text" id="fTitle" name="title" placeholder="e.g. Feedback Bloom · Study 04" required>
             </div>
-
             <div class="field-row">
               <div class="field">
                 <label for="fCategory">Category / Series</label>
@@ -72,23 +77,19 @@
                   <option value="Abstract Studies">Abstract Studies</option>
                 </select>
               </div>
-
               <div class="field">
                 <label for="fYear">Year</label>
                 <input type="text" id="fYear" name="year" value="2026" placeholder="2026">
               </div>
             </div>
-
             <div class="field">
               <label for="fTools">Tools / Medium</label>
               <input type="text" id="fTools" name="tools" placeholder="e.g. TouchDesigner · GLSL · Optical Feedback">
             </div>
-
             <div class="field">
               <label for="fDescription">Artist Statement / Description</label>
               <textarea id="fDescription" name="description" rows="3" placeholder="Brief technical & aesthetic description of the piece..."></textarea>
             </div>
-
             <div class="field-check">
               <label>
                 <input type="checkbox" id="fFeatured" name="featured" value="true" checked>
@@ -113,9 +114,135 @@
           </div>
           <span class="status-pill"><span class="dot"></span>Live in /art/</span>
         </div>
-
         <div id="artList" class="art-list">
           <div class="loading-state">Loading catalog...</div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <!-- ============================================================= -->
+  <!--  TAB: PROJECTS                                                -->
+  <!-- ============================================================= -->
+  <main class="main-content" id="tab-projects" hidden>
+    <div class="grid-container">
+      <!-- Left: Project Editor -->
+      <section class="panel upload-panel">
+        <div class="panel-head">
+          <span class="micro">01 // EDITOR</span>
+          <h2>Edit Project Page</h2>
+          <p class="dim">Select a project to edit its content, hero image, and media.</p>
+        </div>
+
+        <div class="field" style="margin-bottom:16px">
+          <label for="projSelect">Select Project</label>
+          <select id="projSelect">
+            <option value="">— Choose a project —</option>
+          </select>
+        </div>
+
+        <form id="projForm" hidden>
+          <div class="form-fields">
+            <div class="field-row">
+              <div class="field">
+                <label for="pTitle">Project Title</label>
+                <input type="text" id="pTitle" name="title">
+              </div>
+              <div class="field" style="max-width:70px">
+                <label for="pIdx">Index</label>
+                <input type="text" id="pIdx" name="idx" readonly style="color:var(--c-ink-3)">
+              </div>
+            </div>
+            <div class="field">
+              <label for="pTagline">Tagline</label>
+              <input type="text" id="pTagline" name="tagline">
+            </div>
+            <div class="field">
+              <label for="pCategory">Category</label>
+              <input type="text" id="pCategory" name="category" placeholder="e.g. Technical integration">
+            </div>
+            <div class="field-row field-row--equal">
+              <div class="field">
+                <label for="pLocation">Location</label>
+                <input type="text" id="pLocation" name="location">
+              </div>
+              <div class="field">
+                <label for="pTimeframe">Timeframe</label>
+                <input type="text" id="pTimeframe" name="timeframe">
+              </div>
+            </div>
+            <div class="field">
+              <label for="pRole">Role</label>
+              <input type="text" id="pRole" name="role">
+            </div>
+
+            <div class="proj-divider"></div>
+
+            <div class="field">
+              <label for="pDesc">Description / Lede</label>
+              <textarea id="pDesc" name="description" rows="3"></textarea>
+            </div>
+            <div class="field">
+              <label for="pChallenge">Challenge</label>
+              <textarea id="pChallenge" name="challenge" rows="3"></textarea>
+            </div>
+            <div class="field">
+              <label for="pResponse">Response</label>
+              <textarea id="pResponse" name="response" rows="3"></textarea>
+            </div>
+            <div class="field">
+              <label for="pOutcome">Outcome</label>
+              <textarea id="pOutcome" name="outcome" rows="3"></textarea>
+            </div>
+
+            <div class="proj-divider"></div>
+
+            <!-- Hero Image Upload -->
+            <div class="field">
+              <label>Hero Image</label>
+              <div id="projHeroPreview" class="proj-hero-preview"></div>
+              <div class="dropzone dropzone-sm" id="heroDropzone">
+                <input type="file" id="heroFileInput" accept="image/*">
+                <div class="drop-prompt">
+                  <span class="drop-icon" style="font-size:16px">↓</span>
+                  <p>Drop new hero image or click to browse</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Section Media Upload -->
+            <div class="field">
+              <label>Project Media Library</label>
+              <div class="dropzone dropzone-sm" id="mediaDropzone">
+                <input type="file" id="mediaFileInput" accept="image/*,video/*">
+                <div class="drop-prompt">
+                  <span class="drop-icon" style="font-size:16px">↓</span>
+                  <p>Optimize and add image or video</p>
+                </div>
+              </div>
+              <p class="dim media-note">Uploaded files are prepared for the project library. Use the hero control above to change the page hero.</p>
+              <div id="projMediaList" class="proj-media-list"></div>
+            </div>
+          </div>
+
+          <button type="submit" id="btnSaveProject" class="btn btn-submit">
+            <span class="btn-text">Save Project Changes →</span>
+            <span class="btn-loading" hidden>Saving...</span>
+          </button>
+        </form>
+      </section>
+
+      <!-- Right: Project List -->
+      <section class="panel catalog-panel">
+        <div class="panel-head flex-between">
+          <div>
+            <span class="micro">02 // ALL PROJECTS</span>
+            <h2>Project Pages (<span id="projCount">0</span>)</h2>
+          </div>
+          <span class="status-pill"><span class="dot"></span>Live in /work/</span>
+        </div>
+        <div id="projList" class="art-list">
+          <div class="loading-state">Loading projects...</div>
         </div>
       </section>
     </div>
@@ -125,7 +252,7 @@
   <div id="deployModal" class="modal" hidden>
     <div class="modal-card">
       <div class="modal-head">
-        <h3>🚀 Deployment Pipeline</h3>
+        <h3>Deployment Pipeline</h3>
         <button id="btnCloseModal" class="btn-close">×</button>
       </div>
       <div id="deployLogs" class="deploy-terminal"></div>

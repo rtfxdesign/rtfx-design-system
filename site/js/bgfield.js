@@ -14,6 +14,7 @@ function initField(cv){
 var ctx=cv.getContext('2d');if(!ctx)return;
 var rm=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 var host=cv.parentElement;
+var HERO=cv.id==='bgfield';
 var W=0,H=0,P=[],raf=0,last=0,running=true;
 var ptr={x:-9e3,y:-9e3,px:-9e3,py:-9e3,active:false,speed:0};
 
@@ -39,7 +40,9 @@ if(W<10||H<10)return;
 var dpr=Math.min(window.devicePixelRatio||1,1.75);
 cv.width=Math.round(W*dpr);cv.height=Math.round(H*dpr);
 ctx.setTransform(dpr,0,0,dpr,0,0);
-var n=Math.max(21,Math.min(54,Math.round(W*H/26667)));
+// the hero can carry a fuller field; heading strips read better sparse,
+// so they take what their area earns with only a small floor under it.
+var n=Math.max(HERO?21:8,Math.min(54,Math.round(W*H/26667)));
 P=[];
 for(var i=0;i<n;i++)P.push({
 x:Math.random()*W,y:Math.random()*H,
@@ -52,7 +55,7 @@ charge:Math.random()*.22,seed:i*.73
 // clicking the hero adds a particle: born charged (amber), with a small
 // outward kick so the arrival reads. The population is capped - each birth
 // past the cap retires the oldest particle, so the field never overgrows.
-var MAX=140,seedN=1000;
+var MAX=HERO?140:48,seedN=1000;
 function spawn(x,y){
 P.push({
 x:x,y:y,

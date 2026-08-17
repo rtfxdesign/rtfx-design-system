@@ -15,7 +15,8 @@
    "dateSource": null,
    "location": null,
    "tags": [],
-   "event": "solomute"
+   "event": "solomute",
+   "subject": "stage"
   },
   "102": {
    "file": "assets/portfolio_lightroom/allen_portfolio021.webp",
@@ -23,7 +24,8 @@
    "dateSource": null,
    "location": null,
    "tags": [],
-   "event": "solomute"
+   "event": "solomute",
+   "subject": "crowd"
   },
   "103": {
    "file": "assets/portfolio_lightroom/allen_portfolio022.webp",
@@ -31,7 +33,8 @@
    "dateSource": null,
    "location": null,
    "tags": [],
-   "event": "solomute"
+   "event": "solomute",
+   "subject": "crowd"
   },
   "104": {
    "file": "assets/portfolio_lightroom/allen_portfolio023.webp",
@@ -39,7 +42,8 @@
    "dateSource": null,
    "location": null,
    "tags": [],
-   "event": "solomute"
+   "event": "solomute",
+   "subject": "stage"
   },
   "105": {
    "file": "assets/portfolio_lightroom/allen_portfolio024.webp",
@@ -47,105 +51,120 @@
    "dateSource": null,
    "location": null,
    "tags": [],
-   "event": "solomute"
+   "event": "solomute",
+   "subject": "build"
   },
   "106": {
    "file": "assets/portfolio_lightroom/allen_portfolio025.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "subject": "gear"
   },
   "107": {
    "file": "assets/portfolio_lightroom/allen_portfolio026.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "subject": "control"
   },
   "108": {
    "file": "assets/portfolio_lightroom/allen_portfolio027.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "subject": "crowd"
   },
   "109": {
    "file": "assets/portfolio_lightroom/allen_portfolio028.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "subject": "control"
   },
   "110": {
    "file": "assets/portfolio_lightroom/allen_portfolio029.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "subject": "control"
   },
   "111": {
    "file": "assets/portfolio_lightroom/allen_portfolio030.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "subject": "control"
   },
   "112": {
    "file": "assets/portfolio_lightroom/allen_portfolio031.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "subject": "control"
   },
   "113": {
    "file": "assets/portfolio_lightroom/allen_portfolio032.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "subject": "control"
   },
   "114": {
    "file": "assets/portfolio_lightroom/allen_portfolio033.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "subject": "crowd"
   },
   "115": {
    "file": "assets/portfolio_lightroom/allen_portfolio034.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "subject": "build"
   },
   "116": {
    "file": "assets/portfolio_lightroom/allen_portfolio035.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "subject": "room"
   },
   "117": {
    "file": "assets/portfolio_lightroom/allen_portfolio036.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "subject": "stage"
   },
   "118": {
    "file": "assets/portfolio_lightroom/allen_portfolio037.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "subject": "build"
   },
   "119": {
    "file": "assets/portfolio_lightroom/allen_portfolio038.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "subject": "build"
   },
   "120": {
    "file": "assets/portfolio_lightroom/allen_portfolio039.webp",
@@ -153,7 +172,8 @@
    "dateSource": null,
    "location": null,
    "tags": [],
-   "event": "juneteenth-urban-oasis-baltimore-2024"
+   "event": "juneteenth-urban-oasis-baltimore-2024",
+   "subject": "build"
   },
   "121": {
    "file": "assets/portfolio_lightroom/allen_portfolio040.webp",
@@ -161,14 +181,16 @@
    "dateSource": null,
    "location": null,
    "tags": [],
-   "event": "juneteenth-urban-oasis-baltimore-2024"
+   "event": "juneteenth-urban-oasis-baltimore-2024",
+   "subject": "stage"
   },
   "122": {
    "file": "assets/portfolio_lightroom/allen_portfolio041.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "subject": "stage"
   },
   "129": {
    "file": "assets/portfolio_lightroom/allen_portfolio048.webp",
@@ -176,7 +198,8 @@
    "dateSource": null,
    "location": null,
    "tags": [],
-   "event": "soweto-amapiano-2024"
+   "event": "soweto-amapiano-2024",
+   "subject": "build"
   },
   "130": {
    "file": "assets/portfolio_lightroom/allen_portfolio049.webp",
@@ -184,182 +207,208 @@
    "dateSource": null,
    "location": null,
    "tags": [],
-   "event": "solomute"
+   "event": "solomute",
+   "subject": "stage"
   },
   "131": {
    "file": "assets/portfolio_lightroom/allen_portfolio050.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "subject": "crowd"
   },
   "132": {
    "file": "assets/portfolio_lightroom/allen_portfolio051.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "subject": "control"
   },
   "140": {
    "file": "field-archive/aliceanna-live.mp4",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "subject": "crowd"
   },
   "141": {
    "file": "field-archive/aliceanna-room.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "subject": "room"
   },
   "142": {
    "file": "field-archive/aliceanna-control.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "subject": "control"
   },
   "144": {
    "file": "field-archive/amapiano-booth.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "subject": "build"
   },
   "145": {
    "file": "field-archive/goodyroom.mp4",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "subject": "control"
   },
   "146": {
    "file": "field-archive/reckless-live.mp4",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "subject": "control"
   },
   "147": {
    "file": "field-archive/reckless-performance-b.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "subject": "crowd"
   },
   "148": {
    "file": "field-archive/qts-switching.mp4",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "subject": "detail"
   },
   "149": {
    "file": "field-archive/qts-control-b.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "subject": "room"
   },
   "150": {
    "file": "field-archive/qts-stage.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "subject": "gear"
   },
   "151": {
    "file": "field-archive/inauguration-ball.mp4",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "subject": "detail"
   },
   "152": {
    "file": "field-archive/control-rack.mp4",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "subject": "control"
   },
   "153": {
    "file": "field-archive/annual-meeting-playback.mp4",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "subject": "detail"
   },
   "154": {
    "file": "field-archive/flowers-feedback.mp4",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "subject": "detail"
   },
   "155": {
    "file": "field-archive/art-reel.mp4",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "subject": "detail"
   },
   "156": {
    "file": "field-archive/rtfx-reel.mp4",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "subject": "detail"
   },
   "157": {
    "file": "field-archive/amfest-stage.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "subject": "stage"
   },
   "159": {
    "file": "field-archive/dpr-live.mp4",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "subject": "crowd"
   },
   "160": {
    "file": "field-archive/dpr-runway.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "subject": "build"
   },
   "161": {
    "file": "field-archive/ukraine-live.mp4",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "subject": "control"
   },
   "162": {
    "file": "field-archive/ukraine-control.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "subject": "stage"
   },
   "164": {
    "file": "field-archive/reach-event-live.mp4",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "subject": "control"
   },
   "173": {
    "file": "assets/aegportfolio/b2363e06-e4f5-4c17-84f9-8e695531e190.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "subject": "crowd"
   },
   "183": {
    "file": "assets/aegportfolio/img_0104.webp",
@@ -367,7 +416,8 @@
    "dateSource": null,
    "location": null,
    "tags": [],
-   "event": "f1-event-2025"
+   "event": "f1-event-2025",
+   "subject": "crowd"
   },
   "184": {
    "file": "assets/aegportfolio/img_0115.webp",
@@ -375,7 +425,8 @@
    "dateSource": null,
    "location": null,
    "tags": [],
-   "event": "f1-event-2025"
+   "event": "f1-event-2025",
+   "subject": "stage"
   },
   "214": {
    "file": "assets/aegportfolio/img_81914757-6ee1-4d11-a257-9d7874489c03.webp",
@@ -383,7 +434,8 @@
    "dateSource": null,
    "location": null,
    "tags": [],
-   "event": "capitals-game-2025"
+   "event": "capitals-game-2025",
+   "subject": "control"
   },
   "217": {
    "file": "assets/aegportfolio/img_9523.webp",
@@ -391,7 +443,8 @@
    "dateSource": null,
    "location": null,
    "tags": [],
-   "event": "amfest-2025"
+   "event": "amfest-2025",
+   "subject": "crowd"
   },
   "218": {
    "file": "assets/aegportfolio/img_9536.webp",
@@ -399,7 +452,8 @@
    "dateSource": null,
    "location": null,
    "tags": [],
-   "event": "amfest-2025"
+   "event": "amfest-2025",
+   "subject": "stage"
   },
   "220": {
    "file": "assets/aegportfolio/img_9684.webp",
@@ -407,7 +461,8 @@
    "dateSource": null,
    "location": null,
    "tags": [],
-   "event": "gogo-festival-2025"
+   "event": "gogo-festival-2025",
+   "subject": "build"
   },
   "221": {
    "file": "assets/aegportfolio/img_9853.webp",
@@ -415,7 +470,8 @@
    "dateSource": null,
    "location": null,
    "tags": [],
-   "event": "capitals-game-2025"
+   "event": "capitals-game-2025",
+   "subject": "crowd"
   },
   "222": {
    "file": "assets/aegportfolio/img_9857.webp",
@@ -423,7 +479,8 @@
    "dateSource": null,
    "location": null,
    "tags": [],
-   "event": "capitals-game-2025"
+   "event": "capitals-game-2025",
+   "subject": "room"
   },
   "223": {
    "file": "assets/aegportfolio/img_9998.webp",
@@ -431,7 +488,8 @@
    "dateSource": null,
    "location": null,
    "tags": [],
-   "event": "staunton-wedding-2025"
+   "event": "staunton-wedding-2025",
+   "subject": "crowd"
   },
   "227": {
    "file": "assets/aegportfolio/img-20241027-wa0000.webp",
@@ -439,588 +497,672 @@
    "dateSource": "filename",
    "location": null,
    "tags": [],
-   "event": "solomute"
+   "event": "solomute",
+   "subject": "crowd"
   },
   "235": {
    "file": "assets/aegportfolio/img_0149.mp4",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "subject": "stage"
   },
   "236": {
    "file": "assets/aegportfolio/img_9516.mp4",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "subject": "control"
   },
   "237": {
    "file": "assets/aegportfolio/img_9844.mp4",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "subject": "stage"
   },
   "238": {
    "file": "assets/aegportfolio/img_9849.mp4",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "subject": "crowd"
   },
   "239": {
    "file": "assets/aegportfolio/img_9972.mp4",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "subject": "stage"
   },
   "240": {
    "file": "assets/aegportfolio/img_9984.mp4",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "subject": "detail"
   },
   "249": {
    "file": "live-events/ravens-stage.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "subject": "stage"
   },
   "003": {
    "file": "assets/solomute/solomute_projects_003.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "subject": "build"
   },
   "013": {
    "file": "assets/solomute/solomute_projects_013.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "subject": "room"
   },
   "014": {
    "file": "assets/solomute/solomute_projects_014.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "subject": "room"
   },
   "015": {
    "file": "assets/solomute/solomute_projects_015.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "subject": "stage"
   },
   "016": {
    "file": "assets/solomute/solomute_projects_016.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "subject": "build"
   },
   "017": {
    "file": "assets/solomute/solomute_projects_017.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "subject": "build"
   },
   "018": {
    "file": "assets/solomute/solomute_projects_018.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "subject": "room"
   },
   "019": {
    "file": "assets/solomute/solomute_projects_019.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "subject": "gear"
   },
   "020": {
    "file": "assets/solomute/solomute_projects_020.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "subject": "stage"
   },
   "021": {
    "file": "assets/solomute/solomute_projects_021.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "subject": "build"
   },
   "022": {
    "file": "assets/solomute/solomute_projects_022.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "subject": "build"
   },
   "023": {
    "file": "assets/solomute/solomute_projects_023.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "subject": "gear"
   },
   "024": {
    "file": "assets/solomute/solomute_projects_024.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "subject": "gear"
   },
   "025": {
    "file": "assets/solomute/solomute_projects_025.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "subject": "control"
   },
   "026": {
    "file": "assets/solomute/solomute_projects_026.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "subject": "stage"
   },
   "027": {
    "file": "assets/solomute/solomute_projects_027.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "subject": "room"
   },
   "028": {
    "file": "assets/solomute/solomute_projects_028.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "subject": "room"
   },
   "029": {
    "file": "assets/solomute/solomute_projects_029.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "subject": "control"
   },
   "030": {
    "file": "assets/solomute/solomute_projects_030.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "subject": "room"
   },
   "031": {
    "file": "assets/solomute/solomute_projects_031.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "subject": "detail"
   },
   "032": {
    "file": "assets/solomute/solomute_projects_032.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "subject": "detail"
   },
   "033": {
    "file": "assets/solomute/solomute_projects_033.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "subject": "room"
   },
   "034": {
    "file": "assets/solomute/solomute_projects_034.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "subject": "stage"
   },
   "035": {
    "file": "assets/solomute/solomute_projects_035.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "subject": "stage"
   },
   "036": {
    "file": "assets/solomute/solomute_projects_036.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "subject": "stage"
   },
   "038": {
    "file": "assets/solomute/solomute_projects_038.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "subject": "control"
   },
   "039": {
    "file": "assets/solomute/solomute_projects_039.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "subject": "gear"
   },
   "040": {
    "file": "assets/solomute/solomute_projects_040.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "subject": "control"
   },
   "041": {
    "file": "assets/solomute/solomute_projects_041.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "subject": "room"
   },
   "042": {
    "file": "assets/solomute/solomute_projects_042.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "subject": "detail"
   },
   "043": {
    "file": "assets/solomute/solomute_projects_043.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "subject": "crowd"
   },
   "044": {
    "file": "assets/solomute/solomute_projects_044.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "subject": "detail"
   },
   "045": {
    "file": "assets/solomute/solomute_projects_045.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "subject": "detail"
   },
   "046": {
    "file": "assets/solomute/solomute_projects_046.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "subject": "detail"
   },
   "047": {
    "file": "assets/solomute/solomute_projects_047.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "subject": "room"
   },
   "048": {
    "file": "assets/solomute/solomute_projects_048.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "subject": "build"
   },
   "049": {
    "file": "assets/solomute/solomute_projects_049.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "subject": "gear"
   },
   "050": {
    "file": "assets/solomute/solomute_projects_050.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "subject": "build"
   },
   "051": {
    "file": "assets/solomute/solomute_projects_051.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "subject": "room"
   },
   "052": {
    "file": "assets/solomute/solomute_projects_052.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "subject": "build"
   },
   "053": {
    "file": "assets/solomute/solomute_projects_053.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "subject": "crowd"
   },
   "054": {
    "file": "assets/solomute/solomute_projects_054.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "subject": "crowd"
   },
   "055": {
    "file": "assets/solomute/solomute_projects_055.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "subject": "stage"
   },
   "056": {
    "file": "assets/solomute/solomute_projects_056.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "subject": "room"
   },
   "057": {
    "file": "assets/solomute/solomute_projects_057.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "subject": "stage"
   },
   "058": {
    "file": "assets/solomute/solomute_projects_058.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "subject": "build"
   },
   "059": {
    "file": "assets/solomute/solomute_projects_059.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "subject": "stage"
   },
   "060": {
    "file": "assets/solomute/solomute_projects_060.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "subject": "stage"
   },
   "061": {
    "file": "assets/solomute/solomute_projects_061.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "subject": "stage"
   },
   "062": {
    "file": "assets/solomute/solomute_projects_062.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "subject": "room"
   },
   "063": {
    "file": "assets/solomute/solomute_projects_063.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "subject": "build"
   },
   "064": {
    "file": "assets/solomute/solomute_projects_064.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "subject": "build"
   },
   "065": {
    "file": "assets/solomute/solomute_projects_065.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "subject": "build"
   },
   "066": {
    "file": "assets/solomute/solomute_projects_066.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "subject": "build"
   },
   "067": {
    "file": "assets/solomute/solomute_projects_067.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "subject": "build"
   },
   "068": {
    "file": "assets/solomute/solomute_projects_068.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "subject": "stage"
   },
   "069": {
    "file": "assets/solomute/solomute_projects_069.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "subject": "build"
   },
   "070": {
    "file": "assets/solomute/solomute_projects_070.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "subject": "room"
   },
   "071": {
    "file": "assets/solomute/solomute_projects_071.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "subject": "build"
   },
   "072": {
    "file": "assets/solomute/solomute_projects_072.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "subject": "control"
   },
   "073": {
    "file": "assets/solomute/solomute_projects_073.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "subject": "control"
   },
   "074": {
    "file": "assets/solomute/solomute_projects_074.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "subject": "stage"
   },
   "075": {
    "file": "assets/solomute/solomute_projects_075.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "subject": "crowd"
   },
   "076": {
    "file": "assets/solomute/solomute_projects_076.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "subject": "room"
   },
   "077": {
    "file": "assets/solomute/solomute_projects_077.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "subject": "room"
   },
   "078": {
    "file": "assets/solomute/solomute_projects_078.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "subject": "room"
   },
   "079": {
    "file": "assets/solomute/solomute_projects_079.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "subject": "crowd"
   },
   "080": {
    "file": "assets/solomute/solomute_projects_080.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "subject": "room"
   },
   "081": {
    "file": "assets/solomute/solomute_projects_081.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "subject": "gear"
   },
   "084": {
    "file": "assets/portfolio_lightroom/allen_portfolio003.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "subject": "gear"
   },
   "085": {
    "file": "assets/portfolio_lightroom/allen_portfolio004.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "subject": "room"
   },
   "086": {
    "file": "assets/portfolio_lightroom/allen_portfolio005.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "subject": "room"
   },
   "087": {
    "file": "assets/portfolio_lightroom/allen_portfolio006.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "subject": "gear"
   },
   "088": {
    "file": "assets/portfolio_lightroom/allen_portfolio007.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "subject": "stage"
   },
   "089": {
    "file": "assets/portfolio_lightroom/allen_portfolio008.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "subject": "crowd"
   },
   "099": {
    "file": "assets/portfolio_lightroom/allen_portfolio018.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "subject": "room"
   }
  },
  "retired": [

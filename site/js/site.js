@@ -31,6 +31,24 @@ if(!imgs.length)return;
 function fullSrc(im){return (im.currentSrc||im.src).replace(/\/thumbs\//,'/')}
 function frameOf(im){var f=im.closest('figure');return f&&f.dataset.frame||''}
 function capOf(im){var f=im.closest('figure'),c=f&&f.querySelector('figcaption');return (c?c.textContent:'').trim()||im.alt||''}
+// gallery frames carry records in frames.json/events.json (deployed beside the
+// page); the viewer shows what is known - event, date, location, subject.
+var META=null;
+if(/\/gallery\//.test(location.pathname)){
+Promise.all([fetch('frames.json').then(function(r){return r.json()}),fetch('events.json').then(function(r){return r.json()})])
+.then(function(a){META={frames:a[0].frames,events:a[1].events};refreshMeta()}).catch(function(){});
+}
+function metaLine(fr){
+if(!META||!fr)return'';
+var r=META.frames[fr];if(!r)return'';
+var ev=r.event&&META.events[r.event];
+var bits=[];
+if(ev&&ev.name)bits.push(ev.name);
+var d=r.date||(ev&&ev.date);if(d)bits.push(d);
+var loc=r.location||(ev&&ev.location);if(loc)bits.push(loc);
+if(r.subject)bits.push(r.subject);
+return bits.join(' · ');
+}
 var dlg=document.createElement('dialog');dlg.className='lb';dlg.setAttribute('aria-label','Image viewer');
 dlg.innerHTML='<div class="lb-in">'
 +'<div class="lb-bar"><span class="lb-count"></span><button type="button" class="lb-x">Close ✗</button></div>'
@@ -50,7 +68,7 @@ capM.textContent='';
 // where a frame has an accession number that number is its identity, and a
 // position counter beside it would just be a second, conflicting number.
 var fr=frameOf(im);
-if(fr){count.innerHTML='Frame <b>'+fr+'</b>';capT.textContent=''}
+if(fr){count.innerHTML='Frame <b>'+fr+'</b>';capT.textContent=metaLine(fr)}
 else{count.innerHTML='<b>'+pad(i+1)+'</b> / '+pad(imgs.length);capT.textContent=capOf(im)}
 var one=imgs.length<2;prev.disabled=one;next.disabled=one;
 syncHash(im);
@@ -68,6 +86,8 @@ var base=location.pathname+location.search;
 history.replaceState(null,'',f?base+'#f'+f:base);
 }
 function open(n){last=document.activeElement;show(n);if(!dlg.open)dlg.showModal()}
+// metadata may arrive after a frame is already open
+function refreshMeta(){if(dlg.open){var im=imgs[i],fr=frameOf(im);if(fr)capT.textContent=metaLine(fr)}}
 // not every engine fires dialog's close event, so tear down from close() as well.
 function cleanup(){stage.removeAttribute('src');capM.textContent='';syncHash(null);if(last&&last.focus)last.focus()}
 function close(){if(dlg.open){dlg.close();cleanup()}}

@@ -261,34 +261,6 @@
    "location": null,
    "tags": []
   },
-  "136": {
-   "file": "assets/portfolio_lightroom/allen_portfolio055.webp",
-   "date": null,
-   "dateSource": null,
-   "location": null,
-   "tags": []
-  },
-  "137": {
-   "file": "assets/portfolio_lightroom/allen_portfolio056.webp",
-   "date": null,
-   "dateSource": null,
-   "location": null,
-   "tags": []
-  },
-  "138": {
-   "file": "assets/portfolio_lightroom/allen_portfolio057.webp",
-   "date": null,
-   "dateSource": null,
-   "location": null,
-   "tags": []
-  },
-  "139": {
-   "file": "assets/portfolio_lightroom/allen_portfolio058.webp",
-   "date": null,
-   "dateSource": null,
-   "location": null,
-   "tags": []
-  },
   "140": {
    "file": "field-archive/aliceanna-live.mp4",
    "date": null,
@@ -305,13 +277,6 @@
   },
   "142": {
    "file": "field-archive/aliceanna-control.webp",
-   "date": null,
-   "dateSource": null,
-   "location": null,
-   "tags": []
-  },
-  "143": {
-   "file": "field-archive/amapiano-stage.webp",
    "date": null,
    "dateSource": null,
    "location": null,
@@ -415,13 +380,6 @@
    "location": null,
    "tags": []
   },
-  "158": {
-   "file": "field-archive/amfest-control.webp",
-   "date": null,
-   "dateSource": null,
-   "location": null,
-   "tags": []
-  },
   "159": {
    "file": "field-archive/dpr-live.mp4",
    "date": null,
@@ -471,120 +429,8 @@
    "location": null,
    "tags": []
   },
-  "166": {
-   "file": "assets/aegportfolio/20230920_010338.webp",
-   "date": "2023-09-20",
-   "dateSource": "filename",
-   "location": null,
-   "tags": []
-  },
-  "167": {
-   "file": "assets/aegportfolio/20230920_183656.webp",
-   "date": "2023-09-20",
-   "dateSource": "filename",
-   "location": null,
-   "tags": []
-  },
-  "168": {
-   "file": "assets/aegportfolio/20231111_114205.webp",
-   "date": "2023-11-11",
-   "dateSource": "filename",
-   "location": null,
-   "tags": []
-  },
-  "169": {
-   "file": "assets/aegportfolio/20231111_114212.webp",
-   "date": "2023-11-11",
-   "dateSource": "filename",
-   "location": null,
-   "tags": []
-  },
-  "170": {
-   "file": "assets/aegportfolio/20231111_114215.webp",
-   "date": "2023-11-11",
-   "dateSource": "filename",
-   "location": null,
-   "tags": []
-  },
-  "171": {
-   "file": "assets/aegportfolio/20231111_115442.webp",
-   "date": "2023-11-11",
-   "dateSource": "filename",
-   "location": null,
-   "tags": []
-  },
-  "172": {
-   "file": "assets/aegportfolio/20231206_201045.webp",
-   "date": "2023-12-06",
-   "dateSource": "filename",
-   "location": null,
-   "tags": []
-  },
   "173": {
    "file": "assets/aegportfolio/b2363e06-e4f5-4c17-84f9-8e695531e190.webp",
-   "date": null,
-   "dateSource": null,
-   "location": null,
-   "tags": []
-  },
-  "174": {
-   "file": "assets/aegportfolio/dsc02867.webp",
-   "date": null,
-   "dateSource": null,
-   "location": null,
-   "tags": []
-  },
-  "175": {
-   "file": "assets/aegportfolio/dsc02887.webp",
-   "date": null,
-   "dateSource": null,
-   "location": null,
-   "tags": []
-  },
-  "176": {
-   "file": "assets/aegportfolio/dsc02888.webp",
-   "date": null,
-   "dateSource": null,
-   "location": null,
-   "tags": []
-  },
-  "177": {
-   "file": "assets/aegportfolio/dsc02891.webp",
-   "date": null,
-   "dateSource": null,
-   "location": null,
-   "tags": []
-  },
-  "178": {
-   "file": "assets/aegportfolio/dsc02927.webp",
-   "date": null,
-   "dateSource": null,
-   "location": null,
-   "tags": []
-  },
-  "179": {
-   "file": "assets/aegportfolio/dsc02935.webp",
-   "date": null,
-   "dateSource": null,
-   "location": null,
-   "tags": []
-  },
-  "180": {
-   "file": "assets/aegportfolio/dsc02936.webp",
-   "date": null,
-   "dateSource": null,
-   "location": null,
-   "tags": []
-  },
-  "181": {
-   "file": "assets/aegportfolio/dsc02943.webp",
-   "date": null,
-   "dateSource": null,
-   "location": null,
-   "tags": []
-  },
-  "182": {
-   "file": "assets/aegportfolio/dsc02957.webp",
    "date": null,
    "dateSource": null,
    "location": null,
@@ -618,211 +464,8 @@
    "location": null,
    "tags": []
   },
-  "187": {
-   "file": "assets/aegportfolio/img_0356.webp",
-   "date": null,
-   "dateSource": null,
-   "location": null,
-   "tags": []
-  },
-  "188": {
-   "file": "assets/aegportfolio/img_0404.webp",
-   "date": null,
-   "dateSource": null,
-   "location": null,
-   "tags": []
-  },
-  "189": {
-   "file": "assets/aegportfolio/img_0466.webp",
-   "date": null,
-   "dateSource": null,
-   "location": null,
-   "tags": []
-  },
-  "190": {
-   "file": "assets/aegportfolio/img_0505.webp",
-   "date": null,
-   "dateSource": null,
-   "location": null,
-   "tags": []
-  },
-  "191": {
-   "file": "assets/aegportfolio/img_0536.mov_snapshot_00.00.230.webp",
-   "date": null,
-   "dateSource": null,
-   "location": null,
-   "tags": []
-  },
-  "192": {
-   "file": "assets/aegportfolio/img_0723.webp",
-   "date": null,
-   "dateSource": null,
-   "location": null,
-   "tags": []
-  },
-  "193": {
-   "file": "assets/aegportfolio/img_1890.webp",
-   "date": null,
-   "dateSource": null,
-   "location": null,
-   "tags": []
-  },
-  "194": {
-   "file": "assets/aegportfolio/img_1955.webp",
-   "date": null,
-   "dateSource": null,
-   "location": null,
-   "tags": []
-  },
-  "195": {
-   "file": "assets/aegportfolio/img_3200.webp",
-   "date": null,
-   "dateSource": null,
-   "location": null,
-   "tags": []
-  },
-  "196": {
-   "file": "assets/aegportfolio/img_3211.webp",
-   "date": null,
-   "dateSource": null,
-   "location": null,
-   "tags": []
-  },
-  "197": {
-   "file": "assets/aegportfolio/img_3255.webp",
-   "date": null,
-   "dateSource": null,
-   "location": null,
-   "tags": []
-  },
-  "198": {
-   "file": "assets/aegportfolio/img_3262.webp",
-   "date": null,
-   "dateSource": null,
-   "location": null,
-   "tags": []
-  },
-  "199": {
-   "file": "assets/aegportfolio/img_3264.webp",
-   "date": null,
-   "dateSource": null,
-   "location": null,
-   "tags": []
-  },
-  "200": {
-   "file": "assets/aegportfolio/img_3279.webp",
-   "date": null,
-   "dateSource": null,
-   "location": null,
-   "tags": []
-  },
-  "201": {
-   "file": "assets/aegportfolio/img_3286.webp",
-   "date": null,
-   "dateSource": null,
-   "location": null,
-   "tags": []
-  },
-  "202": {
-   "file": "assets/aegportfolio/img_5264.webp",
-   "date": null,
-   "dateSource": null,
-   "location": null,
-   "tags": []
-  },
-  "203": {
-   "file": "assets/aegportfolio/img_5283.webp",
-   "date": null,
-   "dateSource": null,
-   "location": null,
-   "tags": []
-  },
-  "204": {
-   "file": "assets/aegportfolio/img_5495.webp",
-   "date": null,
-   "dateSource": null,
-   "location": null,
-   "tags": []
-  },
-  "205": {
-   "file": "assets/aegportfolio/img_5497.webp",
-   "date": null,
-   "dateSource": null,
-   "location": null,
-   "tags": []
-  },
-  "206": {
-   "file": "assets/aegportfolio/img_5500.webp",
-   "date": null,
-   "dateSource": null,
-   "location": null,
-   "tags": []
-  },
-  "207": {
-   "file": "assets/aegportfolio/img_5506.webp",
-   "date": null,
-   "dateSource": null,
-   "location": null,
-   "tags": []
-  },
-  "208": {
-   "file": "assets/aegportfolio/img_5507.webp",
-   "date": null,
-   "dateSource": null,
-   "location": null,
-   "tags": []
-  },
-  "209": {
-   "file": "assets/aegportfolio/img_6448.webp",
-   "date": null,
-   "dateSource": null,
-   "location": null,
-   "tags": []
-  },
-  "210": {
-   "file": "assets/aegportfolio/img_6773.webp",
-   "date": null,
-   "dateSource": null,
-   "location": null,
-   "tags": []
-  },
-  "211": {
-   "file": "assets/aegportfolio/img_6798.webp",
-   "date": null,
-   "dateSource": null,
-   "location": null,
-   "tags": []
-  },
-  "212": {
-   "file": "assets/aegportfolio/img_6896.webp",
-   "date": null,
-   "dateSource": null,
-   "location": null,
-   "tags": []
-  },
-  "213": {
-   "file": "assets/aegportfolio/img_7469.webp",
-   "date": null,
-   "dateSource": null,
-   "location": null,
-   "tags": []
-  },
   "214": {
    "file": "assets/aegportfolio/img_81914757-6ee1-4d11-a257-9d7874489c03.webp",
-   "date": null,
-   "dateSource": null,
-   "location": null,
-   "tags": []
-  },
-  "215": {
-   "file": "assets/aegportfolio/img_8936.webp",
-   "date": null,
-   "dateSource": null,
-   "location": null,
-   "tags": []
-  },
-  "216": {
-   "file": "assets/aegportfolio/img_9036.webp",
    "date": null,
    "dateSource": null,
    "location": null,
@@ -877,80 +520,10 @@
    "location": null,
    "tags": []
   },
-  "224": {
-   "file": "assets/aegportfolio/img-20230921-wa0007.webp",
-   "date": "2023-09-21",
-   "dateSource": "filename",
-   "location": null,
-   "tags": []
-  },
-  "225": {
-   "file": "assets/aegportfolio/img-20230921-wa0021.webp",
-   "date": "2023-09-21",
-   "dateSource": "filename",
-   "location": null,
-   "tags": []
-  },
-  "226": {
-   "file": "assets/aegportfolio/img-20240619-wa0000.webp",
-   "date": "2024-06-19",
-   "dateSource": "filename",
-   "location": null,
-   "tags": []
-  },
   "227": {
    "file": "assets/aegportfolio/img-20241027-wa0000.webp",
    "date": "2024-10-27",
    "dateSource": "filename",
-   "location": null,
-   "tags": []
-  },
-  "228": {
-   "file": "assets/aegportfolio/img-20241027-wa0001.webp",
-   "date": "2024-10-27",
-   "dateSource": "filename",
-   "location": null,
-   "tags": []
-  },
-  "229": {
-   "file": "assets/aegportfolio/img-20241027-wa0013.webp",
-   "date": "2024-10-27",
-   "dateSource": "filename",
-   "location": null,
-   "tags": []
-  },
-  "230": {
-   "file": "assets/aegportfolio/img-20241109-wa0000.webp",
-   "date": "2024-11-09",
-   "dateSource": "filename",
-   "location": null,
-   "tags": []
-  },
-  "231": {
-   "file": "assets/aegportfolio/solomute_projects_001.webp",
-   "date": null,
-   "dateSource": null,
-   "location": null,
-   "tags": []
-  },
-  "232": {
-   "file": "assets/aegportfolio/solomute_projects_004.webp",
-   "date": null,
-   "dateSource": null,
-   "location": null,
-   "tags": []
-  },
-  "233": {
-   "file": "assets/aegportfolio/solomute_projects_008.webp",
-   "date": null,
-   "dateSource": null,
-   "location": null,
-   "tags": []
-  },
-  "234": {
-   "file": "assets/aegportfolio/solomute_projects_009.webp",
-   "date": null,
-   "dateSource": null,
    "location": null,
    "tags": []
   },
@@ -996,99 +569,8 @@
    "location": null,
    "tags": []
   },
-  "241": {
-   "file": "live-events/award-finale.webp",
-   "date": null,
-   "dateSource": null,
-   "location": null,
-   "tags": []
-  },
-  "242": {
-   "file": "live-events/control-desk.webp",
-   "date": null,
-   "dateSource": null,
-   "location": null,
-   "tags": []
-  },
-  "243": {
-   "file": "live-events/control-operator.webp",
-   "date": null,
-   "dateSource": null,
-   "location": null,
-   "tags": []
-  },
-  "244": {
-   "file": "live-events/outdoor-performance.webp",
-   "date": null,
-   "dateSource": null,
-   "location": null,
-   "tags": []
-  },
-  "245": {
-   "file": "live-events/outdoor-stage.webp",
-   "date": null,
-   "dateSource": null,
-   "location": null,
-   "tags": []
-  },
-  "246": {
-   "file": "live-events/performers-led.webp",
-   "date": null,
-   "dateSource": null,
-   "location": null,
-   "tags": []
-  },
-  "247": {
-   "file": "live-events/portrait-screen.webp",
-   "date": null,
-   "dateSource": null,
-   "location": null,
-   "tags": []
-  },
-  "248": {
-   "file": "live-events/projection-building.webp",
-   "date": null,
-   "dateSource": null,
-   "location": null,
-   "tags": []
-  },
   "249": {
    "file": "live-events/ravens-stage.webp",
-   "date": null,
-   "dateSource": null,
-   "location": null,
-   "tags": []
-  },
-  "250": {
-   "file": "live-events/show-control.webp",
-   "date": null,
-   "dateSource": null,
-   "location": null,
-   "tags": []
-  },
-  "251": {
-   "file": "live-events/stage-color.webp",
-   "date": null,
-   "dateSource": null,
-   "location": null,
-   "tags": []
-  },
-  "252": {
-   "file": "live-events/stage-crowd.webp",
-   "date": null,
-   "dateSource": null,
-   "location": null,
-   "tags": []
-  },
-  "253": {
-   "file": "live-events/stage-installation.webp",
-   "date": null,
-   "dateSource": null,
-   "location": null,
-   "tags": []
-  },
-  "254": {
-   "file": "live-events/stage-led.webp",
    "date": null,
    "dateSource": null,
    "location": null,
@@ -1341,13 +823,6 @@
   },
   "036": {
    "file": "assets/solomute/solomute_projects_036.webp",
-   "date": null,
-   "dateSource": null,
-   "location": null,
-   "tags": []
-  },
-  "037": {
-   "file": "assets/solomute/solomute_projects_037.webp",
    "date": null,
    "dateSource": null,
    "location": null,
@@ -1789,6 +1264,81 @@
   }
  },
  "retired": [
+  "037",
+  "136",
+  "137",
+  "138",
+  "139",
+  "143",
+  "158",
+  "166",
+  "167",
+  "168",
+  "169",
+  "170",
+  "171",
+  "172",
+  "174",
+  "175",
+  "176",
+  "177",
+  "178",
+  "179",
+  "180",
+  "181",
+  "182",
+  "187",
+  "188",
+  "189",
+  "190",
+  "191",
+  "192",
+  "193",
+  "194",
+  "195",
+  "196",
+  "197",
+  "198",
+  "199",
+  "200",
+  "201",
+  "202",
+  "203",
+  "204",
+  "205",
+  "206",
+  "207",
+  "208",
+  "209",
+  "210",
+  "211",
+  "212",
+  "213",
+  "215",
+  "216",
+  "224",
+  "225",
+  "226",
+  "228",
+  "229",
+  "230",
+  "231",
+  "232",
+  "233",
+  "234",
+  "241",
+  "242",
+  "243",
+  "244",
+  "245",
+  "246",
+  "247",
+  "248",
+  "250",
+  "251",
+  "252",
+  "253",
+  "254",
   "255",
   "256",
   "257",

@@ -12,3 +12,10 @@ Thumbs.db
 # Scratch / build temp
 scratch/
 .system_generated/
+
+# Design workspace (consolidated from the former separate design tree).
+# Source material and staging that supports the site but is not deployed.
+_media-staging/
+_placeholder-backup/
+design_handoff_rtfx_site/
+import-*.ps1

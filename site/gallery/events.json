@@ -1,13 +1,6 @@
 {
  "note": "Events for the gallery. Date, location and summary come from the invoice for the job, not from photo metadata. Frames reference an event by key and inherit its values.",
  "events": {
-  "montgomery-wow-2025": {
-   "name": "Montgomery WOW 2025",
-   "date": "2025-03-17",
-   "location": null,
-   "summary": "Onsite video support for Montgomery WOW across several production days. The current frames show both the presentation environment and the formal event room; add operator and full-stage views if available.",
-   "client": null
-  },
   "solomute": {
    "name": "SoloMute",
    "date": "2024-11-09",
@@ -22,20 +15,6 @@
    "summary": "Video support for a Juneteenth program at Baltimore’s Urban Oasis, with an outdoor stage and large-format screen framed by the surrounding architecture. Use stage, audience, and control images to connect the cultural program with the technical delivery.",
    "client": null
   },
-  "congressional-black-caucus-week": {
-   "name": "Congressional Black Caucus Week",
-   "date": "2023-09-20",
-   "location": null,
-   "summary": "A multi-event CBC Week production spanning LED stages, branded screen content, ballroom programming, and backstage video systems. The gallery follows the work from unloaded panels and road cases through live show looks across several rooms.",
-   "client": null
-  },
-  "qts-data-center": {
-   "name": "QTS Data Center",
-   "date": "2024-10-01",
-   "location": null,
-   "summary": "Repeat video engineering for multi-camera corporate programs across several show days. The most useful images will show switching and playback, the operator position, stage displays, and the clean program environment those systems supported.",
-   "client": null
-  },
   "soweto-amapiano-2024": {
    "name": "Soweto Amapiano 2024",
    "date": "2024-10-25",
@@ -43,25 +22,11 @@
    "summary": "Two nights of live video operation for a Soweto/Amapiano program, pairing cultural performance with large-format screen content. Strong selects should capture stage composition, dance-floor energy, screen design, and live playback.",
    "client": null
   },
-  "entergy-party-2024": {
-   "name": "Entergy Party 2024",
-   "date": "2024-12-10",
-   "location": null,
-   "summary": "A compact branded event environment built around vertical LED columns, an illuminated control booth, and Entergy content. Add wider room views and live-program moments if they are available.",
-   "client": null
-  },
   "f1-event-2025": {
    "name": "F1 Event 2025",
    "date": "2025-05-24",
    "location": null,
    "summary": "A Formula 1 viewing event built around a large indoor screen and a shared audience experience. The strongest edit will pair the race feed and crowd with the temporary display system that made the room work.",
-   "client": null
-  },
-  "dc-wharf": {
-   "name": "DC Wharf",
-   "date": "2025-05-27",
-   "location": null,
-   "summary": "Recurring waterfront V1 and video-wall work supporting festivals, movie nights, cultural programming, and seasonal public events. The strongest edit will combine the operational backbone with wide public-facing views that show how the system changes from event to event.",
    "client": null
   },
   "capitals-game-2025": {
@@ -78,13 +43,6 @@
    "summary": "Full-cycle video production for a festival environment, from LED and stage load-in through live V1 operation and strike. Strong selects would pair wide stage and crowd views with the control position and playback system behind them.",
    "client": null
   },
-  "2025-capitol-summit": {
-   "name": "2025 Capitol Summit",
-   "date": "2025-04-28",
-   "location": null,
-   "summary": "A corporate summit environment centered on a wide-format red stage canvas and a clean presentation layout. Add room-wide, speaker, control-position, and content-detail frames if more are available.",
-   "client": null
-  },
   "gogo-festival-2025": {
    "name": "GoGo Festival 2025",
    "date": "2025-05-04",
@@ -97,6 +55,13 @@
    "date": "2025-05-17",
    "location": null,
    "summary": "Two days of live video operation for a destination wedding program in Staunton. The current export is a team image; add stage, screen, room, and playback views before treating it as a public-facing gallery story.",
+   "client": null
+  },
+  "ravens-tailgoat": {
+   "name": "Ravens TailGOAT",
+   "date": null,
+   "location": null,
+   "summary": "Repeat V1 responsibility for Ravens TailGOAT productions, combining fast-turn LED builds, live playback, and dependable operation across a changing event series. Organize exports around the best headline dates, large crowd moments, wide screen looks, and the control system behind them.",
    "client": null
   }
  }

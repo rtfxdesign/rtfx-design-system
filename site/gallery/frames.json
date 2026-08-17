@@ -554,7 +554,8 @@
    "dateSource": null,
    "location": null,
    "tags": [],
-   "subject": "stage"
+   "subject": "stage",
+   "event": "ravens-tailgoat"
   },
   "003": {
    "file": "assets/solomute/solomute_projects_003.webp",

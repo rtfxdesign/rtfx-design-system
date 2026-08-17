@@ -44,7 +44,10 @@ var r=META.frames[fr];if(!r)return'';
 var ev=r.event&&META.events[r.event];
 var bits=[];
 if(ev&&ev.name)bits.push(ev.name);
-var d=r.date||(ev&&ev.date);if(d)bits.push(d);
+// month and year only, in the site's date register (2025.05) - the day is
+// recorded in frames.json but is more precision than a caption needs.
+var d=r.date||(ev&&ev.date);
+if(d){var p=String(d).split('-');bits.push(p.length>1?p[0]+'.'+p[1]:p[0]);}
 var loc=r.location||(ev&&ev.location);if(loc)bits.push(loc);
 if(r.subject)bits.push(r.subject);
 return bits.join(' · ');

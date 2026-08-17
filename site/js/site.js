@@ -22,3 +22,53 @@ document.querySelectorAll('[data-pool]').forEach(function(w){var items=Array.pro
 var signalMarkup='<span class="signal-layer" aria-hidden="true"><svg viewBox="0 0 100 62.5" preserveAspectRatio="none"><path class="signal-trace" pathLength="1" d="M-4 9H17L31 23H45L62 43H80L104 59"/><path class="signal-trace" pathLength="1" d="M104 7H84L64 27H54L38 48H21L11 57H-4"/><path class="signal-trace" pathLength="1" d="M0 33H21L29 41H38"/><path class="signal-trace" pathLength="1" d="M100 35H82L74 27H64"/><path class="signal-mark" pathLength="1" d="M35 14L63 48H78"/><path class="signal-mark" pathLength="1" d="M66 14L38 48H23"/><circle class="signal-node" style="--signal-delay:180ms" cx="17" cy="9" r="1.15"/><circle class="signal-node" style="--signal-delay:240ms" cx="31" cy="23" r="1.15"/><circle class="signal-node" style="--signal-delay:300ms" cx="62" cy="43" r="1.15"/><circle class="signal-node" style="--signal-delay:210ms" cx="84" cy="7" r="1.15"/><circle class="signal-node" style="--signal-delay:280ms" cx="64" cy="27" r="1.15"/><circle class="signal-node" style="--signal-delay:340ms" cx="38" cy="48" r="1.15"/></svg></span><span class="signal-scan" aria-hidden="true"></span>';
 document.querySelectorAll('.grid-work .work').forEach(function(card){var thumb=card.querySelector('.thumb');if(!thumb)return;thumb.insertAdjacentHTML('beforeend',signalMarkup);card.addEventListener('pointerenter',function(e){var r=card.getBoundingClientRect();var h=e.clientX<r.left+r.width/2?'l':'r';var v=e.clientY<r.top+r.height/2?'t':'b';card.dataset.signalCorner=h+v})});
 })();
+// lightbox — work pages. Click a figure image to view it at full size.
+(function(){
+if(!/\/work\//.test(location.pathname))return;
+var imgs=[].slice.call(document.querySelectorAll('main figure img')).filter(function(im){return !im.closest('a')});
+if(!imgs.length)return;
+// a thumbnail stands in for a full-resolution original; open the original.
+function fullSrc(im){return (im.currentSrc||im.src).replace(/\/thumbs\//,'/')}
+function capOf(im){var f=im.closest('figure'),c=f&&f.querySelector('figcaption');return (c?c.textContent:'').trim()||im.alt||''}
+var dlg=document.createElement('dialog');dlg.className='lb';dlg.setAttribute('aria-label','Image viewer');
+dlg.innerHTML='<div class="lb-in">'
++'<div class="lb-bar"><span class="lb-count"></span><button type="button" class="lb-x">Close ✗</button></div>'
++'<div class="lb-stage"><button type="button" class="lb-nav lb-prev" aria-label="Previous image">←</button>'
++'<img alt=""><button type="button" class="lb-nav lb-next" aria-label="Next image">→</button></div>'
++'<figcaption class="lb-cap"><span class="t"></span><span class="m"></span></figcaption></div>';
+document.body.appendChild(dlg);
+var stage=dlg.querySelector('.lb-stage img'),count=dlg.querySelector('.lb-count'),
+capT=dlg.querySelector('.lb-cap .t'),capM=dlg.querySelector('.lb-cap .m'),
+prev=dlg.querySelector('.lb-prev'),next=dlg.querySelector('.lb-next');
+var i=0,last=null;
+function pad(n){return (n<10?'0':'')+n}
+function show(n){
+i=(n+imgs.length)%imgs.length;var im=imgs[i];
+stage.src=fullSrc(im);stage.alt=im.alt||'';
+capT.textContent=capOf(im);capM.textContent='';
+count.innerHTML='<b>'+pad(i+1)+'</b> / '+pad(imgs.length);
+var one=imgs.length<2;prev.disabled=one;next.disabled=one;
+[1,-1].forEach(function(d){var p=new Image();p.src=fullSrc(imgs[(i+d+imgs.length)%imgs.length])}); // preload neighbours
+}
+// report the size of what is actually on screen, not of the page thumbnail
+stage.addEventListener('load',function(){capM.textContent=stage.naturalWidth?stage.naturalWidth+' × '+stage.naturalHeight:''});
+function open(n){last=document.activeElement;show(n);if(!dlg.open)dlg.showModal()}
+// not every engine fires dialog's close event, so tear down from close() as well.
+function cleanup(){stage.removeAttribute('src');capM.textContent='';if(last&&last.focus)last.focus()}
+function close(){if(dlg.open){dlg.close();cleanup()}}
+imgs.forEach(function(im,n){
+im.classList.add('lb-open');im.setAttribute('role','button');im.setAttribute('tabindex','0');
+if(!im.getAttribute('aria-label'))im.setAttribute('aria-label','View "'+(im.alt||'image')+'" full size');
+im.addEventListener('click',function(){open(n)});
+im.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();open(n)}});
+});
+prev.addEventListener('click',function(){show(i-1)});
+next.addEventListener('click',function(){show(i+1)});
+dlg.querySelector('.lb-x').addEventListener('click',close);
+dlg.addEventListener('click',function(e){if(e.target===dlg)close()}); // backdrop
+dlg.addEventListener('keydown',function(e){
+if(e.key==='ArrowLeft'){e.preventDefault();show(i-1)}
+else if(e.key==='ArrowRight'){e.preventDefault();show(i+1)}
+});
+dlg.addEventListener('close',cleanup); // covers Escape, which closes natively
+})();

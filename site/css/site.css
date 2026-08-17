@@ -340,4 +340,5 @@ footer{border-top:1px solid var(--c-rule);padding:var(--s-7) 0;margin-top:0}
 .hero-full .hero-cta{justify-content:center;margin-top:var(--s-6)}
 /* particle wordmark in the hero */
 .hero-full{padding-top:var(--s-5)}
-#wordfield{display:block;width:100%;height:clamp(90px,13vw,150px);margin:var(--s-5) auto var(--s-2);cursor:crosshair}
+#wordfield{display:block;width:100%;height:clamp(90px,13vw,150px);margin:var(--s-5) auto var(--s-6);cursor:crosshair}
+.hero-full .label{color:var(--c-accent)}

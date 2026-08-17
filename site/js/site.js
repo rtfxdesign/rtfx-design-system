@@ -7,7 +7,12 @@ function setBtn(v,playing){var b=btnOf(v);if(b){b.textContent=playing?'❚❚ Pa
 vids.forEach(function(v){v.muted=true;v.loop=true;v.setAttribute('playsinline','');
 function pend(){var b=btnOf(v);if(b){b.textContent='Media pending';b.disabled=true}}v.addEventListener('error',pend,true);if(v.error||v.networkState===3)pend();
 var b=btnOf(v);if(b)b.addEventListener('click',function(){if(v.paused){v.dataset.user='1';v.play().then(function(){setBtn(v,true)}).catch(function(){})}else{v.pause();v.dataset.user='0';setBtn(v,false)}});});
-if('IntersectionObserver'in window){var io=new IntersectionObserver(function(es){es.forEach(function(e){var v=e.target;if(v.dataset.user)return;if(e.isIntersecting&&!rm.matches){v.play().then(function(){setBtn(v,true)}).catch(function(){})}else{if(!v.paused){v.pause();setBtn(v,false)}}})},{threshold:.35});
+// autoplay is reserved for the scene-setting hero clip on a case page.
+// Everything else - gallery grid, documentation sections - waits for a click:
+// with dozens of clips per page, scroll-autoplay was streaming hundreds of MB
+// to anyone who merely browsed past.
+document.querySelectorAll('.hero-media video').forEach(function(v){v.dataset.auto='1'});
+if('IntersectionObserver'in window){var io=new IntersectionObserver(function(es){es.forEach(function(e){var v=e.target;if(v.dataset.user)return;if(e.isIntersecting&&!rm.matches){if(v.dataset.auto)v.play().then(function(){setBtn(v,true)}).catch(function(){})}else{if(!v.paused){v.pause();setBtn(v,false)}}})},{threshold:.35});
 vids.forEach(function(v){io.observe(v)});}
 // gallery scroll nav
 document.querySelectorAll('.gal').forEach(function(g){var t=g.querySelector('.track');if(!t)return;

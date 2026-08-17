@@ -519,6 +519,14 @@ document.addEventListener('DOMContentLoaded', () => {
       const data = await (await fetch('/api/gallery')).json();
       if (!data.success) throw new Error(data.error || 'failed');
       $('#galleryCount').textContent = `${data.count} · next number ${data.nextFree}`;
+      $('#eventList').innerHTML = (data.events || []).length
+        ? '<b class="hint">Events</b>' + data.events.map((e) => `
+            <div class="gallery-row event-row">
+              <b>${escapeHtml(e.name || e.key)}</b>
+              <span class="path">${escapeHtml(e.date || 'no date')} · ${escapeHtml(e.location || 'no location')}</span>
+              <span class="path">${escapeHtml(e.summary || '')}</span>
+            </div>`).join('')
+        : '<span class="hint">No events yet.</span>';
       list.innerHTML = data.frames.map((f) => `
         <div class="gallery-row" data-frame="${escapeHtml(f.frame)}">
           <b>${escapeHtml(f.frame)}</b>
@@ -580,6 +588,36 @@ document.addEventListener('DOMContentLoaded', () => {
         : `Added as frame ${res.frame} — no date found in the file, add one below`;
       $('#galleryForm').reset();
       $('#galleryCat').value = 'studio';
+      loadGallery();
+    } catch (e) {
+      status.textContent = 'Failed: ' + e.message;
+    } finally {
+      button.disabled = false;
+    }
+  });
+
+  $('#importForm').addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const status = $('#impStatus'), button = $('#impSubmit');
+    button.disabled = true;
+    status.textContent = 'Importing… this processes every image, so give it a moment.';
+    try {
+      const res = await (await fetch('/api/gallery/import', {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          folder: $('#impFolder').value.trim(),
+          event: $('#impEvent').value.trim(),
+          date: $('#impDate').value.trim(),
+          location: $('#impLocation').value.trim(),
+          client: $('#impClient').value.trim(),
+          summary: $('#impSummary').value.trim(),
+          tags: $('#impTags').value
+        })
+      })).json();
+      if (!res.success) throw new Error(res.error || 'import failed');
+      status.textContent = `${res.event}: imported ${res.added} of ${res.total}`
+        + (res.failed ? `, ${res.failed} failed` : '')
+        + `. ${res.withDate} had a usable date in the file; the rest inherit the event date.`;
       loadGallery();
     } catch (e) {
       status.textContent = 'Failed: ' + e.message;

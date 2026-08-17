@@ -1,0 +1,4 @@
+{
+ "note": "Events for the gallery. Date, location and summary come from the invoice for the job, not from photo metadata. Frames reference an event by key and inherit its values.",
+ "events": {}
+}

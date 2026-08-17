@@ -833,3 +833,5 @@ body {
 .gallery-row button{padding:4px 10px;font-size:12px;cursor:pointer}
 .field-row{display:flex;gap:12px;flex-wrap:wrap;margin:10px 0}
 .field-row label{display:flex;flex-direction:column;gap:4px;flex:1 1 220px;font-size:12px}
+.gallery-row.event-row{grid-template-columns:200px 1fr 1fr}
+label.wide{display:flex;flex-direction:column;gap:4px;font-size:12px;margin:10px 0}

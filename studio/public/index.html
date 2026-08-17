@@ -295,6 +295,33 @@
   </div>
 
   <div class="panel">
+    <h2>Import an event</h2>
+    <p class="hint">
+      Curate the selection in Lightroom, export that collection to its own folder,
+      then point this at the folder. Only what you exported gets imported.
+      Date, location and summary come from the <strong>invoice</strong> — they are
+      recorded once on the event and every frame inherits them, so photo metadata
+      is not needed.
+    </p>
+    <form id="importForm">
+      <label class="wide">Folder path<input type="text" id="impFolder" placeholder="E:\exports\Ravens TailGOAT 2024" required></label>
+      <div class="field-row">
+        <label>Event name<input type="text" id="impEvent" placeholder="defaults to the folder name"></label>
+        <label>Date<input type="text" id="impDate" placeholder="2024-10-27"></label>
+      </div>
+      <div class="field-row">
+        <label>Location<input type="text" id="impLocation" placeholder="M&amp;T Bank Stadium, Baltimore MD"></label>
+        <label>Client<input type="text" id="impClient" placeholder="Baltimore Ravens"></label>
+      </div>
+      <label class="wide">Summary<input type="text" id="impSummary" placeholder="One line from the invoice"></label>
+      <label class="wide">Tags<input type="text" id="impTags" placeholder="live, stadium"></label>
+      <button type="submit" class="btn-primary" id="impSubmit">Import folder</button>
+      <span id="impStatus" class="hint"></span>
+    </form>
+    <div id="eventList" class="gallery-list"></div>
+  </div>
+
+  <div class="panel">
     <h2>Frames <span id="galleryCount" class="hint"></span></h2>
     <div id="galleryList" class="gallery-list">Loading…</div>
   </div>

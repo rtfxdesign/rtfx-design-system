@@ -22,11 +22,76 @@ const galleryThumbDir = path.join(galleryMediaDir, 'thumbs');
 
 const PUBLIC = 'https://rtfx.space/';
 
+const eventsPath = path.join(siteDir, 'gallery', 'events.json');
+
 function readFrames() {
   return JSON.parse(fs.readFileSync(framesPath, 'utf8'));
 }
 function writeFrames(data) {
   fs.writeFileSync(framesPath, JSON.stringify(data, null, 1));
+}
+
+// ---- events ----------------------------------------------------------------
+// An event is the unit that actually carries meaning: date, location and a
+// short summary, taken from the invoice for the job. That beats per-photo EXIF
+// on every count - it is authoritative, it is already written down, and it
+// survives the fact that these files carry no EXIF at all. A frame inherits
+// from its event and only stores its own value when it genuinely differs.
+
+function readEvents() {
+  if (!fs.existsSync(eventsPath)) {
+    return { note: 'Events for the gallery. Date, location and summary come from the invoice for the job, not from photo metadata. Frames reference an event by key and inherit its values.', events: {} };
+  }
+  return JSON.parse(fs.readFileSync(eventsPath, 'utf8'));
+}
+function writeEvents(data) {
+  fs.writeFileSync(eventsPath, JSON.stringify(data, null, 1));
+}
+
+function eventKey(name) {
+  return String(name).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 60);
+}
+
+function upsertEvent({ key, name, date, location, summary, client }) {
+  const data = readEvents();
+  const k = key || eventKey(name);
+  if (!k) throw new Error('event needs a name');
+  const prev = data.events[k] || {};
+  data.events[k] = {
+    name: name || prev.name || k,
+    date: date !== undefined ? (date || null) : (prev.date || null),
+    location: location !== undefined ? (location || null) : (prev.location || null),
+    summary: summary !== undefined ? (summary || null) : (prev.summary || null),
+    client: client !== undefined ? (client || null) : (prev.client || null)
+  };
+  writeEvents(data);
+  return { key: k, ...data.events[k] };
+}
+
+function deleteEvent(key) {
+  const data = readEvents();
+  if (!data.events[key]) throw new Error('event not found: ' + key);
+  const frames = readFrames();
+  const inUse = Object.values(frames.frames).filter(f => f.event === key).length;
+  if (inUse) throw new Error(`${inUse} frame(s) still reference this event`);
+  delete data.events[key];
+  writeEvents(data);
+  return { key, removed: true };
+}
+
+// what a frame effectively shows, after inheriting from its event
+function resolveFrame(num, rec, events) {
+  const ev = rec.event ? events[rec.event] : null;
+  return {
+    frame: num, ...rec,
+    eventName: ev ? ev.name : null,
+    resolvedDate: rec.date || (ev && ev.date) || null,
+    resolvedLocation: rec.location || (ev && ev.location) || null,
+    inherited: {
+      date: !rec.date && !!(ev && ev.date),
+      location: !rec.location && !!(ev && ev.location)
+    }
+  };
 }
 
 // ---- metadata -------------------------------------------------------------
@@ -185,6 +250,7 @@ function updateFrame(num, patch) {
   if (!rec) throw new Error(`frame ${num} not found`);
   if ('date' in patch) { rec.date = patch.date || null; rec.dateSource = patch.date ? 'manual' : null; }
   if ('location' in patch) rec.location = patch.location || null;
+  if ('event' in patch) rec.event = patch.event || null;
   if ('tags' in patch) {
     rec.tags = Array.isArray(patch.tags) ? patch.tags
       : String(patch.tags || '').split(',').map(s => s.trim()).filter(Boolean);
@@ -222,13 +288,85 @@ function deleteFrame(num) {
 
 function listFrames() {
   const data = readFrames();
+  const events = readEvents().events;
   return {
     nextFree: data.nextFree,
     count: Object.keys(data.frames).length,
+    events: Object.entries(events).map(([key, e]) => ({ key, ...e })),
     frames: Object.entries(data.frames)
       .sort((a, b) => Number(b[0]) - Number(a[0]))
-      .map(([num, r]) => ({ frame: num, ...r }))
+      .map(([num, r]) => resolveFrame(num, r, events))
   };
 }
 
-module.exports = { listFrames, addFrame, updateFrame, deleteFrame, extractMeta, readFrames };
+/**
+ * Bulk-import a folder of images as one event.
+ *
+ * Built for Lightroom collections: export a collection to its own folder with
+ * "Metadata: All" and location info left in, then point this at the folder. The
+ * folder name becomes the event unless one is given. Reading the folder locally
+ * beats a browser multi-upload - Studio is a local tool, and these run to
+ * hundreds of files.
+ */
+function importFolder({ folder, event, date, location, summary, client, tags, cat, optimizeImage, onProgress }) {
+  if (!folder || !fs.existsSync(folder)) throw new Error('folder not found: ' + folder);
+  const stat = fs.statSync(folder);
+  if (!stat.isDirectory()) throw new Error('not a folder: ' + folder);
+
+  const eventName = (event || path.basename(folder)).trim();
+  // create or update the event from the invoice details supplied with the import
+  const ev = upsertEvent({ name: eventName, date, location, summary, client });
+  const files = fs.readdirSync(folder)
+    .filter(f => /\.(jpe?g|png|webp|tiff?)$/i.test(f))
+    .sort();
+  if (!files.length) throw new Error('no images in ' + folder);
+
+  const added = [], failed = [];
+  files.forEach((name, idx) => {
+    const src = path.join(folder, name);
+    try {
+      // copy to a temp path so addFrame's cleanup never touches the source
+      const tmp = path.join(require('os').tmpdir(), `rtfx-import-${Date.now()}-${idx}${path.extname(name)}`);
+      fs.copyFileSync(src, tmp);
+      let out;
+      try {
+        // location is left on the event, not copied onto every frame
+        out = addFrame({ tempPath: tmp, originalName: name, alt: '', cat, location: null, tags, optimizeImage });
+      } finally {
+        if (fs.existsSync(tmp)) fs.unlinkSync(tmp);
+      }
+      // stamp the event key on the record the import created
+      const data = readFrames();
+      data.frames[out.frame].event = ev.key;
+      writeFrames(data);
+      added.push({ frame: out.frame, name, date: out.record.date, exif: out.exifFound });
+    } catch (e) {
+      failed.push({ name, error: e.message });
+    }
+    if (onProgress) onProgress(idx + 1, files.length, name);
+  });
+
+  return {
+    event: ev.name, eventKey: ev.key, folder, total: files.length,
+    added: added.length, failed: failed.length,
+    withDate: added.filter(a => a.date).length,
+    frames: added, errors: failed
+  };
+}
+
+// Distinct events currently in use, for grouping and for the UI.
+function listEvents() {
+  const frames = readFrames().frames;
+  const defs = readEvents().events;
+  const counts = {};
+  for (const r of Object.values(frames)) {
+    const e = r.event || "(unfiled)";
+    counts[e] = (counts[e] || 0) + 1;
+  }
+  return Object.entries(counts)
+    .sort((a, b) => b[1] - a[1])
+    .map(([key, count]) => ({ key, count, ...(defs[key] || {}) }));
+}
+
+module.exports = { listFrames, addFrame, updateFrame, deleteFrame, extractMeta, readFrames,
+  importFolder, listEvents, readEvents, upsertEvent, deleteEvent, eventKey };

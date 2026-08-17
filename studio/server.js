@@ -612,6 +612,42 @@ app.post('/api/gallery', upload.single('mediaFile'), (req, res) => {
   }
 });
 
+app.get('/api/gallery/events', (req, res) => {
+  try { res.json({ success: true, events: gallery.listEvents() }); }
+  catch (e) { res.status(500).json({ success: false, error: e.message }); }
+});
+
+// Define or update an event. Date, location and summary come from the invoice.
+app.post('/api/gallery/events', express.json(), (req, res) => {
+  try { res.json({ success: true, event: gallery.upsertEvent(req.body || {}) }); }
+  catch (e) { res.status(400).json({ success: false, error: e.message }); }
+});
+
+app.delete('/api/gallery/events/:key', (req, res) => {
+  try { res.json({ success: true, ...gallery.deleteEvent(req.params.key) }); }
+  catch (e) { res.status(400).json({ success: false, error: e.message }); }
+});
+
+// Bulk-import a Lightroom collection folder as one event.
+app.post('/api/gallery/import', express.json(), (req, res) => {
+  try {
+    const out = gallery.importFolder({
+      folder: req.body.folder,
+      event: req.body.event,
+      date: req.body.date,
+      location: req.body.location,
+      summary: req.body.summary,
+      client: req.body.client,
+      tags: req.body.tags,
+      cat: req.body.cat || 'field',
+      optimizeImage
+    });
+    res.json({ success: true, ...out });
+  } catch (e) {
+    res.status(400).json({ success: false, error: e.message });
+  }
+});
+
 app.patch('/api/gallery/:frame', express.json(), (req, res) => {
   try { res.json({ success: true, record: gallery.updateFrame(req.params.frame, req.body || {}) }); }
   catch (e) { res.status(400).json({ success: false, error: e.message }); }

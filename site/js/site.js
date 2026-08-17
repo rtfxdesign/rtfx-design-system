@@ -30,13 +30,7 @@ if(!imgs.length)return;
 // a thumbnail stands in for a full-resolution original; open the original.
 function fullSrc(im){return (im.currentSrc||im.src).replace(/\/thumbs\//,'/')}
 function frameOf(im){var f=im.closest('figure');return f&&f.dataset.frame||''}
-function capOf(im){
-var f=im.closest('figure'),c=f&&f.querySelector('figcaption');
-var t=(c?c.textContent:'').trim();
-// gallery captions are a bare accession number; name it rather than showing a stray digit
-if(/^\d+$/.test(t))return 'Frame '+t;
-return t||im.alt||'';
-}
+function capOf(im){var f=im.closest('figure'),c=f&&f.querySelector('figcaption');return (c?c.textContent:'').trim()||im.alt||''}
 var dlg=document.createElement('dialog');dlg.className='lb';dlg.setAttribute('aria-label','Image viewer');
 dlg.innerHTML='<div class="lb-in">'
 +'<div class="lb-bar"><span class="lb-count"></span><button type="button" class="lb-x">Close ✗</button></div>'
@@ -52,8 +46,12 @@ function pad(n){return (n<10?'0':'')+n}
 function show(n){
 i=(n+imgs.length)%imgs.length;var im=imgs[i];
 stage.src=fullSrc(im);stage.alt=im.alt||'';
-capT.textContent=capOf(im);capM.textContent='';
-count.innerHTML='<b>'+pad(i+1)+'</b> / '+pad(imgs.length);
+capM.textContent='';
+// where a frame has an accession number that number is its identity, and a
+// position counter beside it would just be a second, conflicting number.
+var fr=frameOf(im);
+if(fr){count.innerHTML='Frame <b>'+fr+'</b>';capT.textContent=''}
+else{count.innerHTML='<b>'+pad(i+1)+'</b> / '+pad(imgs.length);capT.textContent=capOf(im)}
 var one=imgs.length<2;prev.disabled=one;next.disabled=one;
 syncHash(im);
 [1,-1].forEach(function(d){var p=new Image();p.src=fullSrc(imgs[(i+d+imgs.length)%imgs.length])}); // preload neighbours

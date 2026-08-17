@@ -98,6 +98,7 @@ function generateArtPage() {
 </style>
 <script src="../js/site.js" defer></script>
 <script src="../js/field.js" defer></script>
+<script src="../js/bgfield.js" defer></script>
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
@@ -115,6 +116,7 @@ function generateArtPage() {
 </header>
 <main id="main">
 <div class="hero bg-grid">
+<canvas class="bgfield" aria-hidden="true"></canvas>
 <div class="wrap">
 <span class="label">Personal Works · Generative Studies · Autonomous Visuals</span>
 <h1 class="fh"><canvas class="fieldh" data-text="ART GALLERY" aria-hidden="true"></canvas><span class="sr">Art Gallery</span></h1>

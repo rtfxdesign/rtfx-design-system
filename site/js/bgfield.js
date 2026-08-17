@@ -14,7 +14,7 @@ function initField(cv){
 var ctx=cv.getContext('2d');if(!ctx)return;
 var rm=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 var host=cv.parentElement;
-var HERO=cv.id==='bgfield';
+var HERO=cv.id==='bgfield'||(cv.parentElement&&cv.parentElement.classList.contains('hero'));
 var W=0,H=0,P=[],raf=0,last=0,running=true;
 var ptr={x:-9e3,y:-9e3,px:-9e3,py:-9e3,active:false,speed:0};
 

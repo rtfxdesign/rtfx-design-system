@@ -307,3 +307,28 @@ footer{border-top:1px solid var(--c-rule);padding:var(--s-7) 0;margin-top:0}
 .sec-head>canvas.bgfield{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0}
 .sec-head>:not(.bgfield){position:relative;z-index:1}
 .fh-rule{flex-basis:100%;margin-top:var(--s-3)}
+.hero>canvas.bgfield{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+/* X-Route hover on gallery frames and home gallery teasers */
+.ai,.teaser [data-p]{--signal-angle:-45deg}
+.ai[data-signal-corner="rt"],.teaser [data-p][data-signal-corner="rt"]{--signal-angle:45deg}
+.ai[data-signal-corner="rb"],.teaser [data-p][data-signal-corner="rb"]{--signal-angle:135deg}
+.ai[data-signal-corner="lb"],.teaser [data-p][data-signal-corner="lb"]{--signal-angle:225deg}
+.ai{position:relative;isolation:isolate;clip-path:polygon(var(--chamfer) 0,100% 0,100% calc(100% - var(--chamfer)),calc(100% - var(--chamfer)) 100%,0 100%,0 var(--chamfer));transition:background var(--m-snap),transform var(--m-draw) var(--e-draw)}
+.ai:hover{background:var(--c-accent);transform:translateY(-2px)}
+.ai::before,.teaser [data-p] .ph::before{content:"";position:absolute;inset:0;z-index:4;padding:1px;pointer-events:none;opacity:0;background:conic-gradient(from var(--signal-angle),transparent 0 42%,rgba(255,176,32,.1) 55%,var(--c-accent) 70%,#fff4df 73%,var(--c-accent) 77%,transparent 90%);-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude}
+.ai:hover::before,.teaser [data-p]:hover .ph::before{animation:xroute-border 680ms var(--e-draw) both}
+.ai .in{position:relative;z-index:1}
+.ph .signal-layer{position:absolute;inset:0;z-index:2;pointer-events:none;opacity:0;background-image:linear-gradient(rgba(255,176,32,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(255,176,32,.06) 1px,transparent 1px);background-size:24px 24px;transition:opacity 180ms ease}
+.ph .signal-layer svg{width:100%;height:100%;display:block;overflow:visible;filter:drop-shadow(0 0 5px rgba(255,176,32,.42))}
+.ph .signal-trace,.ph .signal-mark{fill:none;stroke:var(--c-accent);stroke-linecap:square;stroke-linejoin:miter;vector-effect:non-scaling-stroke;stroke-dasharray:1;stroke-dashoffset:1}
+.ph .signal-trace{stroke-width:1;opacity:.82}.ph .signal-mark{stroke-width:1.6;stroke:#fff4df}
+.ph .signal-node{fill:var(--c-accent);stroke:#fff4df;stroke-width:.45;vector-effect:non-scaling-stroke;transform-box:fill-box;transform-origin:center;transform:scale(0)}
+.ph .signal-scan{position:absolute;z-index:3;pointer-events:none;top:0;bottom:0;width:12%;left:-18%;opacity:0;transform:skewX(-16deg);background:linear-gradient(90deg,transparent,rgba(255,217,160,.2),rgba(255,255,255,.48),rgba(255,176,32,.16),transparent);mix-blend-mode:screen;filter:blur(.2px)}
+.ai:hover .signal-layer,.teaser [data-p]:hover .signal-layer{opacity:1}
+.ai:hover .signal-trace,.teaser [data-p]:hover .signal-trace{animation:xroute-draw 560ms var(--e-draw) forwards}
+.ai:hover .signal-mark,.teaser [data-p]:hover .signal-mark{animation:xroute-draw 420ms 160ms var(--e-draw) forwards}
+.ai:hover .signal-node,.teaser [data-p]:hover .signal-node{animation:xroute-node 380ms var(--signal-delay,260ms) var(--e-draw) forwards}
+.ai:hover .signal-scan,.teaser [data-p]:hover .signal-scan{animation:xroute-scan 760ms 70ms var(--e-draw) forwards}
+.ai .ph{overflow:hidden}
+.ai .ph img,.ai .ph video,.teaser [data-p] .ph img{transition:transform 720ms var(--e-draw),filter 520ms var(--e-draw)}
+.ai:hover .ph img,.ai:hover .ph video,.teaser [data-p]:hover .ph img{transform:scale(1.025);filter:saturate(.82) contrast(1.15) brightness(.7)}

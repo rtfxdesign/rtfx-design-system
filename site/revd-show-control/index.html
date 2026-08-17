@@ -18,6 +18,7 @@
 <link rel="apple-touch-icon" href="../assets/apple-touch-icon-180.png">
 <link rel="stylesheet" href="../css/site.css">
 <script src="../js/site.js" defer></script>
+<script src="../js/bgfield.js" defer></script>
 </head>
 <body>
 <a class="skip" href="#main">Skip to content</a>
@@ -54,7 +55,8 @@
 </div>
 <section aria-labelledby="s-brief">
 <div class="wrap">
-<div class="sec-head"><div class="sec-t"><span class="sec-num">00</span><h2 id="s-brief" class="display-m">The brief</h2></div></div>
+<div class="sec-head">
+<canvas class="bgfield" aria-hidden="true"></canvas><div class="sec-t"><span class="sec-num">00</span><h2 id="s-brief" class="display-m">The brief</h2></div></div>
 <p class="lede">Two rooms. One studio PC. A wraparound LED wall, a DMX rig, and a class schedule that never pauses for a technical problem.</p>
 <div class="maxm mt-5">
 <p class="mb-5" style="color:var(--c-ink-2)">The studio already owned good equipment — Resolume Arena driving the wall, MyDMX 3 driving the fixtures. The problem was never capability. It was that running a class meant alt-tabbing between two professional VJ applications while pedalling, and nobody was going to do that at 6am.</p>
@@ -71,6 +73,7 @@
 <section aria-labelledby="s-interface">
 <div class="wrap">
 <div class="sec-head">
+<canvas class="bgfield" aria-hidden="true"></canvas>
 <div class="sec-t"><span class="sec-num">01</span><h2 id="s-interface" class="display-m">One press, one action</h2></div>
 <p class="sec-note">Every button does exactly one thing, and its face says what that thing is. No holds, no double-taps, no hidden modes. The single exception is <b style="color:var(--c-ink)">Blackout All</b>, which toggles — because the one moment you need to kill the room, you also need to bring it back.</p>
 </div>
@@ -88,6 +91,7 @@
 <section aria-labelledby="s-room">
 <div class="wrap">
 <div class="sec-head">
+<canvas class="bgfield" aria-hidden="true"></canvas>
 <div class="sec-t"><span class="sec-num">02</span><h2 id="s-room" class="display-m">The room, running</h2></div>
 <p class="sec-note">Three phases — Warm Up, Build, Peak — each a source and mask pair on the wall, each clearing every other phase as it fires. Nothing can bleed between them, and no phase can be half-live.</p>
 </div>
@@ -108,6 +112,7 @@
 <section aria-labelledby="s-signal">
 <div class="wrap">
 <div class="sec-head">
+<canvas class="bgfield" aria-hidden="true"></canvas>
 <div class="sec-t"><span class="sec-num">03</span><h2 id="s-signal" class="display-m">Two paths that don't need each other</h2></div>
 <p class="sec-note">This separation is the load-bearing decision in the whole build. Visuals and lighting never share a transport. When something breaks, the half that still works tells you where to look.</p>
 </div>
@@ -138,6 +143,7 @@
 <section aria-labelledby="s-glass">
 <div class="wrap">
 <div class="sec-head">
+<canvas class="bgfield" aria-hidden="true"></canvas>
 <div class="sec-t"><span class="sec-num">04</span><h2 id="s-glass" class="display-m">Behind the glass</h2></div>
 <p class="sec-note">Under the surface it is ordinary professional tooling, wired so that nobody has to look at it. Scenes live in MyDMX with their own fade times; Companion only ever sends a trigger.</p>
 </div>
@@ -151,6 +157,7 @@
 <section aria-labelledby="s-rules">
 <div class="wrap">
 <div class="sec-head">
+<canvas class="bgfield" aria-hidden="true"></canvas>
 <div class="sec-t"><span class="sec-num">05</span><h2 id="s-rules" class="display-m">Rules the system has to keep</h2></div>
 <p class="sec-note">These were written down before the build and checked after every change. They are the difference between a room that works and a room that mostly works.</p>
 </div>
@@ -168,6 +175,7 @@
 <section aria-labelledby="s-docs">
 <div class="wrap">
 <div class="sec-head">
+<canvas class="bgfield" aria-hidden="true"></canvas>
 <div class="sec-t"><span class="sec-num">06</span><h2 id="s-docs" class="display-m">Handed over, not just installed</h2></div>
 <p class="sec-note">The build shipped with two documents: a technical reference for whoever maintains it, and a one-page quick guide for whoever teaches the class.</p>
 </div>
@@ -186,6 +194,7 @@
 <section aria-labelledby="s-doc">
 <div class="wrap">
 <div class="sec-head">
+<canvas class="bgfield" aria-hidden="true"></canvas>
 <div class="sec-t"><span class="sec-num">07 · Documentation</span><h2 id="s-doc" class="display-m">The rooms, documented</h2></div>
 <p class="sec-note">Additional frames from the two-room build. Click any frame to view it full size.</p>
 </div>

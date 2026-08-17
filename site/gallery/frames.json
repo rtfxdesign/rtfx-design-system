@@ -7,7 +7,7 @@
   "location": "free text|null",
   "tags": "string[]"
  },
- "nextFree": "263",
+ "nextFree": "331",
  "frames": {
   "101": {
    "file": "assets/portfolio_lightroom/allen_portfolio020.webp",
@@ -548,14 +548,685 @@
    "tags": [],
    "subject": "detail"
   },
-  "249": {
-   "file": "live-events/ravens-stage.webp",
+  "263": {
+   "file": "assets/gallery/263-02f35ff4-b506-4133-b7ef-d52e8fe649d5.webp",
    "date": null,
    "dateSource": null,
    "location": null,
+   "gps": null,
    "tags": [],
-   "subject": "stage",
-   "event": "ravens-tailgoat"
+   "event": "ukraine-fundraiser-watergate-2024",
+   "subject": "control"
+  },
+  "264": {
+   "file": "assets/gallery/264-a13ff578-3de1-41c2-a297-b43816abc523.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "gps": null,
+   "tags": [],
+   "event": "ukraine-fundraiser-watergate-2024",
+   "subject": "gear"
+  },
+  "265": {
+   "file": "assets/gallery/265-screenshot-img-5415-001.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "gps": null,
+   "tags": [],
+   "event": "ukraine-fundraiser-watergate-2024",
+   "subject": "control"
+  },
+  "266": {
+   "file": "assets/gallery/266-screenshot-img-5418-001.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "gps": null,
+   "tags": [],
+   "event": "ukraine-fundraiser-watergate-2024",
+   "subject": "crowd"
+  },
+  "267": {
+   "file": "assets/gallery/267-screenshot-img-5422-001.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "gps": null,
+   "tags": [],
+   "event": "ukraine-fundraiser-watergate-2024",
+   "subject": "control"
+  },
+  "268": {
+   "file": "assets/gallery/268-screenshot-img-5427-001.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "gps": null,
+   "tags": [],
+   "event": "ukraine-fundraiser-watergate-2024",
+   "subject": "stage"
+  },
+  "269": {
+   "file": "assets/gallery/269-screenshot-img-5428-002.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "gps": null,
+   "tags": [],
+   "event": "ukraine-fundraiser-watergate-2024",
+   "subject": "crowd"
+  },
+  "270": {
+   "file": "assets/gallery/270-screenshot-img-5429-001.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "gps": null,
+   "tags": [],
+   "event": "ukraine-fundraiser-watergate-2024",
+   "subject": "stage"
+  },
+  "271": {
+   "file": "assets/gallery/271-screenshot-img-5435-001.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "gps": null,
+   "tags": [],
+   "event": "ukraine-fundraiser-watergate-2024",
+   "subject": "stage"
+  },
+  "272": {
+   "file": "assets/gallery/272-img-5415.mp4",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "gps": null,
+   "tags": [],
+   "event": "ukraine-fundraiser-watergate-2024",
+   "subject": "control"
+  },
+  "273": {
+   "file": "assets/gallery/273-img-5428.mp4",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "gps": null,
+   "tags": [],
+   "event": "ukraine-fundraiser-watergate-2024",
+   "subject": "crowd"
+  },
+  "274": {
+   "file": "assets/gallery/274-img-0215-poster.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "gps": null,
+   "tags": [],
+   "event": "jazzfest-2025",
+   "subject": "build"
+  },
+  "275": {
+   "file": "assets/gallery/275-img-0219-poster.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "gps": null,
+   "tags": [],
+   "event": "jazzfest-2025",
+   "subject": "gear"
+  },
+  "276": {
+   "file": "assets/gallery/276-img-0225-poster.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "gps": null,
+   "tags": [],
+   "event": "jazzfest-2025",
+   "subject": "gear"
+  },
+  "277": {
+   "file": "assets/gallery/277-img-0226-poster.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "gps": null,
+   "tags": [],
+   "event": "jazzfest-2025",
+   "subject": "build"
+  },
+  "278": {
+   "file": "assets/gallery/278-img-0215.mp4",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "gps": null,
+   "tags": [],
+   "event": "jazzfest-2025",
+   "subject": "build"
+  },
+  "279": {
+   "file": "assets/gallery/279-img-0219.mp4",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "gps": null,
+   "tags": [],
+   "event": "jazzfest-2025",
+   "subject": "control"
+  },
+  "280": {
+   "file": "assets/gallery/280-img-0225.mp4",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "gps": null,
+   "tags": [],
+   "event": "jazzfest-2025",
+   "subject": "gear"
+  },
+  "281": {
+   "file": "assets/gallery/281-img-0226.mp4",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "gps": null,
+   "tags": [],
+   "event": "jazzfest-2025",
+   "subject": "build"
+  },
+  "282": {
+   "file": "assets/gallery/282-img-3036.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "gps": null,
+   "tags": [],
+   "event": "stsa-church-integration",
+   "subject": "build"
+  },
+  "283": {
+   "file": "assets/gallery/283-img-3033.mp4",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "gps": null,
+   "tags": [],
+   "event": "stsa-church-integration",
+   "subject": "build"
+  },
+  "284": {
+   "file": "assets/gallery/284-img-3035.mp4",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "gps": null,
+   "tags": [],
+   "event": "stsa-church-integration",
+   "subject": "build"
+  },
+  "285": {
+   "file": "assets/gallery/285-0a4712dd-effc-4ca8-8309-5172d22e4740.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "gps": null,
+   "tags": [],
+   "event": "le-pasefika-runway-2025",
+   "subject": "crowd"
+  },
+  "286": {
+   "file": "assets/gallery/286-1a0bceb8-6aaf-4d51-93ac-9ab25ef28943.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "gps": null,
+   "tags": [],
+   "event": "le-pasefika-runway-2025",
+   "subject": "room"
+  },
+  "287": {
+   "file": "assets/gallery/287-06c7e930-898b-4e4d-90a1-66386c183d8b.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "gps": null,
+   "tags": [],
+   "event": "le-pasefika-runway-2025",
+   "subject": "detail"
+  },
+  "288": {
+   "file": "assets/gallery/288-am02-poster.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "gps": null,
+   "tags": [],
+   "event": "gogo-festival-2025",
+   "subject": "detail"
+  },
+  "289": {
+   "file": "assets/gallery/289-am04-poster.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "gps": null,
+   "tags": [],
+   "event": "gogo-festival-2025",
+   "subject": "stage"
+  },
+  "290": {
+   "file": "assets/gallery/290-am06-poster.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "gps": null,
+   "tags": [],
+   "event": "gogo-festival-2025",
+   "subject": "crowd"
+  },
+  "291": {
+   "file": "assets/gallery/291-am07-poster.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "gps": null,
+   "tags": [],
+   "event": "gogo-festival-2025",
+   "subject": "crowd"
+  },
+  "292": {
+   "file": "assets/gallery/292-am09-poster.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "gps": null,
+   "tags": [],
+   "event": "gogo-festival-2025",
+   "subject": "stage"
+  },
+  "293": {
+   "file": "assets/gallery/293-am13-poster.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "gps": null,
+   "tags": [],
+   "event": "gogo-festival-2025",
+   "subject": "detail"
+  },
+  "294": {
+   "file": "assets/gallery/294-am16-poster.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "gps": null,
+   "tags": [],
+   "event": "gogo-festival-2025",
+   "subject": "crowd"
+  },
+  "295": {
+   "file": "assets/gallery/295-am19-poster.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "gps": null,
+   "tags": [],
+   "event": "gogo-festival-2025",
+   "subject": "stage"
+  },
+  "296": {
+   "file": "assets/gallery/296-am-2-1.mp4",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "gps": null,
+   "tags": [],
+   "event": "gogo-festival-2025",
+   "subject": "detail"
+  },
+  "297": {
+   "file": "assets/gallery/297-am-4-1.mp4",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "gps": null,
+   "tags": [],
+   "event": "gogo-festival-2025",
+   "subject": "stage"
+  },
+  "298": {
+   "file": "assets/gallery/298-am-6-1.mp4",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "gps": null,
+   "tags": [],
+   "event": "gogo-festival-2025",
+   "subject": "crowd"
+  },
+  "299": {
+   "file": "assets/gallery/299-am-7-1.mp4",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "gps": null,
+   "tags": [],
+   "event": "gogo-festival-2025",
+   "subject": "detail"
+  },
+  "300": {
+   "file": "assets/gallery/300-am-9-1.mp4",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "gps": null,
+   "tags": [],
+   "event": "gogo-festival-2025",
+   "subject": "stage"
+  },
+  "301": {
+   "file": "assets/gallery/301-am-13-1.mp4",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "gps": null,
+   "tags": [],
+   "event": "gogo-festival-2025",
+   "subject": "detail"
+  },
+  "302": {
+   "file": "assets/gallery/302-am-16-.mp4",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "gps": null,
+   "tags": [],
+   "event": "gogo-festival-2025",
+   "subject": "crowd"
+  },
+  "303": {
+   "file": "assets/gallery/303-am-19-.mp4",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "gps": null,
+   "tags": [],
+   "event": "gogo-festival-2025",
+   "subject": "stage"
+  },
+  "304": {
+   "file": "assets/gallery/304-dsc00851.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "gps": null,
+   "tags": [],
+   "event": "soweto-amapiano-2024",
+   "subject": "room"
+  },
+  "305": {
+   "file": "assets/gallery/305-dsc00854.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "gps": null,
+   "tags": [],
+   "event": "soweto-amapiano-2024",
+   "subject": "room"
+  },
+  "306": {
+   "file": "assets/gallery/306-dsc00857.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "gps": null,
+   "tags": [],
+   "event": "soweto-amapiano-2024",
+   "subject": "crowd"
+  },
+  "307": {
+   "file": "assets/gallery/307-dsc00860.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "gps": null,
+   "tags": [],
+   "event": "soweto-amapiano-2024",
+   "subject": "room"
+  },
+  "308": {
+   "file": "assets/gallery/308-dsc00863.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "gps": null,
+   "tags": [],
+   "event": "soweto-amapiano-2024",
+   "subject": "build"
+  },
+  "309": {
+   "file": "assets/gallery/309-dsc00869.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "gps": null,
+   "tags": [],
+   "event": "soweto-amapiano-2024",
+   "subject": "build"
+  },
+  "310": {
+   "file": "assets/gallery/310-dsc00872.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "gps": null,
+   "tags": [],
+   "event": "soweto-amapiano-2024",
+   "subject": "build"
+  },
+  "311": {
+   "file": "assets/gallery/311-dsc00884.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "gps": null,
+   "tags": [],
+   "event": "soweto-amapiano-2024",
+   "subject": "build"
+  },
+  "312": {
+   "file": "assets/gallery/312-dsc00926.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "gps": null,
+   "tags": [],
+   "event": "soweto-amapiano-2024",
+   "subject": "crowd"
+  },
+  "313": {
+   "file": "assets/gallery/313-dsc00947.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "gps": null,
+   "tags": [],
+   "event": "soweto-amapiano-2024",
+   "subject": "control"
+  },
+  "314": {
+   "file": "assets/gallery/314-amfest-bg.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "gps": null,
+   "tags": [],
+   "event": "amfest-2025",
+   "subject": "detail"
+  },
+  "315": {
+   "file": "assets/gallery/315-amfestdifference.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "gps": null,
+   "tags": [],
+   "event": "amfest-2025",
+   "subject": "detail"
+  },
+  "316": {
+   "file": "assets/gallery/316-amfestspraypaint.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "gps": null,
+   "tags": [],
+   "event": "amfest-2025",
+   "subject": "detail"
+  },
+  "317": {
+   "file": "assets/gallery/317-amclip01.mp4",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "gps": null,
+   "tags": [],
+   "event": "amfest-2025",
+   "subject": "detail"
+  },
+  "318": {
+   "file": "assets/gallery/318-amclip02.mp4",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "gps": null,
+   "tags": [],
+   "event": "amfest-2025",
+   "subject": "detail"
+  },
+  "319": {
+   "file": "assets/gallery/319-render-custom.mp4",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "gps": null,
+   "tags": [],
+   "event": "amfest-2025",
+   "subject": "detail"
+  },
+  "320": {
+   "file": "assets/gallery/320-render.mp4",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "gps": null,
+   "tags": [],
+   "event": "amfest-2025",
+   "subject": "detail"
+  },
+  "321": {
+   "file": "assets/gallery/321-img-9972-poster.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "gps": null,
+   "tags": [],
+   "event": "staunton-wedding-2025",
+   "subject": "stage"
+  },
+  "322": {
+   "file": "assets/gallery/322-img-9983-poster.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "gps": null,
+   "tags": [],
+   "event": "staunton-wedding-2025",
+   "subject": "build"
+  },
+  "323": {
+   "file": "assets/gallery/323-img-9984-poster.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "gps": null,
+   "tags": [],
+   "event": "staunton-wedding-2025",
+   "subject": "control"
+  },
+  "324": {
+   "file": "assets/gallery/324-img-9972.mp4",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "gps": null,
+   "tags": [],
+   "event": "staunton-wedding-2025",
+   "subject": "stage"
+  },
+  "325": {
+   "file": "assets/gallery/325-img-9983.mp4",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "gps": null,
+   "tags": [],
+   "event": "staunton-wedding-2025",
+   "subject": "crowd"
+  },
+  "326": {
+   "file": "assets/gallery/326-img-9984.mp4",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "gps": null,
+   "tags": [],
+   "event": "staunton-wedding-2025",
+   "subject": "detail"
+  },
+  "327": {
+   "file": "assets/gallery/327-img-9844.mp4",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "gps": null,
+   "tags": [],
+   "event": "capitals-game-2025",
+   "subject": "build"
+  },
+  "328": {
+   "file": "assets/gallery/328-aegportfolio-33.mp4",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "gps": null,
+   "tags": [],
+   "event": "capitals-game-2025",
+   "subject": "crowd"
+  },
+  "329": {
+   "file": "assets/gallery/329-aegportfolio-36.mp4",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "gps": null,
+   "tags": [],
+   "event": "capitals-game-2025",
+   "subject": "build"
+  },
+  "330": {
+   "file": "assets/gallery/330-img-0090.mp4",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "gps": null,
+   "tags": [],
+   "event": "f1-event-2025",
+   "subject": "crowd"
   },
   "003": {
    "file": "assets/solomute/solomute_projects_003.webp",
@@ -1274,6 +1945,7 @@
   "246",
   "247",
   "248",
+  "249",
   "250",
   "251",
   "252",

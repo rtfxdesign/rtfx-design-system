@@ -81,8 +81,10 @@ test('project parser returns the project page fields', () => {
   assert.ok(project.title);
   assert.ok(project.category);
   assert.ok(project.heroImg);
-  assert.equal(project.pageMedia.length, 3);
-  assert.equal(project.pageMedia.reduce((total, group) => total + group.items.length, 0), 12);
+  // throw-social gained a Documentation section (curated-export fold-in,
+  // see commit 0d58b3f), moving it from 3 sections/12 items to 4/23.
+  assert.equal(project.pageMedia.length, 4);
+  assert.equal(project.pageMedia.reduce((total, group) => total + group.items.length, 0), 23);
 });
 
 test('page media can be reordered within a section and deleted', () => {

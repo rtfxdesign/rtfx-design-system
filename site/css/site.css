@@ -62,7 +62,7 @@ section:last-of-type{border-bottom:none}
 .topbar-in{max-width:1180px;margin:0 auto;padding:13px var(--gutter);display:flex;align-items:flex-end;gap:var(--s-5);flex-wrap:wrap}
 .tb-logo img{height:22px;width:auto}
 .tb-logo{padding-bottom:9px}
-.topbar nav{display:flex;gap:var(--s-4);flex-wrap:wrap}
+.topbar nav{display:flex;gap:var(--s-4);flex-wrap:wrap;justify-content:center}
 .topbar nav a{font-family:var(--f-display);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--c-ink-2);text-decoration:none;padding:4px 0}
 .topbar nav a:hover{color:var(--c-ink)}
 .topbar nav a[aria-current]{color:var(--c-accent)}

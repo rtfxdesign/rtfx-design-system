@@ -213,6 +213,113 @@ function deletePageMediaHtml(html, mediaId) {
   };
 }
 
+function updatePageMediaCaptionHtml(html, mediaId, caption) {
+  const groups = parsePageMediaHtml(html);
+  const group = groups.find(item => item.items.some(media => media.id === mediaId));
+  if (!group) throw new Error('Page media item not found. Refresh Studio and try again.');
+  const target = group.items.find(item => item.id === mediaId);
+  const updatedFigure = /<figcaption\b[^>]*>[\s\S]*?<\/figcaption>/i.test(target.html)
+    ? target.html.replace(/(<figcaption\b[^>]*>)[\s\S]*?(<\/figcaption>)/i,
+      (match, before, after) => `${before}${escapeHtml(caption)}${after}`)
+    : target.html.replace(/<\/figure>$/i, `<figcaption>${escapeHtml(caption)}</figcaption></figure>`);
+  const figures = group.items.map(item => item.id === mediaId ? updatedFigure : item.html);
+  return replaceMediaGroup(html, group, figures);
+}
+
+function responseOutputText(response) {
+  if (typeof response.output_text === 'string') return response.output_text;
+  for (const item of response.output || []) {
+    for (const content of item.content || []) {
+      if (content.type === 'output_text' && typeof content.text === 'string') return content.text;
+    }
+  }
+  return '';
+}
+
+function mediaMimeType(filePath) {
+  return ({ '.gif': 'image/gif', '.jpeg': 'image/jpeg', '.jpg': 'image/jpeg', '.png': 'image/png', '.webp': 'image/webp' })[path.extname(filePath).toLowerCase()] || '';
+}
+
+function captionImageInput(slug, media) {
+  let source = media.poster || media.src;
+  if (/^https:\/\//i.test(source)) return source;
+  const htmlPath = path.join(workDir, slug, 'index.html');
+  let localPath = sourceToLocalPath(htmlPath, source);
+  if (!localPath || !localPath.startsWith(path.resolve(siteDir) + path.sep) || !fs.existsSync(localPath)) {
+    throw new Error('The media preview could not be found locally.');
+  }
+
+  let temporaryFrame = '';
+  let mimeType = mediaMimeType(localPath);
+  if (!mimeType) {
+    temporaryFrame = path.join(tempUploadDir, `caption-frame-${Date.now()}-${crypto.randomBytes(4).toString('hex')}.jpg`);
+    runFfmpeg(['-y', '-ss', '1', '-i', localPath, '-vf', 'scale=1280:1280:force_original_aspect_ratio=decrease', '-frames:v', '1', '-q:v', '3', temporaryFrame]);
+    localPath = temporaryFrame;
+    mimeType = 'image/jpeg';
+  }
+
+  try {
+    return `data:${mimeType};base64,${fs.readFileSync(localPath).toString('base64')}`;
+  } finally {
+    if (temporaryFrame && fs.existsSync(temporaryFrame)) fs.unlinkSync(temporaryFrame);
+  }
+}
+
+async function generateCaptionOptions({ apiKey, project, group, media }) {
+  if (!apiKey || apiKey.length < 20) throw new Error('Add an OpenAI API key in Studio to generate caption options.');
+  const imageUrl = captionImageInput(project.slug, media);
+  const model = process.env.OPENAI_CAPTION_MODEL || 'gpt-5.6-luna';
+  const prompt = [
+    'Write exactly three distinct portfolio caption options grounded only in the supplied image.',
+    'Each caption must be 8 to 18 words, one sentence, plainspoken, specific, and visually observable.',
+    'Use RT/FX voice: technical, calm, human, and understated. Avoid hype, invented facts, and generic phrases.',
+    'Option 1 should be observational, option 2 should emphasize the visual system or technical relationship, and option 3 should emphasize the room or audience experience.',
+    `Project: ${project.title || project.slug}`,
+    `Page section: ${group.label}`,
+    `Current caption: ${media.caption || 'None'}`,
+    `Media type: ${media.isVideo ? 'video representative frame' : 'still image'}`
+  ].join('\n');
+  const response = await fetch('https://api.openai.com/v1/responses', {
+    method: 'POST',
+    headers: { 'Authorization': `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      model,
+      store: false,
+      input: [{
+        role: 'user',
+        content: [
+          { type: 'input_text', text: prompt },
+          { type: 'input_image', image_url: imageUrl, detail: 'low' }
+        ]
+      }],
+      max_output_tokens: 300,
+      text: {
+        format: {
+          type: 'json_schema',
+          name: 'rtfx_caption_options',
+          strict: true,
+          schema: {
+            type: 'object',
+            properties: {
+              options: { type: 'array', minItems: 3, maxItems: 3, items: { type: 'string', minLength: 1, maxLength: 300 } }
+            },
+            required: ['options'],
+            additionalProperties: false
+          }
+        }
+      }
+    }),
+    signal: AbortSignal.timeout(45000)
+  });
+  const payload = await response.json();
+  if (!response.ok) throw new Error(payload.error?.message || `Caption generation failed with HTTP ${response.status}.`);
+  const outputText = responseOutputText(payload);
+  if (!outputText) throw new Error('The caption model did not return any options.');
+  const parsed = JSON.parse(outputText);
+  if (!Array.isArray(parsed.options) || parsed.options.length !== 3) throw new Error('The caption model returned an unexpected response.');
+  return { model, options: parsed.options.map(option => plainText(option)).filter(Boolean) };
+}
+
 function walkHtmlFiles(directory) {
   return fs.readdirSync(directory, { withFileTypes: true }).flatMap(entry => {
     if (entry.name === '.netlify') return [];
@@ -704,6 +811,43 @@ app.delete('/api/projects/:slug/page-media/:mediaId', (req, res) => {
   }
 });
 
+// PATCH /api/projects/:slug/page-media/:mediaId/caption — edit the visible figure caption
+app.patch('/api/projects/:slug/page-media/:mediaId/caption', (req, res) => {
+  try {
+    const slug = safeSlug(req.params.slug);
+    const mediaId = safeMediaId(req.params.mediaId);
+    const caption = String(req.body.caption ?? '').trim();
+    if (caption.length > 300) return res.status(400).json({ success: false, error: 'Keep captions at 300 characters or fewer.' });
+    const htmlPath = path.join(workDir, slug, 'index.html');
+    if (!fs.existsSync(htmlPath)) return res.status(404).json({ success: false, error: 'Project not found.' });
+    const html = fs.readFileSync(htmlPath, 'utf8');
+    fs.writeFileSync(htmlPath, updatePageMediaCaptionHtml(html, mediaId, caption), 'utf8');
+    res.json({ success: true, project: parseProjectHtml(slug) });
+  } catch (error) {
+    res.status(400).json({ success: false, error: error.message });
+  }
+});
+
+// POST /api/projects/:slug/page-media/:mediaId/caption-options — generate three visual caption choices
+app.post('/api/projects/:slug/page-media/:mediaId/caption-options', async (req, res) => {
+  try {
+    const slug = safeSlug(req.params.slug);
+    const mediaId = safeMediaId(req.params.mediaId);
+    const project = parseProjectHtml(slug);
+    if (!project) return res.status(404).json({ success: false, error: 'Project not found.' });
+    const html = fs.readFileSync(path.join(workDir, slug, 'index.html'), 'utf8');
+    const group = parsePageMediaHtml(html).find(item => item.items.some(media => media.id === mediaId));
+    if (!group) return res.status(404).json({ success: false, error: 'Page media item not found.' });
+    const media = group.items.find(item => item.id === mediaId);
+    const apiKey = process.env.OPENAI_API_KEY || req.get('x-openai-api-key') || '';
+    const result = await generateCaptionOptions({ apiKey, project, group, media });
+    res.json({ success: true, ...result });
+  } catch (error) {
+    const status = /API key|Incorrect API key|authentication/i.test(error.message) ? 401 : 400;
+    res.status(status).json({ success: false, error: error.message });
+  }
+});
+
 // =====================================================================
 //  DEPLOY API
 // =====================================================================
@@ -742,7 +886,15 @@ async function verifyDeploy(url) {
 app.get('/api/status', (req, res) => {
   try {
     const branch = runFile('git', ['branch', '--show-current']).trim();
-    res.json({ success: true, branch, ffmpegPath, productionUrl, productionSiteId });
+    res.json({
+      success: true,
+      branch,
+      ffmpegPath,
+      productionUrl,
+      productionSiteId,
+      captionAiReady: Boolean(process.env.OPENAI_API_KEY),
+      captionModel: process.env.OPENAI_CAPTION_MODEL || 'gpt-5.6-luna'
+    });
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });
   }
@@ -844,10 +996,13 @@ module.exports = {
   escapeHtml,
   ffmpegPath,
   findFigGridBlocks,
+  generateCaptionOptions,
   optimizeImage,
   optimizeVideo,
   parsePageMediaHtml,
   parseProjectHtml,
   plainText,
-  reorderPageMediaHtml
+  reorderPageMediaHtml,
+  responseOutputText,
+  updatePageMediaCaptionHtml
 };

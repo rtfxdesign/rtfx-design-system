@@ -221,6 +221,14 @@
                 </div>
               </div>
               <p class="dim media-note">Drag media within a section, or use the arrow buttons. Removing an item updates the page and deletes its local files only when nothing else uses them.</p>
+              <div class="ai-key-row">
+                <div>
+                  <span class="micro">AI CAPTIONS</span>
+                  <span id="aiKeyStatus" class="dim">Add an OpenAI API key for content-aware options.</span>
+                </div>
+                <input type="password" id="aiKeyInput" autocomplete="off" placeholder="OpenAI API key · session only" aria-label="OpenAI API key for caption suggestions">
+                <button type="button" id="btnUseAiKey" class="btn-edit">Use key</button>
+              </div>
               <div id="projMediaList" class="proj-media-list"></div>
             </div>
           </div>

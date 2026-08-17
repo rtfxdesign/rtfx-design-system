@@ -77,3 +77,5 @@ RTFX Studio is the local editing and publishing control surface for the portfoli
 6. Use **Publish portfolio** when ready. Studio will refuse to publish from any branch other than `main`, refuse unrelated changes outside `site/`, push the site commit to GitHub, validate a Netlify draft URL, and then update `https://rtfx.space`.
 
 Studio auto-detects FFmpeg from `FFMPEG_PATH`, the local HeavyM installation, or the system `PATH`. Run `npm test` for the local safety and API checks.
+
+Project captions can be edited directly. **Generate 3 options** analyzes the image or a representative video frame and returns three short RT/FX-style choices. Set `OPENAI_API_KEY` before launching Studio, or paste a key into the local dashboard; pasted keys are held only for that browser session. `OPENAI_CAPTION_MODEL` optionally overrides the default `gpt-5.6-luna` vision model.

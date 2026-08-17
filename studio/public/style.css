@@ -400,6 +400,32 @@ body {
   margin: -4px 0 10px;
 }
 
+.ai-key-row {
+  display: grid;
+  grid-template-columns: minmax(160px, 1fr) minmax(210px, 1.2fr) auto;
+  align-items: center;
+  gap: 8px;
+  padding: 10px;
+  border: 1px solid var(--c-rule-soft);
+  background: var(--c-raise);
+}
+
+.ai-key-row > div { display: grid; gap: 4px; }
+.ai-key-row input,
+.pm-caption-edit textarea {
+  min-width: 0;
+  background: var(--c-well);
+  border: 1px solid var(--c-rule);
+  color: var(--c-ink);
+  font-family: var(--f-body);
+  font-size: 12px;
+  padding: 8px 10px;
+  outline: none;
+}
+
+.ai-key-row input:focus,
+.pm-caption-edit textarea:focus { border-color: var(--c-accent); }
+
 .pm-index {
   position: absolute;
   top: 4px;
@@ -443,9 +469,64 @@ body {
 .pm-actions button:disabled { opacity: .3; cursor: default; }
 .pm-actions .pm-remove { color: var(--c-danger); padding: 0 8px; }
 
+.pm-caption-edit {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 8px;
+  padding-top: 8px;
+  border-top: 1px solid var(--c-rule-soft);
+}
+
+.pm-caption-edit textarea {
+  width: 100%;
+  min-height: 54px;
+  resize: vertical;
+}
+
+.pm-caption-buttons {
+  display: grid;
+  align-content: start;
+  gap: 4px;
+}
+
+.pm-caption-buttons button,
+.pm-suggestions button {
+  border: 1px solid var(--c-rule);
+  background: transparent;
+  color: var(--c-ink-2);
+  font-family: var(--f-display);
+  font-size: 9px;
+  letter-spacing: .04em;
+  text-align: left;
+  cursor: pointer;
+}
+
+.pm-caption-buttons button { min-height: 26px; padding: 4px 8px; }
+.pm-caption-buttons button:hover:not(:disabled),
+.pm-suggestions button:hover { border-color: var(--c-accent); color: var(--c-ink); }
+
+.pm-suggestions {
+  grid-column: 1 / -1;
+  display: grid;
+  gap: 4px;
+}
+
+.pm-suggestions[hidden] { display: none; }
+.pm-suggestions button { padding: 7px 8px; line-height: 1.4; }
+.pm-suggestions button span {
+  display: inline-block;
+  min-width: 22px;
+  margin-right: 7px;
+  color: var(--c-accent);
+}
+
 @media (max-width: 620px) {
+  .ai-key-row { grid-template-columns: 1fr; }
   .pm-item { grid-template-columns: 72px minmax(0, 1fr); }
   .pm-actions { grid-column: 1 / -1; justify-content: flex-end; }
+  .pm-caption-edit { grid-template-columns: 1fr; }
+  .pm-caption-buttons { grid-template-columns: 1fr 1fr; }
 }
 
 /* Buttons */

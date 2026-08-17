@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
   const $ = (selector, root = document) => root.querySelector(selector);
   const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
-  const state = { projects: [], selectedProject: null };
+  const state = { projects: [], selectedProject: null, aiKey: '', aiReady: false, captionModel: '' };
 
   function escapeHtml(value = '') {
     return String(value).replace(/[&<>'"]/g, (character) => ({
@@ -39,6 +39,38 @@ document.addEventListener('DOMContentLoaded', () => {
       if (busy) loading.textContent = busyText;
     }
   }
+
+  function updateAiKeyStatus() {
+    const status = $('#aiKeyStatus');
+    if (!status) return;
+    if (state.aiReady) status.textContent = `Ready · ${state.captionModel || 'vision model'} configured on this computer`;
+    else if (state.aiKey) status.textContent = `Ready · ${state.captionModel || 'vision model'} · key held for this browser session`;
+    else status.textContent = 'Add an OpenAI API key for content-aware options.';
+  }
+
+  async function loadAiStatus() {
+    try {
+      const data = await requestJson('/api/status');
+      state.aiReady = Boolean(data.captionAiReady);
+      state.captionModel = data.captionModel || '';
+      try { state.aiKey = sessionStorage.getItem('rtfxCaptionApiKey') || ''; } catch { /* Session storage may be disabled. */ }
+      $('#aiKeyInput').value = state.aiKey;
+      if (state.aiReady) {
+        $('#aiKeyInput').hidden = true;
+        $('#btnUseAiKey').hidden = true;
+      }
+      updateAiKeyStatus();
+    } catch { /* Caption editing still works if status is unavailable. */ }
+  }
+
+  $('#btnUseAiKey').addEventListener('click', () => {
+    state.aiKey = $('#aiKeyInput').value.trim();
+    try {
+      if (state.aiKey) sessionStorage.setItem('rtfxCaptionApiKey', state.aiKey);
+      else sessionStorage.removeItem('rtfxCaptionApiKey');
+    } catch { /* Keep the key in memory for this page if storage is disabled. */ }
+    updateAiKeyStatus();
+  });
 
   // Tabs
   $$('.tab').forEach((tab) => {
@@ -257,6 +289,14 @@ document.addEventListener('DOMContentLoaded', () => {
             <button type="button" data-action="media-down" aria-label="Move ${escapeHtml(media.filename)} later" ${index === group.items.length - 1 ? 'disabled' : ''}>↓</button>
             <button type="button" class="pm-remove" data-action="media-remove" aria-label="Remove ${escapeHtml(media.filename)}">Remove</button>
           </div>
+          <div class="pm-caption-edit">
+            <textarea rows="2" maxlength="300" data-caption-input aria-label="Caption for ${escapeHtml(media.filename)}">${escapeHtml(media.caption || '')}</textarea>
+            <div class="pm-caption-buttons">
+              <button type="button" data-action="caption-save">Save caption</button>
+              <button type="button" data-action="caption-generate">Generate 3 options</button>
+            </div>
+            <div class="pm-suggestions" hidden></div>
+          </div>
         </article>`;
       }).join('');
       return `<section class="pm-group" data-group-id="${escapeHtml(group.id)}">
@@ -287,6 +327,44 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!button || !state.selectedProject) return;
     const item = button.closest('.pm-item');
     const group = button.closest('.pm-group');
+    if (button.dataset.action === 'caption-option') {
+      $('[data-caption-input]', item).value = button.dataset.option || '';
+      return;
+    }
+    if (button.dataset.action === 'caption-save') {
+      button.disabled = true;
+      try {
+        await requestJson(`/api/projects/${encodeURIComponent(state.selectedProject.slug)}/page-media/${encodeURIComponent(item.dataset.mediaId)}/caption`, {
+          method: 'PATCH', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ caption: $('[data-caption-input]', item).value })
+        });
+        await loadProjects(state.selectedProject.slug);
+      } catch (error) { alert(`Caption save failed: ${error.message}`); button.disabled = false; }
+      return;
+    }
+    if (button.dataset.action === 'caption-generate') {
+      if (!state.aiReady && !state.aiKey) {
+        $('#aiKeyInput').focus();
+        alert('Add an OpenAI API key in the AI Captions row first. It stays in this browser session only.');
+        return;
+      }
+      const suggestions = $('.pm-suggestions', item);
+      button.disabled = true;
+      button.textContent = 'Inspecting media...';
+      suggestions.hidden = true;
+      try {
+        const headers = { 'Content-Type': 'application/json' };
+        if (state.aiKey) headers['x-openai-api-key'] = state.aiKey;
+        const data = await requestJson(`/api/projects/${encodeURIComponent(state.selectedProject.slug)}/page-media/${encodeURIComponent(item.dataset.mediaId)}/caption-options`, {
+          method: 'POST', headers, body: '{}'
+        });
+        suggestions.innerHTML = data.options.map((option, optionIndex) =>
+          `<button type="button" data-action="caption-option" data-option="${escapeHtml(option)}"><span>${optionIndex + 1}</span>${escapeHtml(option)}</button>`).join('');
+        suggestions.hidden = false;
+      } catch (error) { alert(`Caption generation failed: ${error.message}`); }
+      finally { button.disabled = false; button.textContent = 'Generate 3 options'; }
+      return;
+    }
     if (button.dataset.action === 'media-remove') {
       const label = $('.pm-label', item)?.textContent || 'this media item';
       if (!confirm(`Remove "${label}" from this project page? Unused local files will also be deleted.`)) return;
@@ -297,6 +375,7 @@ document.addEventListener('DOMContentLoaded', () => {
       } catch (error) { alert(`Remove failed: ${error.message}`); button.disabled = false; }
       return;
     }
+    if (!['media-up', 'media-down'].includes(button.dataset.action)) return;
     const sibling = button.dataset.action === 'media-up' ? item.previousElementSibling : item.nextElementSibling;
     if (!sibling) return;
     if (button.dataset.action === 'media-up') item.parentElement.insertBefore(item, sibling);
@@ -306,6 +385,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
   let draggedMedia = null;
   $('#projMediaList').addEventListener('dragstart', (event) => {
+    if (event.target.closest('button, input, textarea')) {
+      event.preventDefault();
+      return;
+    }
     draggedMedia = event.target.closest('.pm-item');
     if (!draggedMedia) return;
     draggedMedia.classList.add('is-dragging');
@@ -426,4 +509,5 @@ document.addEventListener('DOMContentLoaded', () => {
 
   $('#btnCloseModal').addEventListener('click', () => { deployModal.hidden = true; });
   loadArtworks();
+  loadAiStatus();
 });

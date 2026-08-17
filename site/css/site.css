@@ -233,7 +233,10 @@ figcaption em,figcaption i{color:var(--c-ink-3)}
 @media (max-width:960px){.arch{columns:2}}
 @media (max-width:600px){.arch{columns:1}}
 .ai{break-inside:avoid;margin:0 0 var(--s-4);background:var(--c-rule-soft);padding:1px}
-.ai .in{background:var(--c-panel);clip-path:polygon(var(--chamfer) 0,100% 0,100% calc(100% - var(--chamfer)),calc(100% - var(--chamfer)) 100%,0 100%,0 var(--chamfer))}
+/* display:block is load-bearing — this is a <span>, and Chrome derives a
+   clip-path's reference box from the inline box, which does not cover the
+   block content inside. Left inline, the whole card clips away to a corner. */
+.ai .in{display:block;background:var(--c-panel);clip-path:polygon(var(--chamfer) 0,100% 0,100% calc(100% - var(--chamfer)),calc(100% - var(--chamfer)) 100%,0 100%,0 var(--chamfer))}
 .ai .ph{position:relative;background:var(--c-raise)}
 .ai img,.ai video{width:100%;height:auto}
 .ai video{aspect-ratio:16/9;object-fit:cover}

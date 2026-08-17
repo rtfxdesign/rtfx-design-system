@@ -8,18 +8,28 @@ var rm=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 var ctx=cv.getContext('2d');
 var TEXT=cv.dataset.text||'RT/FX';
 var HERO=cv.dataset.mode==='hero';
-var SECTION=!HERO&&!!cv.closest('.sec-head');
+// mark mode: the field is built from an image (the wordmark SVG) instead of
+// set type - sampled denser and drawn with smaller dots so the mark stays legible.
+var MARK=cv.dataset.mode==='mark';
+var IMG=null;
+var SECTION=!HERO&&!MARK&&!!cv.closest('.sec-head');
+var DOT=MARK?1.1:1.5;
 var P=[],W=0,H=0,DPR=Math.min(window.devicePixelRatio||1,2);
 var px=-9e3,py=-9e3,raf=0,running=false,idleFrames=0,lastFrame=0;
 function build(){
 W=cv.clientWidth;H=cv.clientHeight;if(W<10||H<10)return;
+if(MARK&&!(IMG&&IMG.complete&&IMG.naturalWidth))return;
 cv.width=W*DPR;cv.height=H*DPR;ctx.setTransform(DPR,0,0,DPR,0,0);
 var off=document.createElement('canvas');off.width=W;off.height=H;
 var o=off.getContext('2d');
 o.fillStyle='#fff';o.textBaseline='middle';
 function font(s){o.font='700 '+s+'px "Martian Mono",monospace'}
 function fit(t,startH,maxW){var s=startH;font(s);while(o.measureText(t).width>maxW&&s>8){s-=2;font(s)}return s}
-if(HERO){
+if(MARK){
+var ih=H,iw=ih*(IMG.naturalWidth/IMG.naturalHeight);
+if(iw>W*0.94){iw=W*0.94;ih=iw*(IMG.naturalHeight/IMG.naturalWidth);}
+o.drawImage(IMG,(W-iw)/2,(H-ih)/2,iw,ih);
+}else if(HERO){
 o.textAlign='center';
 var small=W<640;
 if(small){var s1=fit('INFRASTRUCTURE',H*0.34,W*0.94);font(Math.min(s1*1.6,H*0.34));o.fillText('ART',W/2,H*0.3);font(s1);o.fillText('INFRASTRUCTURE',W/2,H*0.68);}
@@ -39,7 +49,7 @@ drawStatic();
 }
 function drawStatic(){
 ctx.clearRect(0,0,W,H);ctx.fillStyle=HERO?'#A3A3A3':'#FAFAFA';
-for(var i=0;i<P.length;i++){var p=P[i];ctx.fillRect(p.x-0.75,p.y-0.75,1.5,1.5);}
+for(var i=0;i<P.length;i++){var p=P[i];ctx.fillRect(p.x-DOT/2,p.y-DOT/2,DOT,DOT);}
 }
 function tick(now){
 raf=0;var moved=false;
@@ -47,7 +57,7 @@ now=now||performance.now();
 if(SECTION&&now-lastFrame<30){raf=requestAnimationFrame(tick);return}lastFrame=now;
 ctx.clearRect(0,0,W,H);
 var base=HERO?'#A3A3A3':'#FAFAFA';
-var R=HERO?Math.max(70,W*0.07):Math.max(46,H*0.85),R2=R*R;
+var R=(HERO||MARK)?Math.max(70,W*0.07):Math.max(46,H*0.85),R2=R*R;
 var FORCE=SECTION?1.5:3.2;
 for(var i=0;i<P.length;i++){
 var p=P[i];
@@ -59,7 +69,7 @@ p.x+=p.vx;p.y+=p.vy;
 if(p.heat>0.004){p.heat*=0.96;moved=true}else p.heat=0;
 if(Math.abs(p.vx)+Math.abs(p.vy)>0.05)moved=true;
 if(p.heat>0.05&&!SECTION){ctx.fillStyle=p.heat>0.5?'#FFB020':'#FFD9A0';}else ctx.fillStyle=base;
-ctx.fillRect(p.x-0.75,p.y-0.75,1.5,1.5);
+ctx.fillRect(p.x-DOT/2,p.y-DOT/2,DOT,DOT);
 }
 idleFrames=moved?0:idleFrames+1;
 if(running&&idleFrames<30)raf=requestAnimationFrame(tick);
@@ -75,9 +85,10 @@ cv.addEventListener('touchend',off2);
 if('IntersectionObserver'in window){new IntersectionObserver(function(es){es.forEach(function(e){running=e.isIntersecting;if(running)wake();else if(raf){cancelAnimationFrame(raf);raf=0}})},{threshold:.1}).observe(cv);}else running=true;
 }
 var rt;window.addEventListener('resize',function(){clearTimeout(rt);rt=setTimeout(build,150)});
+if(MARK){IMG=new Image();IMG.decoding='async';IMG.src=cv.dataset.img;IMG.onload=build;}
 if(document.fonts&&document.fonts.ready)document.fonts.ready.then(build);
 build();
 },
-initAll:function(root){var els=(root||document).querySelectorAll('canvas[data-text]');for(var i=0;i<els.length;i++)window.RTFXField.init(els[i])}
+initAll:function(root){var els=(root||document).querySelectorAll('canvas[data-text],canvas[data-img]');for(var i=0;i<els.length;i++)window.RTFXField.init(els[i])}
 };
 document.addEventListener('DOMContentLoaded',function(){window.RTFXField.initAll(document)});

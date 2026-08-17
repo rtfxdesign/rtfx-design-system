@@ -1,5 +1,18 @@
 [
   {
+    "id": "art-1786923967145",
+    "title": "Seraphim Reel",
+    "category": "Generative & Feedback",
+    "year": "2024",
+    "tools": "Generative",
+    "description": "Based on illustrations by Peter Mohrbacher (https://www.angelarium.net)\r\n\r\nMusic by Clozee",
+    "mediaType": "video",
+    "src": "../assets/art/art-1786923967145.mp4",
+    "poster": "../assets/art/art-1786923967145-poster.webp",
+    "featured": true,
+    "createdAt": "2026-08-16T23:46:46.990Z"
+  },
+  {
     "id": "art-1786919804339",
     "title": "Peacock Eyes",
     "category": "Motion & VJ Loops",

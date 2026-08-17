@@ -247,13 +247,6 @@
    "location": null,
    "tags": []
   },
-  "134": {
-   "file": "assets/portfolio_lightroom/allen_portfolio053.webp",
-   "date": null,
-   "dateSource": null,
-   "location": null,
-   "tags": []
-  },
   "135": {
    "file": "assets/portfolio_lightroom/allen_portfolio054.webp",
    "date": null,
@@ -408,22 +401,8 @@
    "location": null,
    "tags": []
   },
-  "163": {
-   "file": "field-archive/kennedy-space-live.mp4",
-   "date": null,
-   "dateSource": null,
-   "location": null,
-   "tags": []
-  },
   "164": {
    "file": "field-archive/reach-event-live.mp4",
-   "date": null,
-   "dateSource": null,
-   "location": null,
-   "tags": []
-  },
-  "165": {
-   "file": "field-archive/kennedy-reach-scenic.webp",
    "date": null,
    "dateSource": null,
    "location": null,
@@ -1192,69 +1171,6 @@
    "location": null,
    "tags": []
   },
-  "090": {
-   "file": "assets/portfolio_lightroom/allen_portfolio009.webp",
-   "date": null,
-   "dateSource": null,
-   "location": null,
-   "tags": []
-  },
-  "091": {
-   "file": "assets/portfolio_lightroom/allen_portfolio010.webp",
-   "date": null,
-   "dateSource": null,
-   "location": null,
-   "tags": []
-  },
-  "092": {
-   "file": "assets/portfolio_lightroom/allen_portfolio011.webp",
-   "date": null,
-   "dateSource": null,
-   "location": null,
-   "tags": []
-  },
-  "093": {
-   "file": "assets/portfolio_lightroom/allen_portfolio012.webp",
-   "date": null,
-   "dateSource": null,
-   "location": null,
-   "tags": []
-  },
-  "094": {
-   "file": "assets/portfolio_lightroom/allen_portfolio013.webp",
-   "date": null,
-   "dateSource": null,
-   "location": null,
-   "tags": []
-  },
-  "095": {
-   "file": "assets/portfolio_lightroom/allen_portfolio014.webp",
-   "date": null,
-   "dateSource": null,
-   "location": null,
-   "tags": []
-  },
-  "096": {
-   "file": "assets/portfolio_lightroom/allen_portfolio015.webp",
-   "date": null,
-   "dateSource": null,
-   "location": null,
-   "tags": []
-  },
-  "097": {
-   "file": "assets/portfolio_lightroom/allen_portfolio016.webp",
-   "date": null,
-   "dateSource": null,
-   "location": null,
-   "tags": []
-  },
-  "098": {
-   "file": "assets/portfolio_lightroom/allen_portfolio017.webp",
-   "date": null,
-   "dateSource": null,
-   "location": null,
-   "tags": []
-  },
   "099": {
    "file": "assets/portfolio_lightroom/allen_portfolio018.webp",
    "date": null,
@@ -1265,12 +1181,24 @@
  },
  "retired": [
   "037",
+  "090",
+  "091",
+  "092",
+  "093",
+  "094",
+  "095",
+  "096",
+  "097",
+  "098",
+  "134",
   "136",
   "137",
   "138",
   "139",
   "143",
   "158",
+  "163",
+  "165",
   "166",
   "167",
   "168",

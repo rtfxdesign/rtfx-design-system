@@ -37,7 +37,7 @@ if(W<10||H<10)return;
 var dpr=Math.min(window.devicePixelRatio||1,1.75);
 cv.width=Math.round(W*dpr);cv.height=Math.round(H*dpr);
 ctx.setTransform(dpr,0,0,dpr,0,0);
-var n=Math.max(19,Math.min(48,Math.round(W*H/3e4)));
+var n=Math.max(28,Math.min(72,Math.round(W*H/2e4)));
 P=[];
 for(var i=0;i<n;i++)P.push({
 x:Math.random()*W,y:Math.random()*H,
@@ -46,6 +46,20 @@ size:Math.pow(Math.random(),3)*17+3,
 body:NEUTRAL[i%NEUTRAL.length],
 charge:Math.random()*.22,seed:i*.73
 });
+}
+// clicking the hero adds a particle: born charged (amber), with a small
+// outward kick so the arrival reads. The population is capped - each birth
+// past the cap retires the oldest particle, so the field never overgrows.
+var MAX=140,seedN=1000;
+function spawn(x,y){
+P.push({
+x:x,y:y,
+vx:(Math.random()-.5)*2.4,vy:(Math.random()-.5)*2.4,
+size:Math.pow(Math.random(),2)*14+4,
+body:NEUTRAL[Math.floor(Math.random()*NEUTRAL.length)],
+charge:1,seed:(seedN++)*.73
+});
+if(P.length>MAX)P.shift();
 }
 
 function tick(now){
@@ -108,6 +122,13 @@ else if(!running&&raf){cancelAnimationFrame(raf);raf=0}
 })},{threshold:.05}).observe(cv);
 }
 if('ResizeObserver'in window)new ResizeObserver(build).observe(cv);
-if(host){host.addEventListener('pointermove',move);host.addEventListener('pointerleave',leave)}
+if(host){
+host.addEventListener('pointermove',move);
+host.addEventListener('pointerleave',leave);
+host.addEventListener('pointerdown',function(e){
+var r=cv.getBoundingClientRect();
+spawn(e.clientX-r.left,e.clientY-r.top);
+});
+}
 raf=requestAnimationFrame(tick);
 })();

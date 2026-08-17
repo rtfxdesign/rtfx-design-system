@@ -107,7 +107,7 @@ function generateArtPage() {
 <nav aria-label="Site">
   <a href="../index.html#work">← Selected work</a>
   <a href="index.html" aria-current="page" style="color:var(--c-accent)">Art</a>
-  <a href="../gallery/index.html">Field Gallery</a>
+  <a href="../gallery/index.html">Gallery</a>
   <a href="../archive/index.html">Archive</a>
   <a href="../index.html#contact">Contact</a>
 </nav>
@@ -129,7 +129,7 @@ function generateArtPage() {
 ${cardsHtml}
 </div>
 <div class="row mt-7">
-  <a class="btn" href="../gallery/index.html">Field gallery →</a>
+  <a class="btn" href="../gallery/index.html">Field guide →</a>
   <a class="btn btn--ghost" href="../index.html#contact">Something in mind? →</a>
 </div>
 </div>
@@ -142,7 +142,7 @@ ${cardsHtml}
 <span class="links">
   <a href="../index.html">Home</a>
   <a href="index.html">Art</a>
-  <a href="../gallery/index.html">Field Gallery</a>
+  <a href="../gallery/index.html">Gallery</a>
   <a href="../archive/index.html">Archive</a>
   <a href="../index.html#contact">Contact</a>
 </span>

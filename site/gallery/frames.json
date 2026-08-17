@@ -1,260 +1,1795 @@
 {
- "note": "Accession numbers for the gallery. A number belongs to its media file permanently - never renumber, never reuse. New media takes the next unused number.",
- "nextFree": "255",
+ "note": "Gallery frame records. The number is an accession number - it belongs to its media file permanently. Never renumber, never reuse. Metadata lives here rather than in the image files, which are stripped and regenerated.",
+ "schema": {
+  "file": "path under site/",
+  "date": "YYYY-MM-DD|YYYY-MM|YYYY|null",
+  "dateSource": "exif|filename|manual|null",
+  "location": "free text|null",
+  "tags": "string[]"
+ },
+ "nextFree": "257",
  "frames": {
-  "100": "assets/portfolio_lightroom/allen_portfolio019.webp",
-  "101": "assets/portfolio_lightroom/allen_portfolio020.webp",
-  "102": "assets/portfolio_lightroom/allen_portfolio021.webp",
-  "103": "assets/portfolio_lightroom/allen_portfolio022.webp",
-  "104": "assets/portfolio_lightroom/allen_portfolio023.webp",
-  "105": "assets/portfolio_lightroom/allen_portfolio024.webp",
-  "106": "assets/portfolio_lightroom/allen_portfolio025.webp",
-  "107": "assets/portfolio_lightroom/allen_portfolio026.webp",
-  "108": "assets/portfolio_lightroom/allen_portfolio027.webp",
-  "109": "assets/portfolio_lightroom/allen_portfolio028.webp",
-  "110": "assets/portfolio_lightroom/allen_portfolio029.webp",
-  "111": "assets/portfolio_lightroom/allen_portfolio030.webp",
-  "112": "assets/portfolio_lightroom/allen_portfolio031.webp",
-  "113": "assets/portfolio_lightroom/allen_portfolio032.webp",
-  "114": "assets/portfolio_lightroom/allen_portfolio033.webp",
-  "115": "assets/portfolio_lightroom/allen_portfolio034.webp",
-  "116": "assets/portfolio_lightroom/allen_portfolio035.webp",
-  "117": "assets/portfolio_lightroom/allen_portfolio036.webp",
-  "118": "assets/portfolio_lightroom/allen_portfolio037.webp",
-  "119": "assets/portfolio_lightroom/allen_portfolio038.webp",
-  "120": "assets/portfolio_lightroom/allen_portfolio039.webp",
-  "121": "assets/portfolio_lightroom/allen_portfolio040.webp",
-  "122": "assets/portfolio_lightroom/allen_portfolio041.webp",
-  "123": "assets/portfolio_lightroom/allen_portfolio042.webp",
-  "124": "assets/portfolio_lightroom/allen_portfolio043.webp",
-  "125": "assets/portfolio_lightroom/allen_portfolio044.webp",
-  "126": "assets/portfolio_lightroom/allen_portfolio045.webp",
-  "127": "assets/portfolio_lightroom/allen_portfolio046.webp",
-  "128": "assets/portfolio_lightroom/allen_portfolio047.webp",
-  "129": "assets/portfolio_lightroom/allen_portfolio048.webp",
-  "130": "assets/portfolio_lightroom/allen_portfolio049.webp",
-  "131": "assets/portfolio_lightroom/allen_portfolio050.webp",
-  "132": "assets/portfolio_lightroom/allen_portfolio051.webp",
-  "133": "assets/portfolio_lightroom/allen_portfolio052.webp",
-  "134": "assets/portfolio_lightroom/allen_portfolio053.webp",
-  "135": "assets/portfolio_lightroom/allen_portfolio054.webp",
-  "136": "assets/portfolio_lightroom/allen_portfolio055.webp",
-  "137": "assets/portfolio_lightroom/allen_portfolio056.webp",
-  "138": "assets/portfolio_lightroom/allen_portfolio057.webp",
-  "139": "assets/portfolio_lightroom/allen_portfolio058.webp",
-  "140": "field-archive/aliceanna-live.mp4",
-  "141": "field-archive/aliceanna-room.webp",
-  "142": "field-archive/aliceanna-control.webp",
-  "143": "field-archive/amapiano-stage.webp",
-  "144": "field-archive/amapiano-booth.webp",
-  "145": "field-archive/goodyroom.mp4",
-  "146": "field-archive/reckless-live.mp4",
-  "147": "field-archive/reckless-performance-b.webp",
-  "148": "field-archive/qts-switching.mp4",
-  "149": "field-archive/qts-control-b.webp",
-  "150": "field-archive/qts-stage.webp",
-  "151": "field-archive/inauguration-ball.mp4",
-  "152": "field-archive/control-rack.mp4",
-  "153": "field-archive/annual-meeting-playback.mp4",
-  "154": "field-archive/flowers-feedback.mp4",
-  "155": "field-archive/art-reel.mp4",
-  "156": "field-archive/rtfx-reel.mp4",
-  "157": "field-archive/amfest-stage.webp",
-  "158": "field-archive/amfest-control.webp",
-  "159": "field-archive/dpr-live.mp4",
-  "160": "field-archive/dpr-runway.webp",
-  "161": "field-archive/ukraine-live.mp4",
-  "162": "field-archive/ukraine-control.webp",
-  "163": "field-archive/kennedy-space-live.mp4",
-  "164": "field-archive/reach-event-live.mp4",
-  "165": "field-archive/kennedy-reach-scenic.webp",
-  "166": "assets/aegportfolio/20230920_010338.webp",
-  "167": "assets/aegportfolio/20230920_183656.webp",
-  "168": "assets/aegportfolio/20231111_114205.webp",
-  "169": "assets/aegportfolio/20231111_114212.webp",
-  "170": "assets/aegportfolio/20231111_114215.webp",
-  "171": "assets/aegportfolio/20231111_115442.webp",
-  "172": "assets/aegportfolio/20231206_201045.webp",
-  "173": "assets/aegportfolio/b2363e06-e4f5-4c17-84f9-8e695531e190.webp",
-  "174": "assets/aegportfolio/dsc02867.webp",
-  "175": "assets/aegportfolio/dsc02887.webp",
-  "176": "assets/aegportfolio/dsc02888.webp",
-  "177": "assets/aegportfolio/dsc02891.webp",
-  "178": "assets/aegportfolio/dsc02927.webp",
-  "179": "assets/aegportfolio/dsc02935.webp",
-  "180": "assets/aegportfolio/dsc02936.webp",
-  "181": "assets/aegportfolio/dsc02943.webp",
-  "182": "assets/aegportfolio/dsc02957.webp",
-  "183": "assets/aegportfolio/img_0104.webp",
-  "184": "assets/aegportfolio/img_0115.webp",
-  "185": "assets/aegportfolio/img_0136.webp",
-  "186": "assets/aegportfolio/img_0140.webp",
-  "187": "assets/aegportfolio/img_0356.webp",
-  "188": "assets/aegportfolio/img_0404.webp",
-  "189": "assets/aegportfolio/img_0466.webp",
-  "190": "assets/aegportfolio/img_0505.webp",
-  "191": "assets/aegportfolio/img_0536.mov_snapshot_00.00.230.webp",
-  "192": "assets/aegportfolio/img_0723.webp",
-  "193": "assets/aegportfolio/img_1890.webp",
-  "194": "assets/aegportfolio/img_1955.webp",
-  "195": "assets/aegportfolio/img_3200.webp",
-  "196": "assets/aegportfolio/img_3211.webp",
-  "197": "assets/aegportfolio/img_3255.webp",
-  "198": "assets/aegportfolio/img_3262.webp",
-  "199": "assets/aegportfolio/img_3264.webp",
-  "200": "assets/aegportfolio/img_3279.webp",
-  "201": "assets/aegportfolio/img_3286.webp",
-  "202": "assets/aegportfolio/img_5264.webp",
-  "203": "assets/aegportfolio/img_5283.webp",
-  "204": "assets/aegportfolio/img_5495.webp",
-  "205": "assets/aegportfolio/img_5497.webp",
-  "206": "assets/aegportfolio/img_5500.webp",
-  "207": "assets/aegportfolio/img_5506.webp",
-  "208": "assets/aegportfolio/img_5507.webp",
-  "209": "assets/aegportfolio/img_6448.webp",
-  "210": "assets/aegportfolio/img_6773.webp",
-  "211": "assets/aegportfolio/img_6798.webp",
-  "212": "assets/aegportfolio/img_6896.webp",
-  "213": "assets/aegportfolio/img_7469.webp",
-  "214": "assets/aegportfolio/img_81914757-6ee1-4d11-a257-9d7874489c03.webp",
-  "215": "assets/aegportfolio/img_8936.webp",
-  "216": "assets/aegportfolio/img_9036.webp",
-  "217": "assets/aegportfolio/img_9523.webp",
-  "218": "assets/aegportfolio/img_9536.webp",
-  "219": "assets/aegportfolio/img_9575_jpg.webp",
-  "220": "assets/aegportfolio/img_9684.webp",
-  "221": "assets/aegportfolio/img_9853.webp",
-  "222": "assets/aegportfolio/img_9857.webp",
-  "223": "assets/aegportfolio/img_9998.webp",
-  "224": "assets/aegportfolio/img-20230921-wa0007.webp",
-  "225": "assets/aegportfolio/img-20230921-wa0021.webp",
-  "226": "assets/aegportfolio/img-20240619-wa0000.webp",
-  "227": "assets/aegportfolio/img-20241027-wa0000.webp",
-  "228": "assets/aegportfolio/img-20241027-wa0001.webp",
-  "229": "assets/aegportfolio/img-20241027-wa0013.webp",
-  "230": "assets/aegportfolio/img-20241109-wa0000.webp",
-  "231": "assets/aegportfolio/solomute_projects_001.webp",
-  "232": "assets/aegportfolio/solomute_projects_004.webp",
-  "233": "assets/aegportfolio/solomute_projects_008.webp",
-  "234": "assets/aegportfolio/solomute_projects_009.webp",
-  "235": "assets/aegportfolio/img_0149.mp4",
-  "236": "assets/aegportfolio/img_9516.mp4",
-  "237": "assets/aegportfolio/img_9844.mp4",
-  "238": "assets/aegportfolio/img_9849.mp4",
-  "239": "assets/aegportfolio/img_9972.mp4",
-  "240": "assets/aegportfolio/img_9984.mp4",
-  "241": "live-events/award-finale.webp",
-  "242": "live-events/control-desk.webp",
-  "243": "live-events/control-operator.webp",
-  "244": "live-events/outdoor-performance.webp",
-  "245": "live-events/outdoor-stage.webp",
-  "246": "live-events/performers-led.webp",
-  "247": "live-events/portrait-screen.webp",
-  "248": "live-events/projection-building.webp",
-  "249": "live-events/ravens-stage.webp",
-  "250": "live-events/show-control.webp",
-  "251": "live-events/stage-color.webp",
-  "252": "live-events/stage-crowd.webp",
-  "253": "live-events/stage-installation.webp",
-  "254": "live-events/stage-led.webp",
-  "001": "assets/solomute/solomute_projects_001.webp",
-  "002": "assets/solomute/solomute_projects_002.webp",
-  "003": "assets/solomute/solomute_projects_003.webp",
-  "004": "assets/solomute/solomute_projects_004.webp",
-  "005": "assets/solomute/solomute_projects_005.webp",
-  "006": "assets/solomute/solomute_projects_006.webp",
-  "007": "assets/solomute/solomute_projects_007.webp",
-  "008": "assets/solomute/solomute_projects_008.webp",
-  "009": "assets/solomute/solomute_projects_009.webp",
-  "010": "assets/solomute/solomute_projects_010.webp",
-  "011": "assets/solomute/solomute_projects_011.webp",
-  "012": "assets/solomute/solomute_projects_012.webp",
-  "013": "assets/solomute/solomute_projects_013.webp",
-  "014": "assets/solomute/solomute_projects_014.webp",
-  "015": "assets/solomute/solomute_projects_015.webp",
-  "016": "assets/solomute/solomute_projects_016.webp",
-  "017": "assets/solomute/solomute_projects_017.webp",
-  "018": "assets/solomute/solomute_projects_018.webp",
-  "019": "assets/solomute/solomute_projects_019.webp",
-  "020": "assets/solomute/solomute_projects_020.webp",
-  "021": "assets/solomute/solomute_projects_021.webp",
-  "022": "assets/solomute/solomute_projects_022.webp",
-  "023": "assets/solomute/solomute_projects_023.webp",
-  "024": "assets/solomute/solomute_projects_024.webp",
-  "025": "assets/solomute/solomute_projects_025.webp",
-  "026": "assets/solomute/solomute_projects_026.webp",
-  "027": "assets/solomute/solomute_projects_027.webp",
-  "028": "assets/solomute/solomute_projects_028.webp",
-  "029": "assets/solomute/solomute_projects_029.webp",
-  "030": "assets/solomute/solomute_projects_030.webp",
-  "031": "assets/solomute/solomute_projects_031.webp",
-  "032": "assets/solomute/solomute_projects_032.webp",
-  "033": "assets/solomute/solomute_projects_033.webp",
-  "034": "assets/solomute/solomute_projects_034.webp",
-  "035": "assets/solomute/solomute_projects_035.webp",
-  "036": "assets/solomute/solomute_projects_036.webp",
-  "037": "assets/solomute/solomute_projects_037.webp",
-  "038": "assets/solomute/solomute_projects_038.webp",
-  "039": "assets/solomute/solomute_projects_039.webp",
-  "040": "assets/solomute/solomute_projects_040.webp",
-  "041": "assets/solomute/solomute_projects_041.webp",
-  "042": "assets/solomute/solomute_projects_042.webp",
-  "043": "assets/solomute/solomute_projects_043.webp",
-  "044": "assets/solomute/solomute_projects_044.webp",
-  "045": "assets/solomute/solomute_projects_045.webp",
-  "046": "assets/solomute/solomute_projects_046.webp",
-  "047": "assets/solomute/solomute_projects_047.webp",
-  "048": "assets/solomute/solomute_projects_048.webp",
-  "049": "assets/solomute/solomute_projects_049.webp",
-  "050": "assets/solomute/solomute_projects_050.webp",
-  "051": "assets/solomute/solomute_projects_051.webp",
-  "052": "assets/solomute/solomute_projects_052.webp",
-  "053": "assets/solomute/solomute_projects_053.webp",
-  "054": "assets/solomute/solomute_projects_054.webp",
-  "055": "assets/solomute/solomute_projects_055.webp",
-  "056": "assets/solomute/solomute_projects_056.webp",
-  "057": "assets/solomute/solomute_projects_057.webp",
-  "058": "assets/solomute/solomute_projects_058.webp",
-  "059": "assets/solomute/solomute_projects_059.webp",
-  "060": "assets/solomute/solomute_projects_060.webp",
-  "061": "assets/solomute/solomute_projects_061.webp",
-  "062": "assets/solomute/solomute_projects_062.webp",
-  "063": "assets/solomute/solomute_projects_063.webp",
-  "064": "assets/solomute/solomute_projects_064.webp",
-  "065": "assets/solomute/solomute_projects_065.webp",
-  "066": "assets/solomute/solomute_projects_066.webp",
-  "067": "assets/solomute/solomute_projects_067.webp",
-  "068": "assets/solomute/solomute_projects_068.webp",
-  "069": "assets/solomute/solomute_projects_069.webp",
-  "070": "assets/solomute/solomute_projects_070.webp",
-  "071": "assets/solomute/solomute_projects_071.webp",
-  "072": "assets/solomute/solomute_projects_072.webp",
-  "073": "assets/solomute/solomute_projects_073.webp",
-  "074": "assets/solomute/solomute_projects_074.webp",
-  "075": "assets/solomute/solomute_projects_075.webp",
-  "076": "assets/solomute/solomute_projects_076.webp",
-  "077": "assets/solomute/solomute_projects_077.webp",
-  "078": "assets/solomute/solomute_projects_078.webp",
-  "079": "assets/solomute/solomute_projects_079.webp",
-  "080": "assets/solomute/solomute_projects_080.webp",
-  "081": "assets/solomute/solomute_projects_081.webp",
-  "082": "assets/portfolio_lightroom/allen_portfolio001.webp",
-  "083": "assets/portfolio_lightroom/allen_portfolio002.webp",
-  "084": "assets/portfolio_lightroom/allen_portfolio003.webp",
-  "085": "assets/portfolio_lightroom/allen_portfolio004.webp",
-  "086": "assets/portfolio_lightroom/allen_portfolio005.webp",
-  "087": "assets/portfolio_lightroom/allen_portfolio006.webp",
-  "088": "assets/portfolio_lightroom/allen_portfolio007.webp",
-  "089": "assets/portfolio_lightroom/allen_portfolio008.webp",
-  "090": "assets/portfolio_lightroom/allen_portfolio009.webp",
-  "091": "assets/portfolio_lightroom/allen_portfolio010.webp",
-  "092": "assets/portfolio_lightroom/allen_portfolio011.webp",
-  "093": "assets/portfolio_lightroom/allen_portfolio012.webp",
-  "094": "assets/portfolio_lightroom/allen_portfolio013.webp",
-  "095": "assets/portfolio_lightroom/allen_portfolio014.webp",
-  "096": "assets/portfolio_lightroom/allen_portfolio015.webp",
-  "097": "assets/portfolio_lightroom/allen_portfolio016.webp",
-  "098": "assets/portfolio_lightroom/allen_portfolio017.webp",
-  "099": "assets/portfolio_lightroom/allen_portfolio018.webp"
- }
+  "100": {
+   "file": "assets/portfolio_lightroom/allen_portfolio019.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "101": {
+   "file": "assets/portfolio_lightroom/allen_portfolio020.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "102": {
+   "file": "assets/portfolio_lightroom/allen_portfolio021.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "103": {
+   "file": "assets/portfolio_lightroom/allen_portfolio022.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "104": {
+   "file": "assets/portfolio_lightroom/allen_portfolio023.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "105": {
+   "file": "assets/portfolio_lightroom/allen_portfolio024.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "106": {
+   "file": "assets/portfolio_lightroom/allen_portfolio025.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "107": {
+   "file": "assets/portfolio_lightroom/allen_portfolio026.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "108": {
+   "file": "assets/portfolio_lightroom/allen_portfolio027.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "109": {
+   "file": "assets/portfolio_lightroom/allen_portfolio028.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "110": {
+   "file": "assets/portfolio_lightroom/allen_portfolio029.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "111": {
+   "file": "assets/portfolio_lightroom/allen_portfolio030.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "112": {
+   "file": "assets/portfolio_lightroom/allen_portfolio031.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "113": {
+   "file": "assets/portfolio_lightroom/allen_portfolio032.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "114": {
+   "file": "assets/portfolio_lightroom/allen_portfolio033.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "115": {
+   "file": "assets/portfolio_lightroom/allen_portfolio034.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "116": {
+   "file": "assets/portfolio_lightroom/allen_portfolio035.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "117": {
+   "file": "assets/portfolio_lightroom/allen_portfolio036.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "118": {
+   "file": "assets/portfolio_lightroom/allen_portfolio037.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "119": {
+   "file": "assets/portfolio_lightroom/allen_portfolio038.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "120": {
+   "file": "assets/portfolio_lightroom/allen_portfolio039.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "121": {
+   "file": "assets/portfolio_lightroom/allen_portfolio040.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "122": {
+   "file": "assets/portfolio_lightroom/allen_portfolio041.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "123": {
+   "file": "assets/portfolio_lightroom/allen_portfolio042.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "124": {
+   "file": "assets/portfolio_lightroom/allen_portfolio043.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "125": {
+   "file": "assets/portfolio_lightroom/allen_portfolio044.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "126": {
+   "file": "assets/portfolio_lightroom/allen_portfolio045.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "127": {
+   "file": "assets/portfolio_lightroom/allen_portfolio046.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "128": {
+   "file": "assets/portfolio_lightroom/allen_portfolio047.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "129": {
+   "file": "assets/portfolio_lightroom/allen_portfolio048.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "130": {
+   "file": "assets/portfolio_lightroom/allen_portfolio049.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "131": {
+   "file": "assets/portfolio_lightroom/allen_portfolio050.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "132": {
+   "file": "assets/portfolio_lightroom/allen_portfolio051.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "133": {
+   "file": "assets/portfolio_lightroom/allen_portfolio052.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "134": {
+   "file": "assets/portfolio_lightroom/allen_portfolio053.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "135": {
+   "file": "assets/portfolio_lightroom/allen_portfolio054.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "136": {
+   "file": "assets/portfolio_lightroom/allen_portfolio055.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "137": {
+   "file": "assets/portfolio_lightroom/allen_portfolio056.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "138": {
+   "file": "assets/portfolio_lightroom/allen_portfolio057.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "139": {
+   "file": "assets/portfolio_lightroom/allen_portfolio058.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "140": {
+   "file": "field-archive/aliceanna-live.mp4",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "141": {
+   "file": "field-archive/aliceanna-room.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "142": {
+   "file": "field-archive/aliceanna-control.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "143": {
+   "file": "field-archive/amapiano-stage.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "144": {
+   "file": "field-archive/amapiano-booth.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "145": {
+   "file": "field-archive/goodyroom.mp4",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "146": {
+   "file": "field-archive/reckless-live.mp4",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "147": {
+   "file": "field-archive/reckless-performance-b.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "148": {
+   "file": "field-archive/qts-switching.mp4",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "149": {
+   "file": "field-archive/qts-control-b.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "150": {
+   "file": "field-archive/qts-stage.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "151": {
+   "file": "field-archive/inauguration-ball.mp4",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "152": {
+   "file": "field-archive/control-rack.mp4",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "153": {
+   "file": "field-archive/annual-meeting-playback.mp4",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "154": {
+   "file": "field-archive/flowers-feedback.mp4",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "155": {
+   "file": "field-archive/art-reel.mp4",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "156": {
+   "file": "field-archive/rtfx-reel.mp4",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "157": {
+   "file": "field-archive/amfest-stage.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "158": {
+   "file": "field-archive/amfest-control.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "159": {
+   "file": "field-archive/dpr-live.mp4",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "160": {
+   "file": "field-archive/dpr-runway.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "161": {
+   "file": "field-archive/ukraine-live.mp4",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "162": {
+   "file": "field-archive/ukraine-control.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "163": {
+   "file": "field-archive/kennedy-space-live.mp4",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "164": {
+   "file": "field-archive/reach-event-live.mp4",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "165": {
+   "file": "field-archive/kennedy-reach-scenic.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "166": {
+   "file": "assets/aegportfolio/20230920_010338.webp",
+   "date": "2023-09-20",
+   "dateSource": "filename",
+   "location": null,
+   "tags": []
+  },
+  "167": {
+   "file": "assets/aegportfolio/20230920_183656.webp",
+   "date": "2023-09-20",
+   "dateSource": "filename",
+   "location": null,
+   "tags": []
+  },
+  "168": {
+   "file": "assets/aegportfolio/20231111_114205.webp",
+   "date": "2023-11-11",
+   "dateSource": "filename",
+   "location": null,
+   "tags": []
+  },
+  "169": {
+   "file": "assets/aegportfolio/20231111_114212.webp",
+   "date": "2023-11-11",
+   "dateSource": "filename",
+   "location": null,
+   "tags": []
+  },
+  "170": {
+   "file": "assets/aegportfolio/20231111_114215.webp",
+   "date": "2023-11-11",
+   "dateSource": "filename",
+   "location": null,
+   "tags": []
+  },
+  "171": {
+   "file": "assets/aegportfolio/20231111_115442.webp",
+   "date": "2023-11-11",
+   "dateSource": "filename",
+   "location": null,
+   "tags": []
+  },
+  "172": {
+   "file": "assets/aegportfolio/20231206_201045.webp",
+   "date": "2023-12-06",
+   "dateSource": "filename",
+   "location": null,
+   "tags": []
+  },
+  "173": {
+   "file": "assets/aegportfolio/b2363e06-e4f5-4c17-84f9-8e695531e190.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "174": {
+   "file": "assets/aegportfolio/dsc02867.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "175": {
+   "file": "assets/aegportfolio/dsc02887.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "176": {
+   "file": "assets/aegportfolio/dsc02888.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "177": {
+   "file": "assets/aegportfolio/dsc02891.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "178": {
+   "file": "assets/aegportfolio/dsc02927.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "179": {
+   "file": "assets/aegportfolio/dsc02935.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "180": {
+   "file": "assets/aegportfolio/dsc02936.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "181": {
+   "file": "assets/aegportfolio/dsc02943.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "182": {
+   "file": "assets/aegportfolio/dsc02957.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "183": {
+   "file": "assets/aegportfolio/img_0104.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "184": {
+   "file": "assets/aegportfolio/img_0115.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "185": {
+   "file": "assets/aegportfolio/img_0136.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "186": {
+   "file": "assets/aegportfolio/img_0140.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "187": {
+   "file": "assets/aegportfolio/img_0356.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "188": {
+   "file": "assets/aegportfolio/img_0404.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "189": {
+   "file": "assets/aegportfolio/img_0466.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "190": {
+   "file": "assets/aegportfolio/img_0505.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "191": {
+   "file": "assets/aegportfolio/img_0536.mov_snapshot_00.00.230.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "192": {
+   "file": "assets/aegportfolio/img_0723.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "193": {
+   "file": "assets/aegportfolio/img_1890.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "194": {
+   "file": "assets/aegportfolio/img_1955.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "195": {
+   "file": "assets/aegportfolio/img_3200.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "196": {
+   "file": "assets/aegportfolio/img_3211.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "197": {
+   "file": "assets/aegportfolio/img_3255.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "198": {
+   "file": "assets/aegportfolio/img_3262.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "199": {
+   "file": "assets/aegportfolio/img_3264.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "200": {
+   "file": "assets/aegportfolio/img_3279.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "201": {
+   "file": "assets/aegportfolio/img_3286.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "202": {
+   "file": "assets/aegportfolio/img_5264.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "203": {
+   "file": "assets/aegportfolio/img_5283.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "204": {
+   "file": "assets/aegportfolio/img_5495.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "205": {
+   "file": "assets/aegportfolio/img_5497.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "206": {
+   "file": "assets/aegportfolio/img_5500.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "207": {
+   "file": "assets/aegportfolio/img_5506.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "208": {
+   "file": "assets/aegportfolio/img_5507.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "209": {
+   "file": "assets/aegportfolio/img_6448.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "210": {
+   "file": "assets/aegportfolio/img_6773.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "211": {
+   "file": "assets/aegportfolio/img_6798.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "212": {
+   "file": "assets/aegportfolio/img_6896.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "213": {
+   "file": "assets/aegportfolio/img_7469.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "214": {
+   "file": "assets/aegportfolio/img_81914757-6ee1-4d11-a257-9d7874489c03.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "215": {
+   "file": "assets/aegportfolio/img_8936.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "216": {
+   "file": "assets/aegportfolio/img_9036.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "217": {
+   "file": "assets/aegportfolio/img_9523.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "218": {
+   "file": "assets/aegportfolio/img_9536.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "219": {
+   "file": "assets/aegportfolio/img_9575_jpg.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "220": {
+   "file": "assets/aegportfolio/img_9684.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "221": {
+   "file": "assets/aegportfolio/img_9853.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "222": {
+   "file": "assets/aegportfolio/img_9857.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "223": {
+   "file": "assets/aegportfolio/img_9998.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "224": {
+   "file": "assets/aegportfolio/img-20230921-wa0007.webp",
+   "date": "2023-09-21",
+   "dateSource": "filename",
+   "location": null,
+   "tags": []
+  },
+  "225": {
+   "file": "assets/aegportfolio/img-20230921-wa0021.webp",
+   "date": "2023-09-21",
+   "dateSource": "filename",
+   "location": null,
+   "tags": []
+  },
+  "226": {
+   "file": "assets/aegportfolio/img-20240619-wa0000.webp",
+   "date": "2024-06-19",
+   "dateSource": "filename",
+   "location": null,
+   "tags": []
+  },
+  "227": {
+   "file": "assets/aegportfolio/img-20241027-wa0000.webp",
+   "date": "2024-10-27",
+   "dateSource": "filename",
+   "location": null,
+   "tags": []
+  },
+  "228": {
+   "file": "assets/aegportfolio/img-20241027-wa0001.webp",
+   "date": "2024-10-27",
+   "dateSource": "filename",
+   "location": null,
+   "tags": []
+  },
+  "229": {
+   "file": "assets/aegportfolio/img-20241027-wa0013.webp",
+   "date": "2024-10-27",
+   "dateSource": "filename",
+   "location": null,
+   "tags": []
+  },
+  "230": {
+   "file": "assets/aegportfolio/img-20241109-wa0000.webp",
+   "date": "2024-11-09",
+   "dateSource": "filename",
+   "location": null,
+   "tags": []
+  },
+  "231": {
+   "file": "assets/aegportfolio/solomute_projects_001.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "232": {
+   "file": "assets/aegportfolio/solomute_projects_004.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "233": {
+   "file": "assets/aegportfolio/solomute_projects_008.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "234": {
+   "file": "assets/aegportfolio/solomute_projects_009.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "235": {
+   "file": "assets/aegportfolio/img_0149.mp4",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "236": {
+   "file": "assets/aegportfolio/img_9516.mp4",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "237": {
+   "file": "assets/aegportfolio/img_9844.mp4",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "238": {
+   "file": "assets/aegportfolio/img_9849.mp4",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "239": {
+   "file": "assets/aegportfolio/img_9972.mp4",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "240": {
+   "file": "assets/aegportfolio/img_9984.mp4",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "241": {
+   "file": "live-events/award-finale.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "242": {
+   "file": "live-events/control-desk.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "243": {
+   "file": "live-events/control-operator.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "244": {
+   "file": "live-events/outdoor-performance.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "245": {
+   "file": "live-events/outdoor-stage.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "246": {
+   "file": "live-events/performers-led.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "247": {
+   "file": "live-events/portrait-screen.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "248": {
+   "file": "live-events/projection-building.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "249": {
+   "file": "live-events/ravens-stage.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "250": {
+   "file": "live-events/show-control.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "251": {
+   "file": "live-events/stage-color.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "252": {
+   "file": "live-events/stage-crowd.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "253": {
+   "file": "live-events/stage-installation.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "254": {
+   "file": "live-events/stage-led.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "001": {
+   "file": "assets/solomute/solomute_projects_001.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "002": {
+   "file": "assets/solomute/solomute_projects_002.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "003": {
+   "file": "assets/solomute/solomute_projects_003.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "004": {
+   "file": "assets/solomute/solomute_projects_004.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "005": {
+   "file": "assets/solomute/solomute_projects_005.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "006": {
+   "file": "assets/solomute/solomute_projects_006.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "007": {
+   "file": "assets/solomute/solomute_projects_007.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "008": {
+   "file": "assets/solomute/solomute_projects_008.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "009": {
+   "file": "assets/solomute/solomute_projects_009.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "010": {
+   "file": "assets/solomute/solomute_projects_010.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "011": {
+   "file": "assets/solomute/solomute_projects_011.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "012": {
+   "file": "assets/solomute/solomute_projects_012.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "013": {
+   "file": "assets/solomute/solomute_projects_013.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "014": {
+   "file": "assets/solomute/solomute_projects_014.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "015": {
+   "file": "assets/solomute/solomute_projects_015.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "016": {
+   "file": "assets/solomute/solomute_projects_016.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "017": {
+   "file": "assets/solomute/solomute_projects_017.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "018": {
+   "file": "assets/solomute/solomute_projects_018.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "019": {
+   "file": "assets/solomute/solomute_projects_019.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "020": {
+   "file": "assets/solomute/solomute_projects_020.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "021": {
+   "file": "assets/solomute/solomute_projects_021.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "022": {
+   "file": "assets/solomute/solomute_projects_022.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "023": {
+   "file": "assets/solomute/solomute_projects_023.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "024": {
+   "file": "assets/solomute/solomute_projects_024.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "025": {
+   "file": "assets/solomute/solomute_projects_025.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "026": {
+   "file": "assets/solomute/solomute_projects_026.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "027": {
+   "file": "assets/solomute/solomute_projects_027.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "028": {
+   "file": "assets/solomute/solomute_projects_028.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "029": {
+   "file": "assets/solomute/solomute_projects_029.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "030": {
+   "file": "assets/solomute/solomute_projects_030.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "031": {
+   "file": "assets/solomute/solomute_projects_031.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "032": {
+   "file": "assets/solomute/solomute_projects_032.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "033": {
+   "file": "assets/solomute/solomute_projects_033.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "034": {
+   "file": "assets/solomute/solomute_projects_034.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "035": {
+   "file": "assets/solomute/solomute_projects_035.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "036": {
+   "file": "assets/solomute/solomute_projects_036.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "037": {
+   "file": "assets/solomute/solomute_projects_037.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "038": {
+   "file": "assets/solomute/solomute_projects_038.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "039": {
+   "file": "assets/solomute/solomute_projects_039.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "040": {
+   "file": "assets/solomute/solomute_projects_040.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "041": {
+   "file": "assets/solomute/solomute_projects_041.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "042": {
+   "file": "assets/solomute/solomute_projects_042.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "043": {
+   "file": "assets/solomute/solomute_projects_043.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "044": {
+   "file": "assets/solomute/solomute_projects_044.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "045": {
+   "file": "assets/solomute/solomute_projects_045.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "046": {
+   "file": "assets/solomute/solomute_projects_046.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "047": {
+   "file": "assets/solomute/solomute_projects_047.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "048": {
+   "file": "assets/solomute/solomute_projects_048.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "049": {
+   "file": "assets/solomute/solomute_projects_049.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "050": {
+   "file": "assets/solomute/solomute_projects_050.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "051": {
+   "file": "assets/solomute/solomute_projects_051.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "052": {
+   "file": "assets/solomute/solomute_projects_052.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "053": {
+   "file": "assets/solomute/solomute_projects_053.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "054": {
+   "file": "assets/solomute/solomute_projects_054.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "055": {
+   "file": "assets/solomute/solomute_projects_055.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "056": {
+   "file": "assets/solomute/solomute_projects_056.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "057": {
+   "file": "assets/solomute/solomute_projects_057.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "058": {
+   "file": "assets/solomute/solomute_projects_058.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "059": {
+   "file": "assets/solomute/solomute_projects_059.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "060": {
+   "file": "assets/solomute/solomute_projects_060.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "061": {
+   "file": "assets/solomute/solomute_projects_061.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "062": {
+   "file": "assets/solomute/solomute_projects_062.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "063": {
+   "file": "assets/solomute/solomute_projects_063.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "064": {
+   "file": "assets/solomute/solomute_projects_064.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "065": {
+   "file": "assets/solomute/solomute_projects_065.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "066": {
+   "file": "assets/solomute/solomute_projects_066.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "067": {
+   "file": "assets/solomute/solomute_projects_067.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "068": {
+   "file": "assets/solomute/solomute_projects_068.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "069": {
+   "file": "assets/solomute/solomute_projects_069.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "070": {
+   "file": "assets/solomute/solomute_projects_070.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "071": {
+   "file": "assets/solomute/solomute_projects_071.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "072": {
+   "file": "assets/solomute/solomute_projects_072.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "073": {
+   "file": "assets/solomute/solomute_projects_073.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "074": {
+   "file": "assets/solomute/solomute_projects_074.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "075": {
+   "file": "assets/solomute/solomute_projects_075.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "076": {
+   "file": "assets/solomute/solomute_projects_076.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "077": {
+   "file": "assets/solomute/solomute_projects_077.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "078": {
+   "file": "assets/solomute/solomute_projects_078.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "079": {
+   "file": "assets/solomute/solomute_projects_079.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "080": {
+   "file": "assets/solomute/solomute_projects_080.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "081": {
+   "file": "assets/solomute/solomute_projects_081.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "082": {
+   "file": "assets/portfolio_lightroom/allen_portfolio001.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "083": {
+   "file": "assets/portfolio_lightroom/allen_portfolio002.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "084": {
+   "file": "assets/portfolio_lightroom/allen_portfolio003.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "085": {
+   "file": "assets/portfolio_lightroom/allen_portfolio004.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "086": {
+   "file": "assets/portfolio_lightroom/allen_portfolio005.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "087": {
+   "file": "assets/portfolio_lightroom/allen_portfolio006.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "088": {
+   "file": "assets/portfolio_lightroom/allen_portfolio007.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "089": {
+   "file": "assets/portfolio_lightroom/allen_portfolio008.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "090": {
+   "file": "assets/portfolio_lightroom/allen_portfolio009.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "091": {
+   "file": "assets/portfolio_lightroom/allen_portfolio010.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "092": {
+   "file": "assets/portfolio_lightroom/allen_portfolio011.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "093": {
+   "file": "assets/portfolio_lightroom/allen_portfolio012.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "094": {
+   "file": "assets/portfolio_lightroom/allen_portfolio013.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "095": {
+   "file": "assets/portfolio_lightroom/allen_portfolio014.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "096": {
+   "file": "assets/portfolio_lightroom/allen_portfolio015.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "097": {
+   "file": "assets/portfolio_lightroom/allen_portfolio016.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "098": {
+   "file": "assets/portfolio_lightroom/allen_portfolio017.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  },
+  "099": {
+   "file": "assets/portfolio_lightroom/allen_portfolio018.webp",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "tags": []
+  }
+ },
+ "retired": [
+  "255",
+  "256"
+ ]
 }

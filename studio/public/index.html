@@ -30,6 +30,7 @@
   <nav class="tab-bar">
     <button class="tab active" data-tab="art">Art Gallery</button>
     <button class="tab" data-tab="projects">Projects</button>
+    <button class="tab" data-tab="gallery">Gallery</button>
   </nav>
 
   <!-- ============================================================= -->
@@ -267,6 +268,37 @@
     </div>
   </div>
 </div>
+
+<main class="main-content" id="tab-gallery" hidden>
+  <div class="panel">
+    <h2>Add a frame</h2>
+    <p class="hint">
+      Unfiled photos. Each frame gets a permanent number that never changes and is
+      never reused, so <code>/gallery/#f147</code> keeps working.
+      Date and GPS are read from the file <em>before</em> it is resized — export from
+      Lightroom with <strong>Metadata: All</strong> and location info left in, or they
+      arrive empty and you fill them in below.
+    </p>
+    <form id="galleryForm">
+      <input type="file" id="galleryFile" name="mediaFile" accept="image/*" required>
+      <div class="field-row">
+        <label>Description (alt text)<input type="text" id="galleryAlt" placeholder="What is in the picture"></label>
+        <label>Location<input type="text" id="galleryLocation" placeholder="Fells Point, Baltimore"></label>
+      </div>
+      <div class="field-row">
+        <label>Tags (comma separated)<input type="text" id="galleryTags" placeholder="live, projection, install"></label>
+        <label>Category<input type="text" id="galleryCat" placeholder="studio" value="studio"></label>
+      </div>
+      <button type="submit" class="btn-primary" id="gallerySubmit">Add frame</button>
+      <span id="galleryStatus" class="hint"></span>
+    </form>
+  </div>
+
+  <div class="panel">
+    <h2>Frames <span id="galleryCount" class="hint"></span></h2>
+    <div id="galleryList" class="gallery-list">Loading…</div>
+  </div>
+</main>
 
 <script src="app.js"></script>
 </body>

@@ -577,6 +577,51 @@ function parseProjectHtml(slug) {
   };
 }
 
+// ---- gallery ---------------------------------------------------------------
+// Unfiled photos. Each frame gets a permanent accession number; metadata is
+// kept in frames.json because the processed image files cannot hold it.
+const gallery = require('./gallery');
+
+app.get('/api/gallery', (req, res) => {
+  try { res.json({ success: true, ...gallery.listFrames() }); }
+  catch (e) { res.status(500).json({ success: false, error: e.message }); }
+});
+
+app.post('/api/gallery', upload.single('mediaFile'), (req, res) => {
+  if (!req.file) return res.status(400).json({ success: false, error: 'No image provided.' });
+  const ext = path.extname(req.file.originalname).toLowerCase();
+  if (!allowedImageExtensions.has(ext)) {
+    if (fs.existsSync(req.file.path)) fs.unlinkSync(req.file.path);
+    return res.status(400).json({ success: false, error: 'Gallery frames are images only.' });
+  }
+  try {
+    const out = gallery.addFrame({
+      tempPath: req.file.path,
+      originalName: req.file.originalname,
+      alt: req.body.alt,
+      cat: req.body.cat,
+      location: req.body.location,
+      tags: req.body.tags,
+      optimizeImage
+    });
+    res.json({ success: true, ...out });
+  } catch (e) {
+    res.status(500).json({ success: false, error: e.message });
+  } finally {
+    if (fs.existsSync(req.file.path)) fs.unlinkSync(req.file.path);
+  }
+});
+
+app.patch('/api/gallery/:frame', express.json(), (req, res) => {
+  try { res.json({ success: true, record: gallery.updateFrame(req.params.frame, req.body || {}) }); }
+  catch (e) { res.status(400).json({ success: false, error: e.message }); }
+});
+
+app.delete('/api/gallery/:frame', (req, res) => {
+  try { res.json({ success: true, ...gallery.deleteFrame(req.params.frame) }); }
+  catch (e) { res.status(400).json({ success: false, error: e.message }); }
+});
+
 // GET /api/projects — list all projects
 app.get('/api/projects', (req, res) => {
   try {

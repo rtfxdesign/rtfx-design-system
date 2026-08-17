@@ -79,7 +79,9 @@ document.addEventListener('DOMContentLoaded', () => {
       $$('.tab').forEach((item) => item.classList.toggle('active', item === tab));
       $('#tab-art').hidden = tabName !== 'art';
       $('#tab-projects').hidden = tabName !== 'projects';
+      $('#tab-gallery').hidden = tabName !== 'gallery';
       if (tabName === 'projects' && state.projects.length === 0) loadProjects();
+      if (tabName === 'gallery') loadGallery();
     });
   });
 
@@ -508,6 +510,84 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 
   $('#btnCloseModal').addEventListener('click', () => { deployModal.hidden = true; });
+
+  // ---- gallery ------------------------------------------------------------
+  async function loadGallery() {
+    const list = $('#galleryList');
+    list.textContent = 'Loading…';
+    try {
+      const data = await (await fetch('/api/gallery')).json();
+      if (!data.success) throw new Error(data.error || 'failed');
+      $('#galleryCount').textContent = `${data.count} · next number ${data.nextFree}`;
+      list.innerHTML = data.frames.map((f) => `
+        <div class="gallery-row" data-frame="${escapeHtml(f.frame)}">
+          <b>${escapeHtml(f.frame)}</b>
+          <span class="path">${escapeHtml(f.file)}</span>
+          <input class="g-date" value="${escapeHtml(f.date || '')}" placeholder="YYYY-MM-DD" size="11">
+          <input class="g-loc" value="${escapeHtml(f.location || '')}" placeholder="location">
+          <input class="g-tags" value="${escapeHtml((f.tags || []).join(', '))}" placeholder="tags">
+          <button class="g-save">Save</button>
+          <button class="g-del" title="Remove this frame">✕</button>
+        </div>`).join('');
+    } catch (e) {
+      list.textContent = 'Could not load frames: ' + e.message;
+    }
+  }
+
+  $('#galleryList').addEventListener('click', async (event) => {
+    const row = event.target.closest('.gallery-row');
+    if (!row) return;
+    const frame = row.dataset.frame;
+
+    if (event.target.classList.contains('g-save')) {
+      const body = {
+        date: $('.g-date', row).value.trim(),
+        location: $('.g-loc', row).value.trim(),
+        tags: $('.g-tags', row).value
+      };
+      const res = await (await fetch(`/api/gallery/${frame}`, {
+        method: 'PATCH', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body)
+      })).json();
+      event.target.textContent = res.success ? 'Saved' : 'Failed';
+      setTimeout(() => { event.target.textContent = 'Save'; }, 1500);
+    }
+
+    if (event.target.classList.contains('g-del')) {
+      // the number is retired, not freed - say so, because it is irreversible
+      if (!confirm(`Remove frame ${frame}? Its number is retired permanently and will not be reused.`)) return;
+      const res = await (await fetch(`/api/gallery/${frame}`, { method: 'DELETE' })).json();
+      if (res.success) loadGallery(); else alert(res.error || 'Delete failed');
+    }
+  });
+
+  $('#galleryForm').addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const file = $('#galleryFile').files[0];
+    if (!file) return;
+    const status = $('#galleryStatus'), button = $('#gallerySubmit');
+    button.disabled = true; status.textContent = 'Processing…';
+    const form = new FormData();
+    form.append('mediaFile', file);
+    form.append('alt', $('#galleryAlt').value);
+    form.append('location', $('#galleryLocation').value);
+    form.append('tags', $('#galleryTags').value);
+    form.append('cat', $('#galleryCat').value);
+    try {
+      const res = await (await fetch('/api/gallery', { method: 'POST', body: form })).json();
+      if (!res.success) throw new Error(res.error || 'upload failed');
+      status.textContent = res.exifFound
+        ? `Added as frame ${res.frame} — date ${res.record.date} (${res.record.dateSource})`
+        : `Added as frame ${res.frame} — no date found in the file, add one below`;
+      $('#galleryForm').reset();
+      $('#galleryCat').value = 'studio';
+      loadGallery();
+    } catch (e) {
+      status.textContent = 'Failed: ' + e.message;
+    } finally {
+      button.disabled = false;
+    }
+  });
+
   loadArtworks();
   loadAiStatus();
 });

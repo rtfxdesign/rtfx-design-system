@@ -1,5 +1,18 @@
 [
   {
+    "id": "art-1786983159661",
+    "title": "Gilded Orchid",
+    "category": "Generative & Feedback",
+    "year": "2026",
+    "tools": "Photoshop",
+    "description": "Just an incidental ",
+    "mediaType": "image",
+    "src": "../assets/art/art-1786983159661.webp",
+    "poster": "../assets/art/art-1786983159661.webp",
+    "featured": false,
+    "createdAt": "2026-08-17T16:12:40.121Z"
+  },
+  {
     "id": "art-1786923967145",
     "title": "Seraphim Reel",
     "category": "Generative & Feedback",
@@ -7,7 +20,7 @@
     "tools": "Generative",
     "description": "Based on illustrations by Peter Mohrbacher (https://www.angelarium.net)\r\n\r\nMusic by Clozee",
     "mediaType": "video",
-    "src": "https://pub-6d41a7b411eb47e09b6b8be17741b115.r2.dev/assets/art/art-1786923967145.mp4",
+    "src": "https://media.rtfx.space/assets/art/art-1786923967145.mp4",
     "poster": "../assets/art/art-1786923967145-poster.webp",
     "featured": true,
     "createdAt": "2026-08-16T23:46:46.990Z"
@@ -20,7 +33,7 @@
     "tools": "Stablediffusion, After Effects",
     "description": "",
     "mediaType": "video",
-    "src": "https://pub-6d41a7b411eb47e09b6b8be17741b115.r2.dev/assets/art/art-1786919804339.mp4",
+    "src": "https://media.rtfx.space/assets/art/art-1786919804339.mp4",
     "poster": "../assets/art/art-1786919804339-poster.webp",
     "featured": false,
     "createdAt": "2026-08-16T22:37:34.804Z"

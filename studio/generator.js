@@ -13,7 +13,7 @@ function escapeHtml(value) {
 // Video is served from R2 to keep it off Netlify bandwidth; stills (incl.
 // posters) stay local. Widen the allowlist to that one known R2 host rather
 // than accepting arbitrary URLs.
-const R2_PUBLIC = 'https://pub-6d41a7b411eb47e09b6b8be17741b115.r2.dev';
+const R2_PUBLIC = 'https://media.rtfx.space';
 function safeArtUrl(value) {
   const url = String(value || '').replace(/\\/g, '/');
   if (/^\.\.\/assets\/art\/[a-zA-Z0-9_-]+\.(?:webp|jpe?g|mp4)$/i.test(url)) return url;

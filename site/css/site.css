@@ -292,3 +292,13 @@ footer{border-top:1px solid var(--c-rule);padding:var(--s-7) 0;margin-top:0}
 @keyframes lb-in{from{opacity:0;transform:scale(.985)}to{opacity:1;transform:none}}
 @media (max-width:640px){.lb-nav{width:38px;height:52px}.lb-in{padding:var(--s-3) var(--s-3) var(--s-4)}}
 @media (prefers-reduced-motion:reduce){.lb[open] .lb-stage img{animation:none}.lb-x,.lb-nav{transition:none}}
+
+/* hero background field — v1 particle-feedback effect, behind the hero copy */
+.hero{position:relative;overflow:hidden}
+#bgfield{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+.hero .wrap{position:relative}
+.filters{display:grid;gap:var(--s-2);margin-bottom:var(--s-6)}
+.filters .fl{margin-top:var(--s-2)}
+.filters .chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip[aria-pressed="true"]{background:var(--c-accent);color:var(--c-on-accent)}
+#filter-count{margin-top:var(--s-2);color:var(--c-accent-2)}

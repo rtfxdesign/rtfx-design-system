@@ -116,3 +116,28 @@ var m=/^#f(\d+)$/.exec(location.hash);if(!m)return;
 for(var k=0;k<imgs.length;k++){if(frameOf(imgs[k])===m[1]){open(k);return}}
 })();
 })();
+// gallery filters — two facets, Event and Subject, combined with AND.
+// A frame with no value for a facet only shows under that facet's "All".
+(function(){
+var wrap=document.querySelector('.filters');if(!wrap)return;
+var state={event:'all',subject:'all'};
+var figs=[].slice.call(document.querySelectorAll('.ai[data-frame]'));
+var count=document.getElementById('filter-count');
+function apply(){
+var shown=0;
+figs.forEach(function(f){
+var okE=state.event==='all'||f.dataset.event===state.event;
+var okS=state.subject==='all'||f.dataset.subject===state.subject;
+f.hidden=!(okE&&okS);if(okE&&okS)shown++;
+});
+if(count)count.textContent=(state.event==='all'&&state.subject==='all')?'':shown+' of '+figs.length+' frames';
+}
+wrap.addEventListener('click',function(e){
+var c=e.target.closest('.chip');if(!c||!c.dataset.facet)return;
+state[c.dataset.facet]=c.dataset.v;
+[].forEach.call(wrap.querySelectorAll('.chip[data-facet="'+c.dataset.facet+'"]'),function(x){
+x.setAttribute('aria-pressed',String(x===c));
+});
+apply();
+});
+})();

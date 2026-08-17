@@ -16,7 +16,9 @@ const {
   parsePageMediaHtml,
   parseProjectHtml,
   plainText,
-  reorderPageMediaHtml
+  reorderPageMediaHtml,
+  responseOutputText,
+  updatePageMediaCaptionHtml
 } = require('./server');
 const { safeArtUrl } = require('./generator');
 
@@ -102,6 +104,15 @@ test('page media can be reordered within a section and deleted', () => {
   assert.deepEqual(deleted.removedSources.sort(), ['media/b-poster.webp', 'media/b.mp4']);
 });
 
+test('page media captions update safely and Responses output is extracted', () => {
+  const fixture = `<div class="fig-grid"><figure><img src="media/a.webp"><figcaption>Old caption</figcaption></figure></div>`;
+  const media = parsePageMediaHtml(fixture)[0].items[0];
+  const updated = updatePageMediaCaptionHtml(fixture, media.id, `Allen's <signal> & light`);
+  assert.match(updated, /Allen&#39;s &lt;signal&gt; &amp; light/);
+  assert.equal(parsePageMediaHtml(updated)[0].items[0].caption, `Allen's <signal> & light`);
+  assert.equal(responseOutputText({ output: [{ content: [{ type: 'output_text', text: '{"options":[]}' }] }] }), '{"options":[]}');
+});
+
 test('Studio serves the dashboard and read-only APIs', async () => {
   const [dashboard, art, projects, status] = await Promise.all([
     fetch(`${baseUrl}/`),
@@ -118,6 +129,18 @@ test('Studio serves the dashboard and read-only APIs', async () => {
 
   const projectPayload = await projects.json();
   assert.ok(projectPayload.projects.length >= 1);
+});
+
+test('caption generation requires a configured or session API key', async () => {
+  const projectResponse = await fetch(`${baseUrl}/api/projects/throw-social`);
+  const projectPayload = await projectResponse.json();
+  const mediaId = projectPayload.project.pageMedia[0].items[0].id;
+  const response = await fetch(`${baseUrl}/api/projects/throw-social/page-media/${mediaId}/caption-options`, {
+    method: 'POST', headers: { 'Content-Type': 'application/json' }, body: '{}'
+  });
+  const payload = await response.json();
+  assert.equal(response.status, 401);
+  assert.match(payload.error, /OpenAI API key/);
 });
 
 test('publish branch guard only allows main', () => {

@@ -59,8 +59,9 @@ section:last-of-type{border-bottom:none}
 .sec-side{margin-left:auto}
 /* topbar */
 .topbar{position:sticky;top:0;z-index:60;background:rgba(0,0,0,.92);backdrop-filter:blur(14px);border-bottom:1px solid var(--c-rule)}
-.topbar-in{max-width:1180px;margin:0 auto;padding:13px var(--gutter);display:flex;align-items:center;gap:var(--s-5);flex-wrap:wrap}
+.topbar-in{max-width:1180px;margin:0 auto;padding:13px var(--gutter);display:flex;align-items:flex-end;gap:var(--s-5);flex-wrap:wrap}
 .tb-logo img{height:22px;width:auto}
+.tb-logo{padding-bottom:9px}
 .topbar nav{display:flex;gap:var(--s-4);flex-wrap:wrap}
 .topbar nav a{font-family:var(--f-display);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--c-ink-2);text-decoration:none;padding:4px 0}
 .topbar nav a:hover{color:var(--c-ink)}

@@ -14,42 +14,48 @@
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "event": "montgomery-wow-2025"
   },
   "101": {
    "file": "assets/portfolio_lightroom/allen_portfolio020.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "event": "solomute"
   },
   "102": {
    "file": "assets/portfolio_lightroom/allen_portfolio021.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "event": "solomute"
   },
   "103": {
    "file": "assets/portfolio_lightroom/allen_portfolio022.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "event": "solomute"
   },
   "104": {
    "file": "assets/portfolio_lightroom/allen_portfolio023.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "event": "solomute"
   },
   "105": {
    "file": "assets/portfolio_lightroom/allen_portfolio024.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "event": "solomute"
   },
   "106": {
    "file": "assets/portfolio_lightroom/allen_portfolio025.webp",
@@ -154,14 +160,16 @@
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "event": "juneteenth-urban-oasis-baltimore-2024"
   },
   "121": {
    "file": "assets/portfolio_lightroom/allen_portfolio040.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "event": "juneteenth-urban-oasis-baltimore-2024"
   },
   "122": {
    "file": "assets/portfolio_lightroom/allen_portfolio041.webp",
@@ -175,56 +183,64 @@
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "event": "congressional-black-caucus-week"
   },
   "124": {
    "file": "assets/portfolio_lightroom/allen_portfolio043.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "event": "qts-data-center"
   },
   "125": {
    "file": "assets/portfolio_lightroom/allen_portfolio044.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "event": "qts-data-center"
   },
   "126": {
    "file": "assets/portfolio_lightroom/allen_portfolio045.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "event": "qts-data-center"
   },
   "127": {
    "file": "assets/portfolio_lightroom/allen_portfolio046.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "event": "qts-data-center"
   },
   "128": {
    "file": "assets/portfolio_lightroom/allen_portfolio047.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "event": "qts-data-center"
   },
   "129": {
    "file": "assets/portfolio_lightroom/allen_portfolio048.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "event": "soweto-amapiano-2024"
   },
   "130": {
    "file": "assets/portfolio_lightroom/allen_portfolio049.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "event": "solomute"
   },
   "131": {
    "file": "assets/portfolio_lightroom/allen_portfolio050.webp",
@@ -245,14 +261,16 @@
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "event": "entergy-party-2024"
   },
   "135": {
    "file": "assets/portfolio_lightroom/allen_portfolio054.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "event": "montgomery-wow-2025"
   },
   "140": {
    "file": "field-archive/aliceanna-live.mp4",
@@ -420,91 +438,104 @@
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "event": "f1-event-2025"
   },
   "184": {
    "file": "assets/aegportfolio/img_0115.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "event": "f1-event-2025"
   },
   "185": {
    "file": "assets/aegportfolio/img_0136.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "event": "dc-wharf"
   },
   "186": {
    "file": "assets/aegportfolio/img_0140.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "event": "dc-wharf"
   },
   "214": {
    "file": "assets/aegportfolio/img_81914757-6ee1-4d11-a257-9d7874489c03.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "event": "capitals-game-2025"
   },
   "217": {
    "file": "assets/aegportfolio/img_9523.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "event": "amfest-2025"
   },
   "218": {
    "file": "assets/aegportfolio/img_9536.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "event": "amfest-2025"
   },
   "219": {
    "file": "assets/aegportfolio/img_9575_jpg.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "event": "2025-capitol-summit"
   },
   "220": {
    "file": "assets/aegportfolio/img_9684.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "event": "gogo-festival-2025"
   },
   "221": {
    "file": "assets/aegportfolio/img_9853.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "event": "capitals-game-2025"
   },
   "222": {
    "file": "assets/aegportfolio/img_9857.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "event": "capitals-game-2025"
   },
   "223": {
    "file": "assets/aegportfolio/img_9998.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "event": "staunton-wedding-2025"
   },
   "227": {
    "file": "assets/aegportfolio/img-20241027-wa0000.webp",
    "date": "2024-10-27",
    "dateSource": "filename",
    "location": null,
-   "tags": []
+   "tags": [],
+   "event": "solomute"
   },
   "235": {
    "file": "assets/aegportfolio/img_0149.mp4",
@@ -560,14 +591,16 @@
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "event": "congressional-black-caucus-week"
   },
   "002": {
    "file": "assets/solomute/solomute_projects_002.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "event": "congressional-black-caucus-week"
   },
   "003": {
    "file": "assets/solomute/solomute_projects_003.webp",
@@ -581,63 +614,72 @@
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "event": "congressional-black-caucus-week"
   },
   "005": {
    "file": "assets/solomute/solomute_projects_005.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "event": "congressional-black-caucus-week"
   },
   "006": {
    "file": "assets/solomute/solomute_projects_006.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "event": "congressional-black-caucus-week"
   },
   "007": {
    "file": "assets/solomute/solomute_projects_007.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "event": "congressional-black-caucus-week"
   },
   "008": {
    "file": "assets/solomute/solomute_projects_008.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "event": "congressional-black-caucus-week"
   },
   "009": {
    "file": "assets/solomute/solomute_projects_009.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "event": "congressional-black-caucus-week"
   },
   "010": {
    "file": "assets/solomute/solomute_projects_010.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "event": "congressional-black-caucus-week"
   },
   "011": {
    "file": "assets/solomute/solomute_projects_011.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "event": "congressional-black-caucus-week"
   },
   "012": {
    "file": "assets/solomute/solomute_projects_012.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "event": "congressional-black-caucus-week"
   },
   "013": {
    "file": "assets/solomute/solomute_projects_013.webp",
@@ -1120,14 +1162,16 @@
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "event": "congressional-black-caucus-week"
   },
   "083": {
    "file": "assets/portfolio_lightroom/allen_portfolio002.webp",
    "date": null,
    "dateSource": null,
    "location": null,
-   "tags": []
+   "tags": [],
+   "event": "congressional-black-caucus-week"
   },
   "084": {
    "file": "assets/portfolio_lightroom/allen_portfolio003.webp",

@@ -8,7 +8,9 @@
 // white and ink gray with amber reserved for charged particles - the discipline
 // rule kept, the feel restored. The original palette is one array swap away.
 (function(){
-var cv=document.getElementById('bgfield');if(!cv)return;
+var els=document.querySelectorAll('#bgfield,canvas.bgfield');
+for(var e=0;e<els.length;e++)initField(els[e]);
+function initField(cv){
 var ctx=cv.getContext('2d');if(!ctx)return;
 var rm=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 var host=cv.parentElement;
@@ -37,7 +39,7 @@ if(W<10||H<10)return;
 var dpr=Math.min(window.devicePixelRatio||1,1.75);
 cv.width=Math.round(W*dpr);cv.height=Math.round(H*dpr);
 ctx.setTransform(dpr,0,0,dpr,0,0);
-var n=Math.max(28,Math.min(72,Math.round(W*H/2e4)));
+var n=Math.max(21,Math.min(54,Math.round(W*H/26667)));
 P=[];
 for(var i=0;i<n;i++)P.push({
 x:Math.random()*W,y:Math.random()*H,
@@ -131,4 +133,5 @@ spawn(e.clientX-r.left,e.clientY-r.top);
 });
 }
 raf=requestAnimationFrame(tick);
+}
 })();

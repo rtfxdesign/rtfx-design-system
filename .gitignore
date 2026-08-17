@@ -19,3 +19,7 @@ _media-staging/
 _placeholder-backup/
 design_handoff_rtfx_site/
 import-*.ps1
+
+# Lightroom exports staged for gallery import — source masters, not site content.
+# ~1.7GB and growing; these are ingested into site/assets/gallery, never committed.
+studio/Lightroom Exports/

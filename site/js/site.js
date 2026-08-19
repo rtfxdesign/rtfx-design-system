@@ -41,14 +41,17 @@ xrCorner(host,e);
 });
 })();
 // lightbox — work and gallery pages. Click a figure image to view it full size.
+// Videos join the same sequence: the muted inline loop is a preview, the
+// viewer is where a clip plays at size with native controls (and sound).
 (function(){
-if(!/\/(work|gallery)\//.test(location.pathname))return;
-var imgs=[].slice.call(document.querySelectorAll('main figure img')).filter(function(im){return !im.closest('a')});
-if(!imgs.length)return;
+if(!/\/(work|gallery|revd-show-control)\//.test(location.pathname))return;
+var items=[].slice.call(document.querySelectorAll('main figure img, main figure video')).filter(function(el){return !el.closest('a')});
+if(!items.length)return;
+function isVid(el){return el.tagName==='VIDEO'}
 // a thumbnail stands in for a full-resolution original; open the original.
 function fullSrc(im){return (im.currentSrc||im.src).replace(/\/thumbs\//,'/')}
 function frameOf(im){var f=im.closest('figure');return f&&f.dataset.frame||''}
-function capOf(im){var f=im.closest('figure'),c=f&&f.querySelector('figcaption');return (c?c.textContent:'').trim()||im.alt||''}
+function capOf(im){var f=im.closest('figure'),c=f&&f.querySelector('figcaption');return (c?c.textContent:'').trim()||im.alt||im.getAttribute('aria-label')||''}
 // gallery frames carry records in frames.json/events.json (deployed beside the
 // page); the viewer shows what is known - event, date, location, subject.
 var META=null;
@@ -74,29 +77,43 @@ var dlg=document.createElement('dialog');dlg.className='lb';dlg.setAttribute('ar
 dlg.innerHTML='<div class="lb-in">'
 +'<div class="lb-bar"><span class="lb-count"></span><button type="button" class="lb-x">Close ✗</button></div>'
 +'<div class="lb-stage"><button type="button" class="lb-nav lb-prev" aria-label="Previous image">←</button>'
-+'<img alt=""><button type="button" class="lb-nav lb-next" aria-label="Next image">→</button></div>'
++'<img alt=""><video controls loop muted playsinline hidden></video><button type="button" class="lb-nav lb-next" aria-label="Next image">→</button></div>'
 +'<figcaption class="lb-cap"><span class="t"></span><span class="m"></span></figcaption></div>';
 document.body.appendChild(dlg);
-var stage=dlg.querySelector('.lb-stage img'),count=dlg.querySelector('.lb-count'),
+var stage=dlg.querySelector('.lb-stage img'),stageV=dlg.querySelector('.lb-stage video'),count=dlg.querySelector('.lb-count'),
 capT=dlg.querySelector('.lb-cap .t'),capM=dlg.querySelector('.lb-cap .m'),
 prev=dlg.querySelector('.lb-prev'),next=dlg.querySelector('.lb-next');
 var i=0,last=null;
 function pad(n){return (n<10?'0':'')+n}
 function show(n){
-i=(n+imgs.length)%imgs.length;var im=imgs[i];
-stage.src=fullSrc(im);stage.alt=im.alt||'';
+i=(n+items.length)%items.length;var im=items[i];
 capM.textContent='';
+if(isVid(im)){
+// hand the stream to the viewer copy — pause the inline loop through its
+// button so its label and user-intent state stay truthful.
+if(!im.paused){var f=im.closest('.vid'),b=f&&f.querySelector('.vplay');if(b)b.click();else im.pause()}
+stage.hidden=true;stage.removeAttribute('src');
+stageV.hidden=false;stageV.poster=im.poster||'';stageV.src=im.currentSrc||im.src;
+stageV.play().catch(function(){});
+}else{
+stageV.hidden=true;stageV.pause();stageV.removeAttribute('src');stageV.load();
+stage.hidden=false;
+stage.src=fullSrc(im);stage.alt=im.alt||'';
+}
 // where a frame has an accession number that number is its identity, and a
 // position counter beside it would just be a second, conflicting number.
 var fr=frameOf(im);
 if(fr){count.innerHTML='Frame <b>'+fr+'</b>';capT.textContent=metaLine(fr)}
-else{count.innerHTML='<b>'+pad(i+1)+'</b> / '+pad(imgs.length);capT.textContent=capOf(im)}
-var one=imgs.length<2;prev.disabled=one;next.disabled=one;
+else{count.innerHTML='<b>'+pad(i+1)+'</b> / '+pad(items.length);capT.textContent=capOf(im)}
+var one=items.length<2;prev.disabled=one;next.disabled=one;
 syncHash(im);
-[1,-1].forEach(function(d){var p=new Image();p.src=fullSrc(imgs[(i+d+imgs.length)%imgs.length])}); // preload neighbours
+// preload neighbours — images only; prefetching a neighbouring mp4 would
+// spend the bandwidth the click-to-play policy exists to protect.
+[1,-1].forEach(function(d){var nb=items[(i+d+items.length)%items.length];if(!isVid(nb)){var p=new Image();p.src=fullSrc(nb)}});
 }
 // report the size of what is actually on screen, not of the page thumbnail
 stage.addEventListener('load',function(){capM.textContent=stage.naturalWidth?stage.naturalWidth+' × '+stage.naturalHeight:''});
+stageV.addEventListener('loadedmetadata',function(){capM.textContent=stageV.videoWidth?stageV.videoWidth+' × '+stageV.videoHeight:''});
 // keep the address bar on the frame being viewed, so it can be linked to.
 // replaceState, not a hash assignment - stepping through 254 frames must not
 // fill the back button with 254 entries.
@@ -108,14 +125,14 @@ history.replaceState(null,'',f?base+'#f'+f:base);
 }
 function open(n){last=document.activeElement;show(n);if(!dlg.open)dlg.showModal()}
 // metadata may arrive after a frame is already open
-function refreshMeta(){if(dlg.open){var im=imgs[i],fr=frameOf(im);if(fr)capT.textContent=metaLine(fr)}}
+function refreshMeta(){if(dlg.open){var im=items[i],fr=frameOf(im);if(fr)capT.textContent=metaLine(fr)}}
 // not every engine fires dialog's close event, so tear down from close() as well.
-function cleanup(){stage.removeAttribute('src');capM.textContent='';syncHash(null);if(last&&last.focus)last.focus()}
+function cleanup(){stage.removeAttribute('src');stageV.pause();stageV.removeAttribute('src');stageV.load();capM.textContent='';syncHash(null);if(last&&last.focus)last.focus()}
 function close(){if(dlg.open){dlg.close();cleanup()}}
-imgs.forEach(function(im,n){
+items.forEach(function(im,n){
 im.classList.add('lb-open');im.setAttribute('role','button');im.setAttribute('tabindex','0');
 if(!im.getAttribute('aria-label'))im.setAttribute('aria-label','View "'+(im.alt||'image')+'" full size');
-im.addEventListener('click',function(){open(n)});
+im.addEventListener('click',function(){if(isVid(im)&&im.error)return;open(n)});
 im.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();open(n)}});
 });
 prev.addEventListener('click',function(){show(i-1)});
@@ -123,6 +140,7 @@ next.addEventListener('click',function(){show(i+1)});
 dlg.querySelector('.lb-x').addEventListener('click',close);
 dlg.addEventListener('click',function(e){if(e.target===dlg)close()}); // backdrop
 dlg.addEventListener('keydown',function(e){
+if(e.target===stageV)return; // native controls own the keys while focused (seek, volume)
 if(e.key==='ArrowLeft'){e.preventDefault();show(i-1)}
 else if(e.key==='ArrowRight'){e.preventDefault();show(i+1)}
 });
@@ -131,7 +149,7 @@ dlg.addEventListener('close',cleanup); // covers Escape, which closes natively
 // the figure carries the same id, so the page scrolls there behind the viewer.
 (function(){
 var m=/^#f(\d+)$/.exec(location.hash);if(!m)return;
-for(var k=0;k<imgs.length;k++){if(frameOf(imgs[k])===m[1]){open(k);return}}
+for(var k=0;k<items.length;k++){if(frameOf(items[k])===m[1]){open(k);return}}
 })();
 })();
 // gallery filters — two facets, Event and Subject, combined with AND.

@@ -1,16 +1,17 @@
 [
   {
-    "id": "art-1787182806514",
+    "id": "art-1787183472607",
     "title": "Stained Glass Flowers",
     "category": "Generative & Feedback",
     "year": "2026",
     "tools": "TouchDesigner · Generative Systems",
-    "description": "Just wanted to recreate the feeling of sunrays shining through stained glass in an old church",
+    "description": "Just wanted to recreate the vibe of sun rays shining through an old church window",
     "mediaType": "video",
-    "src": "../assets/art/art-1787182806514.mp4",
-    "poster": "../assets/art/art-1787182806514-poster.webp",
+    "src": "../assets/art/art-1787183472607.mp4",
+    "poster": "../assets/art/art-1787183472607-poster.webp",
+    "sound": true,
     "featured": false,
-    "createdAt": "2026-08-19T23:40:09.474Z"
+    "createdAt": "2026-08-19T23:51:15.602Z"
   },
   {
     "id": "art-1786983159661",

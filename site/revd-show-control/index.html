@@ -191,11 +191,41 @@
 </div>
 </div>
 </section>
+<section aria-labelledby="s-stack">
+<div class="wrap">
+<div class="sec-head">
+<canvas class="bgfield" aria-hidden="true"></canvas>
+<div class="sec-t"><span class="sec-num">07 · Show stack</span><h2 id="s-stack" class="display-m">The room runs itself</h2></div>
+<p class="sec-note">Phase two: unattended show automation and a branded ops dashboard, so the machine behind the wall no longer needs a person who knows it.</p>
+</div>
+<p class="lede">One Windows show PC runs six pieces of software — virtual MIDI, tempo clock, lighting desk, visuals engine, button logic, remote access — that must come up in the right order and stay up through a full day of classes. The people running the room are instructors on Macs, on a different network. Before this, "the wall is black" meant calling whoever knew the machine.</p>
+<div class="maxm mt-5">
+<p class="mb-5" style="color:var(--c-ink-2)">The failures were the mundane ones that plague every unattended media PC. A 3 a.m. power cut reboots into MyDMX's start screen and nothing downstream ever launches — or MyDMX races the USB DMX interface and opens with no output at all. The remote-access tool's virtual-display driver spawns phantom monitors that shuffle Windows' display numbering and move the Resolume output off the wall. The show-file path goes stale when the lighting programmer re-saves under a dated name. The cursor drifts onto the LED wall in front of a hundred riders. Companion hangs, and the team's only known fix is a five-minute reboot mid-changeover.</p>
+</div>
+<ol class="rules maxm">
+<li><b>Boot on evidence, never on delay</b><p>Every startup stage waits for proof the last one worked: CPU quiet for three consecutive samples, the Windows MIDI device count actually rising, Device Manager reporting the DMX interface OK before MyDMX may launch. UI Automation waits for MyDMX's real interface dialog, clicks Start, force-focuses the window and arms the show; fail once and the whole sequence retries from scratch. Cold boot to fully cued room: about four minutes, nobody in the building.</p></li>
+<li><b>A show file that cannot go stale</b><p>The configured path resolves to the newest show file in the lighting folder if the expected one was renamed. A re-saved show can no longer break boot.</p></li>
+<li><b>A watchdog that cannot flap</b><p>Companion is tailed and polled, then escalated in three levels with cooldowns: rescan surfaces, restart the one failing connection, and only after minutes of confirmed death, relaunch. Investigating the "glitching" found the real cause — the Stream Decks are network-dock modules on DHCP leases, not USB devices. Reservations fixed the disease; the watchdog handles the symptoms.</p></li>
+<li><b>Displays locked by hardware, not number</b><p>The monitor arrangement is captured once by hardware path — never Windows' 1/2 numbering — and re-applied every 30 seconds. Phantom monitors are detached within half a minute; the output can no longer wander off the wall. The cursor is parked off the wall every 29 minutes, which ended that complaint permanently.</p></li>
+<li><b>A dashboard that answers "which button do I press"</b><p>A small PowerShell web server on the show PC serves one page to any browser on the LAN — nothing to install, just a bookmark. Status every two seconds; a live capture of the wall every second, so the team sees what riders see. Every monitored thing has its matching fix beside it, every fix is the same code the boot sequence uses, every button is two-step armed with every press logged. Visuals state is read from Arena's REST API — real data, not a guess.</p></li>
+<li><b>Nothing that expires</b><p>The whole stack is PowerShell 5.1 and .NET on stock Windows — no services, no cloud accounts, no packages, no licences — shipped as one installer, each component logging plainly and removable on its own. Remote access over an outbound-only tunnel is built and switched off, ready in ten minutes when wanted. Boring on purpose; boring is what survives.</p></li>
+</ol>
+<div class="cham-box mt-6"><div class="in" style="padding:24px">
+<span class="micro" style="display:block;margin-bottom:8px;color:var(--c-accent)">The design brief was status-first</span>
+<p class="body-s maxm">The first dashboard looked like a developer built it. The final one is REVD's: crest loop in a circular mask, condensed wordmark, brand red on true black, fonts served from the show PC so the page never touches the internet. One word per state — All good, Degraded, Room down — readable from across the room, with the mono detail rows underneath for whoever wants the numbers. An instructor should know in one glance whether to do anything, and if so, exactly which button.</p>
+</div></div>
+<figure class="mt-6" style="margin:32px 0 0">
+<span class="ph chamfer"><img src="media/opsdash.webp" width="1440" height="1000" alt="The REVD Room ops dashboard: four system tiles reading 1 of 2, Running, 5 of 5 and Live, a live capture of the LED wall running red tunnel visuals, and a Now Playing column with lights, visuals and MIDI state" loading="lazy" decoding="async"></span>
+<figcaption class="micro" style="margin-top:8px">The room, from a bookmark — one word per state, every fix beside its fault.</figcaption>
+</figure>
+<div class="stats"><div><b>4 min</b><span>cold boot to cued room</span></div><div><b>6</b><span>subsystems, one installer</span></div><div><b>3</b><span>watchdog escalation levels</span></div><div><b>0</b><span>cloud dependencies</span></div></div>
+</div>
+</section>
 <section aria-labelledby="s-doc">
 <div class="wrap">
 <div class="sec-head">
 <canvas class="bgfield" aria-hidden="true"></canvas>
-<div class="sec-t"><span class="sec-num">07 · Documentation</span><h2 id="s-doc" class="display-m">The rooms, documented</h2></div>
+<div class="sec-t"><span class="sec-num">08 · Documentation</span><h2 id="s-doc" class="display-m">The rooms, documented</h2></div>
 <p class="sec-note">Additional frames from the two-room build. Click any frame to view it full size.</p>
 </div>
 <div class="fig-grid">

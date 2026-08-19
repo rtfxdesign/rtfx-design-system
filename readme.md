@@ -1,6 +1,6 @@
 # RTFX Design System
 
-Design system for **rtfx design / RT/FX** (RTFX Design LLC) — **Allen Grabo**, creative technologist, Washington, DC. Positioning: "Visual systems for real space" — immersive content, projection mapping, generative systems, playback/show control, and technical direction. Motto: **Manu et machina** ("by hand and machine"). The brand voice is "graphic design meets hardware": black-first, mono display type, amber signal accent, geometry machined out of the wordmark itself.
+Design system for **rtfx design / RT/FX** (RTFX Design LLC) — **Allen Grabo**, creative technologist, Washington, DC. Positioning: "Visual systems for real space" — immersive content, projection mapping, generative systems, playback/show control, and technical direction. Motto: **Artifex Machina** ("craftsman and machine"). The brand voice is "graphic design meets hardware": black-first, mono display type, amber signal accent, geometry machined out of the wordmark itself.
 
 **Naming:** the live site renders the name as `RT/FX`; brand kit v0.4 (newer) locks the lowercase `rtfx` wordmark. Use the kit's mark; `RT/FX` may appear in running text/footers.
 
@@ -20,7 +20,7 @@ Design system for **rtfx design / RT/FX** (RTFX Design LLC) — **Allen Grabo**,
 - **Headline pattern (live site):** short declarative pairs, often with an italic turn — "Visual systems for real space.", "Creative vision. Technical calm.", "Collected from inside the room.", "Something in mind?".
 - **Card pattern:** dim category label above the title ("Show control system", "Immersive experience center"), then a one-sentence system description heavy on concrete counts ("13-projector installation", "fifteen clearly labelled Stream Deck buttons", "18-panel LED").
 - **No emoji.** Unicode glyphs act as icons: `→ ● ✓ ✗ ☐`.
-- **Motto:** "Manu et machina" — footer, lockups, sign-offs; set as `.label` in accent.
+- **Motto:** "Artifex Machina" — footer, lockups, sign-offs; set as `.label` in accent.
 
 ## VISUAL FOUNDATIONS
 - **Color:** pure black canvas (`--c-bg #000000`), near-black panels (`#0A0A0A`), raised wells (`#141414`), 1px rules (`#262626` / soft `#1A1A1A`); ink scale `#FAFAFA / #A3A3A3 / #6E6E6E`. One accent: **amber `#FFB020`** (work-light, rack-LED energy), soft voice `#FFD9A0`, hot status `#FF8A00`, text on fills is black. Do/don't green `#3DDC6B`, red `#FF4D4D` (docs only). **Discipline rule: one accent element per viewport** — amber marks the thing to click or the thing currently true, never decoration.

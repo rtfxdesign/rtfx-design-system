@@ -48,14 +48,18 @@ xrCorner(host,e);
 // Videos join the same sequence: the muted inline loop is a preview, the
 // viewer is where a clip plays at size with native controls (and sound).
 (function(){
-if(!/\/(work|gallery|revd-show-control)\//.test(location.pathname))return;
+if(!/\/(work|gallery|revd-show-control|art)\//.test(location.pathname))return;
 var items=[].slice.call(document.querySelectorAll('main figure img, main figure video')).filter(function(el){return !el.closest('a')});
 if(!items.length)return;
 function isVid(el){return el.tagName==='VIDEO'}
 // a thumbnail stands in for a full-resolution original; open the original.
 function fullSrc(im){return (im.currentSrc||im.src).replace(/\/thumbs\//,'/')}
 function frameOf(im){var f=im.closest('figure');return f&&f.dataset.frame||''}
-function capOf(im){var f=im.closest('figure'),c=f&&f.querySelector('figcaption');return (c?c.textContent:'').trim()||im.alt||im.getAttribute('aria-label')||''}
+function capOf(im){var f=im.closest('figure'),c=f&&f.querySelector('figcaption');
+// art figures pack kicker/title/tools/description into one figcaption - the
+// title alone is the caption; the rest is already on the card behind the viewer.
+var t=f&&f.querySelector('.art-t');if(t)return t.textContent.trim();
+return (c?c.textContent:'').trim()||im.alt||im.getAttribute('aria-label')||''}
 // gallery frames carry records in frames.json/events.json (deployed beside the
 // page); the viewer shows what is known - event, date, location, subject.
 var META=null;
@@ -93,11 +97,13 @@ function show(n){
 i=(n+items.length)%items.length;var im=items[i];
 capM.textContent='';
 if(isVid(im)){
-// hand the stream to the viewer copy — pause the inline loop through its
-// button so its label and user-intent state stay truthful.
-if(!im.paused){var f=im.closest('.vid'),b=f&&f.querySelector('.vplay');if(b)b.click();else im.pause()}
+// hand the stream to the viewer copy — pause the source clip and any other
+// audible loop through their buttons so labels and user-intent stay truthful.
+document.querySelectorAll('.vid video').forEach(function(o){
+if((o===im||o.dataset.sound)&&!o.paused){var f=o.closest('.vid'),b=f&&f.querySelector('.vplay');if(b)b.click();else o.pause()}
+});
 stage.hidden=true;stage.removeAttribute('src');
-stageV.hidden=false;stageV.poster=im.poster||'';stageV.src=im.currentSrc||im.src;
+stageV.hidden=false;stageV.muted=!im.dataset.sound;stageV.poster=im.poster||'';stageV.src=im.currentSrc||im.src;
 stageV.play().catch(function(){});
 }else{
 stageV.hidden=true;stageV.pause();stageV.removeAttribute('src');stageV.load();

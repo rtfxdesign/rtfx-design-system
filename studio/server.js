@@ -15,6 +15,16 @@ const artJsonPath = path.join(siteDir, 'art', 'art.json');
 const artMediaDir = path.join(siteDir, 'assets', 'art');
 const tempUploadDir = path.join(__dirname, 'temp_uploads');
 const workDir = path.join(siteDir, 'work');
+// Case-study pages that live at the site root instead of under work/
+// (their public URLs are established and must not move). The slug doubles
+// as the directory name; Studio treats them as projects everywhere else.
+const rootProjectSlugs = ['revd-show-control'];
+function projectDirOf(slug) {
+  return rootProjectSlugs.includes(slug) ? path.join(siteDir, slug) : path.join(workDir, slug);
+}
+function projectUrlBase(slug) {
+  return rootProjectSlugs.includes(slug) ? slug : `work/${slug}`;
+}
 const productionSiteId = process.env.NETLIFY_SITE_ID || '570ae585-ebd5-4f35-a1ca-aa8f1c9b00e5';
 const productionUrl = process.env.PRODUCTION_URL || 'https://rtfx.space';
 const allowedImageExtensions = new Set(['.avif', '.gif', '.jpeg', '.jpg', '.png', '.tif', '.tiff', '.webp']);
@@ -242,8 +252,19 @@ function mediaMimeType(filePath) {
 
 function captionImageInput(slug, media) {
   let source = media.poster || media.src;
-  if (/^https:\/\//i.test(source)) return source;
-  const htmlPath = path.join(workDir, slug, 'index.html');
+  if (/^https:\/\//i.test(source)) {
+    // a remote video URL cannot be sent as an input_image — pull one frame
+    // straight from the URL instead (ffmpeg reads https)
+    if (!/\.(mp4|mov|webm|m4v|avi)$/i.test(source.split(/[?#]/, 1)[0])) return source;
+    const remoteFrame = path.join(tempUploadDir, `caption-frame-${Date.now()}-${crypto.randomBytes(4).toString('hex')}.jpg`);
+    try {
+      runFfmpeg(['-y', '-ss', '1', '-i', source, '-vf', 'scale=1280:1280:force_original_aspect_ratio=decrease', '-frames:v', '1', '-q:v', '3', remoteFrame]);
+      return `data:image/jpeg;base64,${fs.readFileSync(remoteFrame).toString('base64')}`;
+    } finally {
+      if (fs.existsSync(remoteFrame)) fs.unlinkSync(remoteFrame);
+    }
+  }
+  const htmlPath = path.join(projectDirOf(slug), 'index.html');
   let localPath = sourceToLocalPath(htmlPath, source);
   if (!localPath || !localPath.startsWith(path.resolve(siteDir) + path.sep) || !fs.existsSync(localPath)) {
     throw new Error('The media preview could not be found locally.');
@@ -340,7 +361,7 @@ function sourceToLocalPath(htmlPath, source) {
 }
 
 function removeUnreferencedProjectFiles(slug, sources) {
-  const projectDir = path.join(workDir, slug);
+  const projectDir = projectDirOf(slug);
   const mediaDir = path.join(projectDir, 'media');
   const candidates = [...new Set(sources.map(source => sourceToLocalPath(path.join(projectDir, 'index.html'), source)).filter(Boolean))]
     .filter(file => file.startsWith(path.resolve(mediaDir) + path.sep));
@@ -378,6 +399,10 @@ app.use('/assets', express.static(path.join(siteDir, 'assets')));
 app.use('/site', express.static(siteDir));
 // Serve work media files
 app.use('/work', express.static(workDir));
+// Root-level case-study pages are served at their real path, matching urlBase
+for (const slug of rootProjectSlugs) {
+  app.use(`/${slug}`, express.static(path.join(siteDir, slug)));
+}
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => cb(null, tempUploadDir),
@@ -495,7 +520,7 @@ app.delete('/api/art/:id', (req, res) => {
 
 // Helper: parse a project index.html into structured data
 function parseProjectHtml(slug) {
-  const htmlPath = path.join(workDir, slug, 'index.html');
+  const htmlPath = path.join(projectDirOf(slug), 'index.html');
   if (!fs.existsSync(htmlPath)) return null;
   const html = fs.readFileSync(htmlPath, 'utf8');
 
@@ -523,10 +548,16 @@ function parseProjectHtml(slug) {
   const response = extract(/<span class="micro k">Response<\/span>\s*<p>([\s\S]*?)<\/p>/);
   const outcome = extract(/<span class="micro k">Outcome<\/span>\s*<p>([\s\S]*?)<\/p>/);
 
-  // Hero image src
-  const heroImg = extract(/<figure class="hero-media[^>]*>[\s\S]*?<img src="([^"]+)"/)
-    || extract(/<figure class="hero-media[^>]*>[\s\S]*?<video[^>]*poster="([^"]+)"/)
-    || extract(/<figure class="hero-media[^>]*>[\s\S]*?<video[^>]*src="([^"]+)"/);
+  // Hero image src — search only inside the hero figure: an unbounded
+  // [\s\S]*? match runs past a video hero to the first <img> on the page.
+  const heroBlock = (html.match(/<figure class="hero-media[\s\S]*?<\/figure>/) || [''])[0];
+  function extractHero(re) {
+    const m = heroBlock.match(re);
+    return m ? plainText(m[1]) : '';
+  }
+  const heroImg = extractHero(/<img src="([^"]+)"/)
+    || extractHero(/<video[^>]*poster="([^"]+)"/)
+    || extractHero(/<video[^>]*src="([^"]+)"/);
 
   // Stats
   const stats = [];
@@ -537,7 +568,7 @@ function parseProjectHtml(slug) {
   }
 
   // Media files in the media/ subdirectory
-  const mediaDir = path.join(workDir, slug, 'media');
+  const mediaDir = path.join(projectDirOf(slug), 'media');
   let mediaFiles = [];
   if (fs.existsSync(mediaDir)) {
     mediaFiles = fs.readdirSync(mediaDir)
@@ -571,7 +602,8 @@ function parseProjectHtml(slug) {
   }));
 
   return {
-    slug, title, tagline, idx, category, location, timeframe, role,
+    slug, urlBase: projectUrlBase(slug),
+    title, tagline, idx, category, location, timeframe, role,
     description, challenge, response, outcome, heroImg, stats,
     mediaFiles, pageMedia, sections
   };
@@ -665,8 +697,9 @@ app.get('/api/projects', (req, res) => {
       const p = path.join(workDir, d);
       return fs.statSync(p).isDirectory() && fs.existsSync(path.join(p, 'index.html'));
     });
+    const rootSlugs = rootProjectSlugs.filter(slug => fs.existsSync(path.join(siteDir, slug, 'index.html')));
 
-    const projects = slugs.map(slug => parseProjectHtml(slug)).filter(Boolean);
+    const projects = [...slugs, ...rootSlugs].map(slug => parseProjectHtml(slug)).filter(Boolean);
     res.json({ success: true, projects });
   } catch (err) {
     res.status(500).json({ success: false, error: err.message });
@@ -688,7 +721,7 @@ app.get('/api/projects/:slug', (req, res) => {
 app.post('/api/projects/:slug', (req, res) => {
   try {
     const slug = safeSlug(req.params.slug);
-    const htmlPath = path.join(workDir, slug, 'index.html');
+    const htmlPath = path.join(projectDirOf(slug), 'index.html');
     if (!fs.existsSync(htmlPath)) return res.status(404).json({ success: false, error: 'Project not found' });
     let html = fs.readFileSync(htmlPath, 'utf8');
     const d = req.body;
@@ -742,7 +775,7 @@ function updateHomepageCard(slug, data) {
   let home = fs.readFileSync(homePath, 'utf8');
 
   // Find the card block for this slug
-  const cardRe = new RegExp(`(<a class="work" href="work/${slug}/index\\.html">)([\\s\\S]*?)(</a>)`);
+  const cardRe = new RegExp(`(<a class="work" href="${projectUrlBase(slug)}/index\\.html">)([\\s\\S]*?)(</a>)`);
   const match = home.match(cardRe);
   if (!match) return;
 
@@ -766,11 +799,34 @@ function updateHomepageCard(slug, data) {
   console.log(`[Projects] Updated homepage card for ${slug}`);
 }
 
+// Swap the hero to the uploaded image, touching only the hero figure — an
+// unbounded [\s\S]*? match runs past a video hero to the first <img> anywhere
+// on the page. A video hero keeps its clip; the upload becomes its poster.
+function applyHeroImageHtml(html, baseName) {
+  const heroBlockRe = /<figure class="hero-media[\s\S]*?<\/figure>/;
+  const heroMatch = html.match(heroBlockRe);
+  if (!heroMatch) throw new Error('No hero figure found on the page.');
+  let hero = heroMatch[0];
+  if (/<img src="/.test(hero)) {
+    hero = hero.replace(/(<img src=")([\s\S]*?)(")/,
+      (whole, before, current, after) => `${before}media/${baseName}.webp${after}`);
+  } else if (/<video\b/.test(hero)) {
+    hero = /poster="/.test(hero)
+      ? hero.replace(/(poster=")([\s\S]*?)(")/,
+          (whole, before, current, after) => `${before}media/${baseName}.webp${after}`)
+      : hero.replace(/<video\b/, `<video poster="media/${baseName}.webp"`);
+  } else {
+    hero = hero.replace(/(<span class="ph chamfer">)[\s\S]*?(<\/span>)/,
+      (whole, before, after) => `${before}<img src="media/${baseName}.webp" alt="Project hero" loading="eager">${after}`);
+  }
+  return html.replace(heroBlockRe, () => hero);
+}
+
 // POST /api/projects/:slug/hero — upload hero image
 app.post('/api/projects/:slug/hero', upload.single('heroFile'), (req, res) => {
   try {
     const slug = safeSlug(req.params.slug);
-    const projectDir = path.join(workDir, slug);
+    const projectDir = projectDirOf(slug);
     if (!fs.existsSync(path.join(projectDir, 'index.html'))) {
       return res.status(404).json({ success: false, error: 'Project not found.' });
     }
@@ -791,27 +847,21 @@ app.post('/api/projects/:slug/hero', upload.single('heroFile'), (req, res) => {
     // Update project page hero
     const htmlPath = path.join(projectDir, 'index.html');
     let html = fs.readFileSync(htmlPath, 'utf8');
-    if (/<figure class="hero-media[^>]*>[\s\S]*?<img src="/.test(html)) {
-      html = html.replace(/(<figure class="hero-media[^>]*>[\s\S]*?<img src=")([\s\S]*?)(")/,
-        (whole, before, current, after) => `${before}media/${baseName}.webp${after}`);
-    } else {
-      html = html.replace(/(<figure class="hero-media[^>]*>[\s\S]*?<span class="ph chamfer">)[\s\S]*?(<\/span>)/,
-        (whole, before, after) => `${before}<img src="media/${baseName}.webp" alt="Project hero" loading="eager">${after}`);
-    }
+    html = applyHeroImageHtml(html, baseName);
     html = html.replace(/(og:image"[^>]*content=")([\s\S]*?)(")/,
-      (whole, before, current, after) => `${before}${productionUrl}/work/${slug}/media/${baseName}.jpg${after}`);
+      (whole, before, current, after) => `${before}${productionUrl}/${projectUrlBase(slug)}/media/${baseName}.jpg${after}`);
     fs.writeFileSync(htmlPath, html, 'utf8');
 
     // Update homepage card thumbnail
     const homePath = path.join(siteDir, 'index.html');
     let home = fs.readFileSync(homePath, 'utf8');
-    const thumbRe = new RegExp(`(href="work/${slug}/index\\.html">[\\s\\S]*?<img src=")(.*?)(")`);
+    const thumbRe = new RegExp(`(href="${projectUrlBase(slug)}/index\\.html">[\\s\\S]*?<img src=")(.*?)(")`);
     home = home.replace(thumbRe,
-      (whole, before, current, after) => `${before}work/${slug}/media/${baseName}-card.webp${after}`);
+      (whole, before, current, after) => `${before}${projectUrlBase(slug)}/media/${baseName}-card.webp${after}`);
     fs.writeFileSync(homePath, home, 'utf8');
 
     console.log(`[Projects] Updated hero for ${slug}`);
-    res.json({ success: true, heroSrc: `media/${baseName}.webp`, cardSrc: `work/${slug}/media/${baseName}-card.webp` });
+    res.json({ success: true, heroSrc: `media/${baseName}.webp`, cardSrc: `${projectUrlBase(slug)}/media/${baseName}-card.webp` });
   } catch (err) {
     console.error('[Hero Upload Error]', err.message);
     if (req.file?.path && fs.existsSync(req.file.path)) fs.unlinkSync(req.file.path);
@@ -823,7 +873,7 @@ app.post('/api/projects/:slug/hero', upload.single('heroFile'), (req, res) => {
 app.post('/api/projects/:slug/media', upload.single('mediaFile'), (req, res) => {
   try {
     const slug = safeSlug(req.params.slug);
-    const projectDir = path.join(workDir, slug);
+    const projectDir = projectDirOf(slug);
     if (!fs.existsSync(path.join(projectDir, 'index.html'))) {
       return res.status(404).json({ success: false, error: 'Project not found.' });
     }
@@ -862,7 +912,7 @@ app.post('/api/projects/:slug/media', upload.single('mediaFile'), (req, res) => 
 app.post('/api/projects/:slug/page-media/order', (req, res) => {
   try {
     const slug = safeSlug(req.params.slug);
-    const htmlPath = path.join(workDir, slug, 'index.html');
+    const htmlPath = path.join(projectDirOf(slug), 'index.html');
     if (!fs.existsSync(htmlPath)) return res.status(404).json({ success: false, error: 'Project not found.' });
     const groupId = String(req.body.groupId || '');
     if (!/^group-\d+$/.test(groupId)) return res.status(400).json({ success: false, error: 'Invalid page media group.' });
@@ -880,7 +930,7 @@ app.delete('/api/projects/:slug/page-media/:mediaId', (req, res) => {
   try {
     const slug = safeSlug(req.params.slug);
     const mediaId = safeMediaId(req.params.mediaId);
-    const htmlPath = path.join(workDir, slug, 'index.html');
+    const htmlPath = path.join(projectDirOf(slug), 'index.html');
     if (!fs.existsSync(htmlPath)) return res.status(404).json({ success: false, error: 'Project not found.' });
     const html = fs.readFileSync(htmlPath, 'utf8');
     const result = deletePageMediaHtml(html, mediaId);
@@ -899,7 +949,7 @@ app.patch('/api/projects/:slug/page-media/:mediaId/caption', (req, res) => {
     const mediaId = safeMediaId(req.params.mediaId);
     const caption = String(req.body.caption ?? '').trim();
     if (caption.length > 300) return res.status(400).json({ success: false, error: 'Keep captions at 300 characters or fewer.' });
-    const htmlPath = path.join(workDir, slug, 'index.html');
+    const htmlPath = path.join(projectDirOf(slug), 'index.html');
     if (!fs.existsSync(htmlPath)) return res.status(404).json({ success: false, error: 'Project not found.' });
     const html = fs.readFileSync(htmlPath, 'utf8');
     fs.writeFileSync(htmlPath, updatePageMediaCaptionHtml(html, mediaId, caption), 'utf8');
@@ -916,7 +966,7 @@ app.post('/api/projects/:slug/page-media/:mediaId/caption-options', async (req, 
     const mediaId = safeMediaId(req.params.mediaId);
     const project = parseProjectHtml(slug);
     if (!project) return res.status(404).json({ success: false, error: 'Project not found.' });
-    const html = fs.readFileSync(path.join(workDir, slug, 'index.html'), 'utf8');
+    const html = fs.readFileSync(path.join(projectDirOf(slug), 'index.html'), 'utf8');
     const group = parsePageMediaHtml(html).find(item => item.items.some(media => media.id === mediaId));
     if (!group) return res.status(404).json({ success: false, error: 'Page media item not found.' });
     const media = group.items.find(item => item.id === mediaId);
@@ -1071,6 +1121,7 @@ if (require.main === module) {
 
 module.exports = {
   app,
+  applyHeroImageHtml,
   assertPublishableBranch,
   deletePageMediaHtml,
   decodeHtml,

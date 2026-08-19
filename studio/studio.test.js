@@ -6,6 +6,7 @@ const path = require('node:path');
 const { after, before, test } = require('node:test');
 const {
   app,
+  applyHeroImageHtml,
   assertPublishableBranch,
   deletePageMediaHtml,
   decodeHtml,
@@ -78,6 +79,7 @@ test('media optimizer creates web images, H.264 video, poster, and fast-start me
 test('project parser returns the project page fields', () => {
   const project = parseProjectHtml('throw-social');
   assert.equal(project.slug, 'throw-social');
+  assert.equal(project.urlBase, 'work/throw-social');
   assert.ok(project.title);
   assert.ok(project.category);
   assert.ok(project.heroImg);
@@ -85,6 +87,32 @@ test('project parser returns the project page fields', () => {
   // see commit 0d58b3f), moving it from 3 sections/12 items to 4/23.
   assert.equal(project.pageMedia.length, 4);
   assert.equal(project.pageMedia.reduce((total, group) => total + group.items.length, 0), 23);
+});
+
+test('hero upload edits only the hero figure, and a video hero keeps its clip', () => {
+  const page = `<figure class="hero-media vid"><span class="ph chamfer">`
+    + `<video src="https://media.example/clip.mp4" poster="media/old-poster.webp" muted></video>`
+    + `<button class="vplay" type="button">Play</button></span></figure>`
+    + `<div class="fig-grid"><figure><span class="ph chamfer"><img src="media/body-figure.webp" alt=""></span></figure></div>`;
+  const updated = applyHeroImageHtml(page, 'hero-demo');
+  assert.match(updated, /poster="media\/hero-demo\.webp"/, 'video hero should adopt the upload as its poster');
+  assert.match(updated, /clip\.mp4/, 'the hero clip must survive');
+  assert.match(updated, /media\/body-figure\.webp/, 'body figures must not be rewritten');
+
+  const imgPage = `<figure class="hero-media"><span class="ph chamfer"><img src="media/old-hero.webp" alt=""></span></figure>`
+    + `<figure><img src="media/body-figure.webp" alt=""></figure>`;
+  const imgUpdated = applyHeroImageHtml(imgPage, 'hero-demo');
+  assert.match(imgUpdated, /<figure class="hero-media"[^>]*><span class="ph chamfer"><img src="media\/hero-demo\.webp"/);
+  assert.match(imgUpdated, /media\/body-figure\.webp/);
+});
+
+test('root-level case studies parse as projects with their real url base', () => {
+  const project = parseProjectHtml('revd-show-control');
+  assert.ok(project, 'revd-show-control should resolve from the site root');
+  assert.equal(project.slug, 'revd-show-control');
+  assert.equal(project.urlBase, 'revd-show-control');
+  assert.ok(project.heroImg);
+  assert.ok(project.pageMedia.length > 0, 'page media groups should be found');
 });
 
 test('page media can be reordered within a section and deleted', () => {

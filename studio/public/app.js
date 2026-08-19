@@ -17,7 +17,13 @@ document.addEventListener('DOMContentLoaded', () => {
   function projectMediaUrl(project, source) {
     if (!source) return '';
     if (/^https?:\/\//i.test(source) || source.startsWith('/')) return source;
-    return `/work/${encodeURIComponent(project.slug)}/${encodePath(source)}`;
+    return `/${encodePath(projectUrlBase(project))}/${encodePath(source)}`;
+  }
+
+  // Root-level case studies live at /<slug>/ rather than /work/<slug>/;
+  // the server reports which via urlBase.
+  function projectUrlBase(project) {
+    return project.urlBase || `work/${project.slug}`;
   }
 
   async function requestJson(url, options) {
@@ -234,7 +240,7 @@ document.addEventListener('DOMContentLoaded', () => {
         <div class="card-meta">${escapeHtml(project.category || 'Project page')}</div>
         <div class="card-desc">${escapeHtml(project.description || 'No overview text found.')}</div>
         <div class="card-actions"><button class="btn-edit" type="button" data-action="edit-project">Edit</button>
-        <a class="btn-view" href="/site/work/${encodeURIComponent(project.slug)}/" target="_blank" rel="noopener">Preview ↗</a></div>
+        <a class="btn-view" href="/site/${encodePath(projectUrlBase(project))}/" target="_blank" rel="noopener">Preview ↗</a></div>
       </article>`;
     }).join('');
   }

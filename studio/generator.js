@@ -48,6 +48,12 @@ function generateArtPage() {
       // sound: true on the artwork opts the clip out of the site-wide mute
       // (site.js reads data-sound) — used for VJ loops with an audio track.
       const soundAttr = art.sound === true ? ' data-sound="1"' : ' muted';
+      // optional outbound chip (the piece's YouTube/Vimeo copy) — https only,
+      // revalidated here so a hand-edited art.json cannot inject a scheme
+      const linkUrl = /^https:\/\/[^\s"'<>]+$/i.test(String(art.linkUrl || '')) ? escapeHtml(art.linkUrl) : '';
+      const linkChip = linkUrl
+        ? `\n          <a class="art-link" href="${linkUrl}" target="_blank" rel="noopener">${escapeHtml(art.linkLabel || 'Watch')} ↗</a>`
+        : '';
       mediaTag = `
         <figure class="vid"><span class="ph chamfer">
           <video src="${src}" poster="${poster}" preload="metadata"${soundAttr} loop playsinline aria-label="${title}"></video>
@@ -57,7 +63,7 @@ function generateArtPage() {
           <span class="micro">${numDisplay} · ${category} · ${year}</span>
           <b class="art-t">${title}</b>
           <span class="art-tools">${tools}</span>
-          <p>${description}</p>
+          <p>${description}</p>${linkChip}
         </figcaption>
         </figure>`;
     } else {
@@ -104,6 +110,8 @@ function generateArtPage() {
 .art-grid figcaption p { font-size: 13px; color: var(--c-ink-2); line-height: 1.5; margin-top: 4px; }
 .art-grid .ph { aspect-ratio: 16/10; width: 100%; display: block; overflow: hidden; background: #0E0E0E; position: relative; }
 .art-grid .ph img, .art-grid .ph video { width: 100%; height: 100%; object-fit: cover; display: block; }
+.art-link { display: inline-block; margin-top: 10px; font-family: var(--f-display); font-size: 10px; letter-spacing: .16em; text-transform: uppercase; color: var(--c-ink-2); border: 1px solid var(--c-rule); padding: 6px 12px; text-decoration: none; clip-path: polygon(var(--chamfer-sm) 0, 100% 0, 100% calc(100% - var(--chamfer-sm)), calc(100% - var(--chamfer-sm)) 100%, 0 100%, 0 var(--chamfer-sm)); transition: color var(--m-snap) var(--e-snap), border-color var(--m-snap) var(--e-snap); }
+.art-link:hover, .art-link:focus-visible { color: var(--c-accent); border-color: var(--c-accent); }
 .hero h1.fh { margin: 12px 0 16px; }
 </style>
 <script src="../js/site.js" defer></script>

@@ -457,7 +457,19 @@ app.post('/api/upload', upload.single('mediaFile'), async (req, res) => {
     return res.status(400).json({ success: false, error: 'No media file provided.' });
   }
 
-  const { title, category, tools, year, description, featured } = req.body;
+  const { title, category, tools, year, description, featured, linkLabel, linkUrl } = req.body;
+  // optional outbound link (YouTube/Vimeo copy of the piece) — https only,
+  // label falls back to the link's hostname
+  let externalLink = null;
+  if (linkUrl) {
+    if (!/^https:\/\/[^\s"'<>]+$/i.test(linkUrl)) {
+      if (req.file?.path && fs.existsSync(req.file.path)) fs.unlinkSync(req.file.path);
+      return res.status(400).json({ success: false, error: 'External link must be a full https:// URL.' });
+    }
+    let fallback = '';
+    try { fallback = new URL(linkUrl).hostname.replace(/^www\./, ''); } catch { /* validated above */ }
+    externalLink = { label: String(linkLabel || '').trim() || fallback, url: linkUrl };
+  }
   const tempPath = req.file.path;
   const originalExt = path.extname(req.file.originalname).toLowerCase();
   const baseName = `art-${Date.now()}`;
@@ -500,6 +512,7 @@ app.post('/api/upload', upload.single('mediaFile'), async (req, res) => {
       src: finalSrc,
       poster: finalPoster,
       sound,
+      ...(externalLink ? { linkLabel: externalLink.label, linkUrl: externalLink.url } : {}),
       featured: featured === 'true' || featured === true,
       createdAt: new Date().toISOString()
     };

@@ -45,9 +45,12 @@ function generateArtPage() {
 
     let mediaTag = '';
     if (isVideo) {
+      // sound: true on the artwork opts the clip out of the site-wide mute
+      // (site.js reads data-sound) — used for VJ loops with an audio track.
+      const soundAttr = art.sound === true ? ' data-sound="1"' : ' muted';
       mediaTag = `
         <figure class="vid"><span class="ph chamfer">
-          <video src="${src}" poster="${poster}" preload="metadata" muted loop playsinline aria-label="${title}"></video>
+          <video src="${src}" poster="${poster}" preload="metadata"${soundAttr} loop playsinline aria-label="${title}"></video>
           <button class="vplay" type="button" aria-pressed="false">▶ Play clip</button>
         </span>
         <figcaption>

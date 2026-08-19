@@ -4,7 +4,11 @@ var rm=window.matchMedia('(prefers-reduced-motion: reduce)');
 var vids=Array.prototype.slice.call(document.querySelectorAll('.vid video'));
 function btnOf(v){var f=v.closest('.vid');return f?f.querySelector('.vplay'):null}
 function setBtn(v,playing){var b=btnOf(v);if(b){b.textContent=playing?'❚❚ Pause':'▶ Play clip';b.setAttribute('aria-pressed',String(playing))}}
-vids.forEach(function(v){v.muted=true;v.loop=true;v.setAttribute('playsinline','');
+// data-sound (art-page loops with audio) opts a clip out of the blanket mute;
+// playback is still click-to-play, so sound only ever starts from a gesture.
+vids.forEach(function(v){v.muted=!v.dataset.sound;v.loop=true;v.setAttribute('playsinline','');
+// only one audible clip at a time - starting a sound loop pauses the others
+if(v.dataset.sound)v.addEventListener('play',function(){vids.forEach(function(o){if(o!==v&&o.dataset.sound&&!o.paused){o.pause();o.dataset.user='0';setBtn(o,false)}})});
 function pend(){var b=btnOf(v);if(b){b.textContent='Media pending';b.disabled=true}}v.addEventListener('error',pend,true);if(v.error||v.networkState===3)pend();
 var b=btnOf(v);if(b)b.addEventListener('click',function(){if(v.paused){v.dataset.user='1';v.play().then(function(){setBtn(v,true)}).catch(function(){})}else{v.pause();v.dataset.user='0';setBtn(v,false)}});});
 // autoplay is reserved for the scene-setting hero clip on a case page.

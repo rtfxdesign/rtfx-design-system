@@ -1123,6 +1123,8 @@ module.exports = {
   app,
   applyHeroImageHtml,
   assertPublishableBranch,
+  rootProjectSlugs,
+  workDir,
   deletePageMediaHtml,
   decodeHtml,
   escapeHtml,

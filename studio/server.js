@@ -394,7 +394,12 @@ if (!fs.existsSync(artMediaDir)) fs.mkdirSync(artMediaDir, { recursive: true });
 if (!fs.existsSync(tempUploadDir)) fs.mkdirSync(tempUploadDir, { recursive: true });
 
 app.use(express.json({ limit: '50mb' }));
-app.use(express.static(path.join(__dirname, 'public')));
+// no-cache = revalidate every load (304 when unchanged). Without it browsers
+// heuristically cache the dashboard's js/css and keep running stale code
+// through normal refreshes after the server updates.
+app.use(express.static(path.join(__dirname, 'public'), {
+  setHeaders: (res) => res.setHeader('Cache-Control', 'no-cache')
+}));
 app.use('/assets', express.static(path.join(siteDir, 'assets')));
 app.use('/site', express.static(siteDir));
 // Serve work media files

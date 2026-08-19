@@ -86,7 +86,9 @@ document.addEventListener('DOMContentLoaded', () => {
       $('#tab-art').hidden = tabName !== 'art';
       $('#tab-projects').hidden = tabName !== 'projects';
       $('#tab-gallery').hidden = tabName !== 'gallery';
-      if (tabName === 'projects' && state.projects.length === 0) loadProjects();
+      // always refetch on entry — pages change outside Studio (inbox routine,
+      // direct edits), and a cached list shows stale media and captions
+      if (tabName === 'projects') loadProjects();
       if (tabName === 'gallery') loadGallery();
     });
   });

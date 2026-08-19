@@ -8,6 +8,7 @@ const {
   app,
   applyHeroImageHtml,
   assertPublishableBranch,
+  hasAudioTrack,
   deletePageMediaHtml,
   decodeHtml,
   escapeHtml,
@@ -71,6 +72,17 @@ test('media optimizer creates web images, H.264 video, poster, and fast-start me
     const mp4Bytes = fs.readFileSync(mp4);
     assert.ok(mp4Bytes.indexOf(Buffer.from('avc1')) > -1, 'video should contain an H.264 track');
     assert.ok(mp4Bytes.indexOf(Buffer.from('moov')) < mp4Bytes.indexOf(Buffer.from('mdat')), 'fast-start metadata should precede media data');
+    assert.equal(mp4Bytes.indexOf(Buffer.from('mp4a')), -1, 'default encode should strip audio');
+
+    // art pieces keep their track: keepAudio preserves sound, and the probe
+    // distinguishes sourced audio from silent clips
+    const sourceWithAudio = path.join(tempDir, 'source-audio.mp4');
+    const mp4Audio = path.join(tempDir, 'video-audio.mp4');
+    execFileSync(ffmpegPath, ['-hide_banner', '-loglevel', 'error', '-y', '-f', 'lavfi', '-i', 'testsrc2=size=640x360:rate=24:duration=1', '-f', 'lavfi', '-i', 'sine=frequency=440:duration=1', '-c:v', 'mpeg4', '-c:a', 'aac', '-shortest', sourceWithAudio]);
+    assert.equal(hasAudioTrack(sourceWithAudio), true, 'probe should find the audio track');
+    assert.equal(hasAudioTrack(sourceVideo), false, 'probe should report silent sources');
+    optimizeVideo(sourceWithAudio, mp4Audio, poster, { keepAudio: true });
+    assert.ok(fs.readFileSync(mp4Audio).indexOf(Buffer.from('mp4a')) > -1, 'keepAudio should preserve an AAC track');
   } finally {
     fs.rmSync(tempDir, { recursive: true, force: true });
   }

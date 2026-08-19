@@ -74,10 +74,22 @@ function optimizeImage(inputPath, webpPath, jpegPath, maxEdge = 1920) {
   }
 }
 
-function optimizeVideo(inputPath, videoPath, posterPath) {
+function optimizeVideo(inputPath, videoPath, posterPath, options = {}) {
   const videoScale = 'scale=1920:1080:force_original_aspect_ratio=decrease:force_divisible_by=2';
-  runFfmpeg(['-y', '-i', inputPath, '-vf', videoScale, '-c:v', 'libx264', '-crf', '24', '-preset', 'medium', '-pix_fmt', 'yuv420p', '-an', '-movflags', '+faststart', videoPath]);
+  // page clips are muted loops, so audio is stripped by default; art pieces
+  // opt in and keep their track (the player marks them sound-enabled)
+  const audioArgs = options.keepAudio ? ['-c:a', 'aac', '-b:a', '256k'] : ['-an'];
+  runFfmpeg(['-y', '-i', inputPath, '-vf', videoScale, '-c:v', 'libx264', '-crf', '24', '-preset', 'medium', '-pix_fmt', 'yuv420p', ...audioArgs, '-movflags', '+faststart', videoPath]);
   runFfmpeg(['-y', '-ss', '0.5', '-i', inputPath, '-vf', 'scale=1280:1280:force_original_aspect_ratio=decrease', '-frames:v', '1', '-c:v', 'libwebp', '-quality', '82', '-compression_level', '6', posterPath]);
+}
+
+function hasAudioTrack(inputPath) {
+  try {
+    runFfmpeg(['-i', inputPath, '-map', '0:a:0', '-frames:a', '1', '-f', 'null', '-']);
+    return true;
+  } catch {
+    return false;
+  }
 }
 
 function escapeHtml(value) {
@@ -456,12 +468,14 @@ app.post('/api/upload', upload.single('mediaFile'), async (req, res) => {
   try {
     let finalSrc = '';
     let finalPoster = '';
+    let sound = false;
     const mediaType = isVideo ? 'video' : 'image';
 
     if (isVideo) {
       const destVideo = path.join(artMediaDir, `${baseName}.mp4`);
       const destPoster = path.join(artMediaDir, `${baseName}-poster.webp`);
-      optimizeVideo(tempPath, destVideo, destPoster);
+      sound = hasAudioTrack(tempPath);
+      optimizeVideo(tempPath, destVideo, destPoster, { keepAudio: sound });
       finalSrc = `../assets/art/${baseName}.mp4`;
       finalPoster = `../assets/art/${baseName}-poster.webp`;
     } else {
@@ -485,6 +499,7 @@ app.post('/api/upload', upload.single('mediaFile'), async (req, res) => {
       mediaType,
       src: finalSrc,
       poster: finalPoster,
+      sound,
       featured: featured === 'true' || featured === true,
       createdAt: new Date().toISOString()
     };
@@ -1128,6 +1143,7 @@ module.exports = {
   app,
   applyHeroImageHtml,
   assertPublishableBranch,
+  hasAudioTrack,
   rootProjectSlugs,
   workDir,
   deletePageMediaHtml,

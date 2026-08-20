@@ -1,19 +1,5 @@
 [
   {
-    "id": "art-1787189552117",
-    "title": "Halo Garden",
-    "category": "Generative & Feedback",
-    "year": "2025",
-    "tools": "Generative",
-    "description": "A robed, haloed figure in a garden of red blossoms and bare pale branches, the camera drifting through a golden ring into a misted, kaleidoscopic wood.",
-    "mediaType": "video",
-    "src": "https://media.rtfx.space/assets/art/art-1787189552117.mp4",
-    "poster": "../assets/art/art-1787189552117-poster.webp",
-    "sound": true,
-    "featured": false,
-    "createdAt": "2026-08-20T01:32:51.190Z"
-  },
-  {
     "id": "art-1787183472607",
     "title": "Stained Glass Flowers",
     "category": "Generative & Feedback",

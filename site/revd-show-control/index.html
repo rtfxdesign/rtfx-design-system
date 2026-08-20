@@ -146,12 +146,19 @@
 <div class="sec-t"><span class="sec-num">04</span><h2 id="s-glass" class="display-m">Behind the glass</h2></div>
 <p class="sec-note">Under the surface it is ordinary professional tooling, wired so that nobody has to look at it. Scenes live in MyDMX with their own fade times; Companion only ever sends a trigger.</p>
 </div>
-<div style="display:flex;gap:var(--s-6);align-items:flex-start;flex-wrap:wrap">
-<figure style="flex:0 1 420px;min-width:min(100%,300px);margin:0"><span class="ph chamfer" style="aspect-ratio:1080/1920"><img src="media/rack.webp" width="1080" height="1920" alt="An equipment rack with a patch panel and network switch, LED processor, four-way DMX booster and myDMX interface, a shelf of media players, and a pull-out console whose rack monitor shows the REVD desktop." loading="lazy" decoding="async"></span><figcaption style="margin-top:8px;font-size:12px;color:var(--c-ink-3);font-style:italic">One rack, two rooms, one studio PC.</figcaption></figure>
-<div style="flex:1;min-width:min(100%,340px)">
-<span class="micro" style="display:block;margin-bottom:8px;color:var(--c-accent)">Rules the system has to keep</span>
-<p class="body-s" style="color:var(--c-ink-2);margin-bottom:16px">Written down before the build and checked after every change — the difference between a room that works and a room that mostly works.</p>
-<ol class="rules">
+<div class="fig-grid">
+<figure style="max-width:420px"><span class="ph chamfer" style="aspect-ratio:1080/1920"><img src="media/rack.webp" width="1080" height="1920" alt="An equipment rack with a patch panel and network switch, LED processor, four-way DMX booster and myDMX interface, a shelf of media players, and a pull-out console whose rack monitor shows the REVD desktop." loading="lazy" decoding="async"></span><figcaption>One rack, two rooms, one studio PC.</figcaption></figure>
+</div>
+</div>
+</section>
+<section aria-labelledby="s-rules">
+<div class="wrap">
+<div class="sec-head">
+<canvas class="bgfield" aria-hidden="true"></canvas>
+<div class="sec-t"><span class="sec-num">05</span><h2 id="s-rules" class="display-m">Rules the system has to keep</h2></div>
+<p class="sec-note">These were written down before the build and checked after every change. They are the difference between a room that works and a room that mostly works.</p>
+</div>
+<ol class="rules maxm">
 <li><b>Instructors never see software</b><p>No workflow may require a window, a mouse, or a decision about Resolume.</p></li>
 <li><b>One press, one action</b><p>No holds, no double-taps, no hidden functions.</p></li>
 <li><b>The green outline is always true</b><p>Every state change updates every sibling, in the same action list.</p></li>
@@ -161,14 +168,12 @@
 <li><b>Phases are exclusive</b><p>Never two live at once. Never zero after a press.</p></li>
 </ol>
 </div>
-</div>
-</div>
 </section>
 <section aria-labelledby="s-docs">
 <div class="wrap">
 <div class="sec-head">
 <canvas class="bgfield" aria-hidden="true"></canvas>
-<div class="sec-t"><span class="sec-num">05</span><h2 id="s-docs" class="display-m">Handed over, not just installed</h2></div>
+<div class="sec-t"><span class="sec-num">06</span><h2 id="s-docs" class="display-m">Handed over, not just installed</h2></div>
 <p class="sec-note">The build shipped with two documents: a technical reference for whoever maintains it, and a one-page quick guide for whoever teaches the class.</p>
 </div>
 <div class="maxm">
@@ -187,7 +192,7 @@
 <div class="wrap">
 <div class="sec-head">
 <canvas class="bgfield" aria-hidden="true"></canvas>
-<div class="sec-t"><span class="sec-num">06 · Show stack</span><h2 id="s-stack" class="display-m">The room runs itself</h2></div>
+<div class="sec-t"><span class="sec-num">07 · Show stack</span><h2 id="s-stack" class="display-m">The room runs itself</h2></div>
 <p class="sec-note">Phase two: unattended show automation and a branded ops dashboard, so the machine behind the wall no longer needs a person who knows it.</p>
 </div>
 <p class="lede">One Windows show PC runs six pieces of software — virtual MIDI, tempo clock, lighting desk, visuals engine, button logic, remote access — that must come up in the right order and stay up through a full day of classes. The people running the room are instructors on Macs, on a different network. Before this, "the wall is black" meant calling whoever knew the machine.</p>

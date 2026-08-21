@@ -12,7 +12,7 @@ var deckRoot=document.getElementById('vDeck');if(!deckRoot)return;
    (palette 3 is the Tempo amber zone, closest to the site's own accent);
    mods = host-side modulation for inputs the patch fed from FFT externally. */
 var S=[
-{id:'cadencetach',file:'cadencetach',name:'CadenceTach_AutoFFT',nodes:15,bpm:true,
+{id:'cadencetach',file:'cadencetach',name:'CadenceTach',nodes:15,bpm:true,
  map:[['bass','Dial sweep'],['mid','Tick glow'],['high','Needle jitter']],
  params:['Dial rings','RPM speed','Glow'],
  set:{stage:.6,color1:[1,.69,.125,1],color2:[.35,.16,0,1],color3:[1,.851,.627,1],color4:[1,.42,0,1]}},
@@ -142,11 +142,17 @@ function prelude(isf){
     +'#define IMG_PIXEL(img,c) texture2D(img,(c)/u_res)\n'
     +isf.inputs.map(glslDecl).join('\n')+'\n';
 }
-/* value a given input should carry this frame; knob overrides beat presets */
+/* value a given input should carry this frame; a band binding beats the knob,
+   the knob beats the preset */
+function bandValue(inp,band){
+  var mn=inp.MIN!==undefined?inp.MIN:0,mx=inp.MAX!==undefined?inp.MAX:1;
+  return mn+(sig[band]||0)*(mx-mn);
+}
 function inputValue(sh,inp){
   var n=inp.NAME,base=inp.DEFAULT;
   if(sh.set&&sh.set.hasOwnProperty(n))base=sh.set[n];
   if(sh.user&&sh.user.hasOwnProperty(n))base=sh.user[n];
+  if(sh.bind&&sh.bind[n])base=bandValue(inp,sh.bind[n]);
   if(sh.mods&&sh.mods[n])return sh.mods[n](sig,base);
   var l=(inp.LABEL||'');
   if(n==='bass'||n==='Audio_Low')return sig.bass;
@@ -271,14 +277,15 @@ function knobBase(sh,inp){
   return inp.DEFAULT;
 }
 function fmtV(v){return (Math.round(v*100)/100).toString()}
+var boundKnobs=[];
 function buildKnobs(sh,isf){
   var host=document.getElementById('dKnobs');
-  host.innerHTML='';
-  sh.user=sh.user||{};
+  host.innerHTML='';boundKnobs=[];
+  sh.user=sh.user||{};sh.bind=sh.bind||{};
   isf.inputs.forEach(function(inp){
     if(AUDIO_IN.test(inp.NAME))return;
     if(inp.TYPE!=='float'&&inp.TYPE!=='long')return;
-    var row=document.createElement('label');row.className='knob';
+    var row=document.createElement('div');row.className='knob';
     var label=(inp.LABEL||inp.NAME).replace(/\s*\(.*\)$/,'');
     if(inp.TYPE==='long'&&inp.VALUES){
       var sel=document.createElement('select');
@@ -293,18 +300,40 @@ function buildKnobs(sh,isf){
       var min=inp.MIN!==undefined?inp.MIN:0,max=inp.MAX!==undefined?inp.MAX:1;
       var r=document.createElement('input');r.type='range';
       r.min=min;r.max=max;r.step=(max-min)/200;
-      r.value=knobBase(sh,inp);
+      r.value=sh.bind[inp.NAME]?bandValue(inp,sh.bind[inp.NAME]):knobBase(sh,inp);
+      r.disabled=!!sh.bind[inp.NAME];
       var kv=document.createElement('span');kv.className='kv';kv.textContent=fmtV(+r.value);
       r.addEventListener('input',function(){sh.user[inp.NAME]=+r.value;kv.textContent=fmtV(+r.value)});
+      // B/M/H: hand the parameter to an FFT band; click again to take it back
+      var kb=document.createElement('span');kb.className='kb';
+      ['bass','mid','high'].forEach(function(band){
+        var bb=document.createElement('button');bb.type='button';bb.className='kbb';
+        bb.textContent=band.charAt(0).toUpperCase();
+        bb.title='Drive '+label+' from the '+band+' band';
+        bb.setAttribute('aria-pressed',String(sh.bind[inp.NAME]===band));
+        bb.addEventListener('click',function(){
+          if(sh.bind[inp.NAME]===band)delete sh.bind[inp.NAME];
+          else sh.bind[inp.NAME]=band;
+          r.disabled=!!sh.bind[inp.NAME];
+          if(!sh.bind[inp.NAME]){r.value=knobBase(sh,inp);kv.textContent=fmtV(+r.value)}
+          var sibs=kb.children;
+          for(var q=0;q<sibs.length;q++)sibs[q].setAttribute('aria-pressed',String(sh.bind[inp.NAME]===['bass','mid','high'][q]));
+        });
+        kb.appendChild(bb);
+      });
       var top=document.createElement('span');top.className='kl';
-      top.textContent=label;top.appendChild(kv);
+      var lt=document.createElement('span');lt.textContent=label;
+      var right=document.createElement('span');right.className='kr';
+      right.appendChild(kb);right.appendChild(kv);
+      top.appendChild(lt);top.appendChild(right);
       row.appendChild(top);row.appendChild(r);
+      boundKnobs.push({sh:sh,inp:inp,r:r,kv:kv});
     }
     host.appendChild(row);
   });
   var reset=document.createElement('button');
   reset.type='button';reset.className='btn btn--ghost kreset';reset.textContent='Reset';
-  reset.addEventListener('click',function(){sh.user={};buildKnobs(sh,isf)});
+  reset.addEventListener('click',function(){sh.user={};sh.bind={};buildKnobs(sh,isf)});
   host.appendChild(reset);
 }
 var dList=document.getElementById('dList');
@@ -361,7 +390,31 @@ function frame(now){
       el.style.transform='scaleX('+Math.max(.03,n?s/n:0).toFixed(3)+')';
     }
   }
+  // band-bound knobs ride their band live
+  for(var bi2=0;bi2<boundKnobs.length;bi2++){
+    var bk=boundKnobs[bi2];
+    if(bk.sh!==curShader)continue;
+    var bband=bk.sh.bind[bk.inp.NAME];
+    if(!bband)continue;
+    var bv=bandValue(bk.inp,bband);
+    bk.r.value=bv;bk.kv.textContent=fmtV(bv);
+  }
   schedule();
+}
+// fullscreen toggle on the monitor
+var fsBtn=document.getElementById('shFs'),cvWrap=canvas.parentNode;
+if(fsBtn){
+  fsBtn.addEventListener('click',function(){
+    if(document.fullscreenElement||document.webkitFullscreenElement){
+      (document.exitFullscreen||document.webkitExitFullscreen).call(document);
+    }else{
+      var req=cvWrap.requestFullscreen||cvWrap.webkitRequestFullscreen;
+      if(req)req.call(cvWrap);
+    }
+  });
+  document.addEventListener('fullscreenchange',function(){
+    fsBtn.textContent=document.fullscreenElement?'✕ Exit':'⛶ Fullscreen';
+  });
 }
 // forced single frame regardless of visibility - console/testing hook
 window.__shFrame=function(){var v=visible;visible=true;frame(performance.now());visible=v};

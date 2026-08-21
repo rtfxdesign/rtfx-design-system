@@ -19,24 +19,48 @@ var S=[
 {id:'wavescope',file:'wavescope',name:'WaveScope',nodes:12,bpm:true,
  map:[['bass','Centre warp'],['mid','Trace ripple'],['high','Rim sparkle']],
  params:['Depth traces','Spread','Scan grid'],set:{palette:3,stage:.6}},
-{id:'cardiaccore',file:'cardiaccore',name:'CardiacCore',nodes:11,bpm:true,
- map:[['bass','Core pulse'],['mid','Vessel flow'],['high','Shimmer']],
- params:['Heart rate','Vascular filaments','Glow'],set:{stage:.6}},
-{id:'frictionignition',file:'frictionignition',name:'FrictionIgnition',nodes:11,bpm:true,
- map:[['bass','Ember surge'],['mid','Vortex'],['high','Sparks']],
- params:['Vortex speed','Spark density','Glow'],set:{stage:.6}},
-{id:'pulsegrid',file:'pulsegrid',name:'PulseGrid',nodes:13,bpm:true,
- map:[['bass','Centre warp'],['mid','Cell ripple'],['high','Rim sparkle']],
- params:['Grid density','Trail','Glow'],set:{stage:.6}},
 {id:'voidcorridor',file:'voidcorridor',name:'VoidCorridor',nodes:13,bpm:true,
  map:[['bass','Centre warp'],['mid','Cell ripple'],['high','Rim sparkle']],
  params:['Tunnel warp','Trail','Glow'],set:{stage:.6}},
+{id:'cloudvortex',file:'cloudvortex',name:'CloudVortex',nodes:9,bpm:false,
+ map:[['bass','Radius'],['mid','Rate'],['high','Turbulence']],
+ params:['Loops','Rotation','Turbulence'],
+ mods:{radius:function(sig,base){return base*(0.8+0.5*sig.bass)},
+       rate:function(sig,base){return base*(0.55+0.9*sig.mid)},
+       turbulance:function(sig,base){return base*(0.7+0.8*sig.high)}}},
+{id:'geotiles',file:'geotiles',name:'geotiles',nodes:11,bpm:false,
+ map:[['bass','Scale pulse'],['mid','Speed'],['high','Color shift']],
+ params:['Scale','Rotation speed','Color shift'],
+ mods:{scale:function(sig,base){return base*(1-0.18*sig.bass)},
+       speed:function(sig,base){return base*(0.55+0.9*sig.mid)},
+       colorShift:function(sig,base){return base+0.35*sig.high}}},
+{id:'ghostsmoving',file:'ghostsmoving',name:'ghosts_moving',nodes:22,bpm:true,
+ map:[['bass','Ghost size'],['mid','Drift'],['high','Glitch']],
+ params:['Tiling','RGB offset','Scanlines','Halftone'],
+ mods:{Ghost_Size:function(sig,base){return base*(0.8+0.4*sig.bass)},
+       Speed:function(sig,base){return base*(0.6+0.8*sig.mid)},
+       Glitch_Amount:function(sig,base){return base*(0.4+1.4*sig.high)}}},
+{id:'kalicircuits',file:'kalicircuits',name:'KaliCircuits',nodes:10,bpm:false,
+ map:[['bass','Glow'],['mid','Rate'],['high','Trace']],
+ params:['Zoom','Trace','Runtime'],
+ mods:{glow:function(sig,base){return base*(0.6+1.1*sig.bass)},
+       rate:function(sig,base){return base*(0.5+1.1*sig.mid)},
+       trace:function(sig,base){return base+30*sig.high}}},
+{id:'kishi',file:'kishi',name:'Kishi 2D Fractal',nodes:11,bpm:false,
+ map:[['bass','Glow'],['mid','Speed'],['high','Repetition']],
+ params:['Fractal layers','Space repetition','Glow'],
+ mods:{glow_intensity:function(sig,base){return base*(0.55+1.5*sig.bass)},
+       speed:function(sig,base){return base*(0.55+1.1*sig.mid)},
+       fract_mult:function(sig,base){return base+0.25*sig.high}}},
+{id:'maskpulsar',file:'maskpulsar',name:'mask_pulsar',kind:'Luma mask',nodes:11,bpm:true,
+ map:[['bass','Beam surge'],['mid','Rotation'],['high','Edge']],
+ params:['Speed','Edge softness'],set:{stage:.6}},
+{id:'maskradar',file:'maskradar',name:'mask_radar',kind:'Luma mask',nodes:11,bpm:true,
+ map:[['bass','Sweep width'],['mid','Sweep rate'],['high','Blips']],
+ params:['Speed','Edge softness'],set:{stage:.6}},
 {id:'maskspoke',file:'maskspoke',name:'mask_spoke',kind:'Luma mask',bpm:true,
  map:[['bass','Spoke width'],['mid','Rotation'],['high','Edge']],
- params:['Spokes','Rotation rate','Edge softness']},
-{id:'masklightning',file:'masklightning',name:'mask_lightning',kind:'Luma mask',nodes:11,bpm:true,
- map:[['bass','Arc fire'],['mid','Branch drift'],['high','Flicker']],
- params:['Speed','Edge softness'],set:{stage:.6}}
+ params:['Spokes','Rotation rate','Edge softness']}
 ];
 /* deck palettes - four colors each plus the matching REVd zone for shaders
    with a palette input. Amber is the site's own family and the default. */
@@ -271,7 +295,7 @@ function inputValue(sh,inp){
   if(n==='bass'||n==='Audio_Low')return sig.bass;
   if(n==='mid'||n==='Audio_Mid')return sig.mid;
   if(n==='high'||n==='Audio_High')return sig.high;
-  if(n==='Audio_Level')return (sig.bass+sig.mid+sig.high)/3;
+  if(n==='Audio_Level'||n==='Audio')return (sig.bass+sig.mid+sig.high)/3;
   if(n==='Beat_Pulse')return sig.beat;
   if(n==='beat')return /transport/i.test(l)?beatPos:sig.beat;
   if(n==='Beat_Transport')return beatPos;

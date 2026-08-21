@@ -12,22 +12,10 @@ var deckRoot=document.getElementById('vDeck');if(!deckRoot)return;
    (palette 3 is the Tempo amber zone, closest to the site's own accent);
    mods = host-side modulation for inputs the patch fed from FFT externally. */
 var S=[
-{id:'radialcore',file:'radialcore',name:'RadialCore_V2',nodes:12,bpm:true,
- map:[['bass','Centre warp'],['mid','Arm ripple'],['high','Rim sparkle']],
- params:['Shape morph','Filaments','Core radius','Trail'],set:{palette:3,stage:.6}},
 {id:'cadencetach',file:'cadencetach',name:'CadenceTach_AutoFFT',nodes:15,bpm:true,
  map:[['bass','Dial sweep'],['mid','Tick glow'],['high','Needle jitter']],
  params:['Dial rings','RPM speed','Glow'],
  set:{stage:.6,color1:[1,.69,.125,1],color2:[.35,.16,0,1],color3:[1,.851,.627,1],color4:[1,.42,0,1]}},
-{id:'tron',file:'tron',name:'GridDuel POV',nodes:35,bpm:true,
- map:[['bass','Road pulse'],['mid','City lights'],['high','Sparks']],
- params:['Road width','Gate density','City density','FOV']},
-{id:'velodrome',file:'velodrome',name:'VelodromeHorizon',nodes:12,bpm:true,
- map:[['bass','Track hills'],['mid','Pace'],['high','Boundary flash']],
- params:['Track width','Glow','Speed'],set:{stage:.6}},
-{id:'emberfield',file:'emberfield',name:'EmberField_V2',nodes:13,bpm:false,
- map:[['bass','Centre warp'],['mid','Cell ripple'],['high','Rim sparkle']],
- params:['Density','Trail','Glow'],set:{palette:3,stage:.6}},
 {id:'faultlines',file:'faultlines',name:'FaultLines_V2',nodes:14,bpm:true,
  map:[['bass','Centre warp'],['mid','Cell ripple'],['high','Rim sparkle']],
  params:['Crack width','Trail','Glow'],set:{palette:3,stage:.6}},
@@ -36,19 +24,7 @@ var S=[
  params:['Pulse rate','Glow','Trail'],set:{palette:3,stage:.6,intensity:1,lineGlow:.7}},
 {id:'wavescope',file:'wavescope',name:'WaveScope_V2',nodes:12,bpm:true,
  map:[['bass','Centre warp'],['mid','Trace ripple'],['high','Rim sparkle']],
- params:['Depth traces','Spread','Scan grid'],set:{palette:3,stage:.6}},
-{id:'darkroad',file:'darkroad',name:'Dark Road POV',nodes:35,bpm:true,
- map:[['bass','Glow'],['mid','Motion'],['beat','Dash pulse']],
- params:['Lane spacing','Road curve','Scanlines'],
- mods:{glow:function(sig,base){return base*(0.75+0.7*sig.bass)},
-       motionMultiplier:function(sig,base){return base*(0.75+0.5*sig.mid)},
-       beatPulse:function(sig,base){return base+0.4*sig.beat}}},
-{id:'kishi',file:'kishi',name:'Kishi 2D Fractal',nodes:11,bpm:false,
- map:[['bass','Glow'],['mid','Speed'],['high','Repetition']],
- params:['Fractal layers','Space repetition','Palette'],
- mods:{glow_intensity:function(sig,base){return base*(0.55+1.5*sig.bass)},
-       speed:function(sig,base){return base*(0.55+1.1*sig.mid)},
-       fract_mult:function(sig,base){return base+0.25*sig.high}}}
+ params:['Depth traces','Spread','Scan grid'],set:{palette:3,stage:.6}}
 ];
 var TRACKS=[
  {id:'house',label:'House',bpm:130,src:'../assets/audio/house130.mp3'},

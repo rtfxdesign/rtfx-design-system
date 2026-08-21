@@ -1,5 +1,33 @@
 [
   {
+    "id": "art-1787348635114",
+    "title": "Sunny",
+    "category": "Generative & Feedback",
+    "year": "2026",
+    "tools": "Stablediffusion, Photoshop",
+    "description": "Somewhere between classical and comic book, but always sunny",
+    "mediaType": "image",
+    "src": "../assets/art/art-1787348635114.webp",
+    "poster": "../assets/art/art-1787348635114.webp",
+    "sound": false,
+    "featured": false,
+    "createdAt": "2026-08-21T21:43:55.686Z"
+  },
+  {
+    "id": "art-1787348574557",
+    "title": "Blondie",
+    "category": "Generative & Feedback",
+    "year": "2026",
+    "tools": "Photoshop",
+    "description": "I just love Debbie. Someday I'll find a home for this",
+    "mediaType": "image",
+    "src": "../assets/art/art-1787348574557.webp",
+    "poster": "../assets/art/art-1787348574557.webp",
+    "sound": false,
+    "featured": false,
+    "createdAt": "2026-08-21T21:42:55.848Z"
+  },
+  {
     "id": "art-1787183472607",
     "title": "Stained Glass Flowers",
     "category": "Generative & Feedback",

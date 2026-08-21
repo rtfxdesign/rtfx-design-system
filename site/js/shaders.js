@@ -19,9 +19,24 @@ var S=[
 {id:'wavescope',file:'wavescope',name:'WaveScope',nodes:12,bpm:true,
  map:[['bass','Centre warp'],['mid','Trace ripple'],['high','Rim sparkle']],
  params:['Depth traces','Spread','Scan grid'],set:{palette:3,stage:.6}},
+{id:'cardiaccore',file:'cardiaccore',name:'CardiacCore',nodes:11,bpm:true,
+ map:[['bass','Core pulse'],['mid','Vessel flow'],['high','Shimmer']],
+ params:['Heart rate','Vascular filaments','Glow'],set:{stage:.6}},
+{id:'frictionignition',file:'frictionignition',name:'FrictionIgnition',nodes:11,bpm:true,
+ map:[['bass','Ember surge'],['mid','Vortex'],['high','Sparks']],
+ params:['Vortex speed','Spark density','Glow'],set:{stage:.6}},
+{id:'pulsegrid',file:'pulsegrid',name:'PulseGrid',nodes:13,bpm:true,
+ map:[['bass','Centre warp'],['mid','Cell ripple'],['high','Rim sparkle']],
+ params:['Grid density','Trail','Glow'],set:{stage:.6}},
+{id:'voidcorridor',file:'voidcorridor',name:'VoidCorridor',nodes:13,bpm:true,
+ map:[['bass','Centre warp'],['mid','Cell ripple'],['high','Rim sparkle']],
+ params:['Tunnel warp','Trail','Glow'],set:{stage:.6}},
 {id:'maskspoke',file:'maskspoke',name:'mask_spoke',kind:'Luma mask',bpm:true,
  map:[['bass','Spoke width'],['mid','Rotation'],['high','Edge']],
- params:['Spokes','Rotation rate','Edge softness']}
+ params:['Spokes','Rotation rate','Edge softness']},
+{id:'masklightning',file:'masklightning',name:'mask_lightning',kind:'Luma mask',nodes:11,bpm:true,
+ map:[['bass','Arc fire'],['mid','Branch drift'],['high','Flicker']],
+ params:['Speed','Edge softness'],set:{stage:.6}}
 ];
 /* deck palettes - four colors each plus the matching REVd zone for shaders
    with a palette input. Amber is the site's own family and the default. */
@@ -39,7 +54,8 @@ var GENRES=[
  {id:'hiphop',label:'HipHop',bpm:80,stems:[['0-lead-vocals','Lead vox'],['1-backing-vocals','Back vox'],['2-drums','Drums'],['3-bass','Bass'],['4-keyboard','Keys'],['5-percussion','Perc'],['6-synth','Synth'],['7-other','Other']]},
  {id:'lofi',label:'LoFi',bpm:80,stems:[['0-drums','Drums'],['1-bass','Bass'],['2-guitar','Guitar'],['3-keyboard','Keys'],['4-other','Other']]},
  {id:'phonk',label:'Phonk',bpm:131,stems:[['0-lead-vocals','Lead vox'],['1-backing-vocals','Back vox'],['2-drums','Drums'],['3-bass','Bass'],['4-synth','Synth'],['5-other','Other']]},
- {id:'shardline',label:'Shardline',bpm:70,stems:[['0-lead-vocals','Lead vox'],['1-drums','Drums'],['2-bass','Bass'],['3-percussion','Perc'],['4-synth','Synth'],['5-other','Other']]},
+ {id:'deeptechno',label:'Deep Techno',bpm:126,stems:[['0-lead-vocals','Lead vox'],['1-drums','Drums'],['2-bass','Bass'],['3-synth','Synth'],['4-other','Other']]},
+ {id:'dubstep',label:'Dubstep',bpm:70,stems:[['0-lead-vocals','Lead vox'],['1-drums','Drums'],['2-bass','Bass'],['3-percussion','Perc'],['4-synth','Synth'],['5-other','Other']]},
  {id:'slowwhine',label:'Slow Whine',bpm:92,stems:[['0-lead-vocals','Lead vox'],['1-drums','Drums'],['2-bass','Bass'],['3-percussion','Perc'],['4-synth','Synth'],['5-other','Other']]}
 ];
 
@@ -184,6 +200,7 @@ var palBtns=[];
 function applyPalette(pi){
   curPal=pi;var p=PALETTES[pi];
   S.forEach(function(sh){
+    if(sh.kind==='Luma mask')return; // masks stay black and white
     sh.set=sh.set||{};
     sh.set.color1=p.colors[0];sh.set.color2=p.colors[1];
     sh.set.color3=p.colors[2];sh.set.color4=p.colors[3];
@@ -226,7 +243,10 @@ function glslDecl(inp){
   return '';
 }
 function prelude(isf){
-  return 'precision highp float;\n'
+  // derivative built-ins (fwidth etc.) are extension-gated in WebGL1
+  var deriv=derivExt&&/\b(fwidth|dFdx|dFdy)\s*\(/.test(isf.body)
+    ?'#extension GL_OES_standard_derivatives : enable\n':'';
+  return deriv+'precision highp float;\n'
     +'uniform vec2 u_res;uniform float u_time;uniform int u_pass;\n'
     +'#define RENDERSIZE u_res\n#define TIME u_time\n#define PASSINDEX u_pass\n'
     +'#define isf_FragNormCoord (gl_FragCoord.xy/u_res)\n'
@@ -264,6 +284,7 @@ var canvas=document.getElementById('dCv');
 var gl=canvas.getContext('webgl',{antialias:false,alpha:false});
 var halfExt=gl&&gl.getExtension('OES_texture_half_float');
 if(gl&&halfExt)gl.getExtension('OES_texture_half_float_linear');
+var derivExt=gl&&gl.getExtension('OES_standard_derivatives');
 var vs=null,progs={},bufs={},loads={};
 if(gl){
   vs=gl.createShader(gl.VERTEX_SHADER);

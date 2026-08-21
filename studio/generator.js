@@ -123,7 +123,7 @@ function generateArtPage() {
 <header class="topbar">
 <div class="topbar-in">
 <a class="tb-logo" href="../index.html"><img src="../assets/rtfx-wordmark-white.svg" alt="RT/FX — home"></a>
-<nav aria-label="Site"><a href="../index.html#work">← Projects</a><a href="index.html" aria-current="page" style="color:var(--c-accent)">Art</a><a href="../gallery/index.html">Gallery</a><a href="../index.html#contact">Contact</a></nav>
+<nav aria-label="Site"><a href="../index.html#work">← Projects</a><a href="index.html" aria-current="page" style="color:var(--c-accent)">Art</a><a href="../shaders/index.html">Shaders</a><a href="../gallery/index.html">Gallery</a><a href="../index.html#contact">Contact</a></nav>
 <span class="status st-ok tb-right"><span class="dot"></span>${artworks.length} works</span>
 </div>
 </header>

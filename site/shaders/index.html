@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Custom Shaders — RT/FX</title>
+<meta name="description" content="Audio-reactive GLSL shaders built in Resolume Wire for the REVd studio, running live in your browser — feed them a test track or your mic.">
+<link rel="canonical" href="https://rtfx.space/shaders/">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Custom Shaders — RT/FX">
+<meta property="og:description" content="Audio-reactive GLSL instruments built in Resolume Wire, running the real math live in your browser.">
+<meta property="og:url" content="https://rtfx.space/shaders/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#000000">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../assets/apple-touch-icon-180.png">
+<link rel="stylesheet" href="../css/site.css">
+<style>
+.hero h1.fh{margin:12px 0 16px}
+.sig-row{display:flex;gap:var(--s-4);align-items:center;flex-wrap:wrap;margin-bottom:var(--s-6)}
+.sig-note{font-family:var(--f-display);font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--c-ink-3)}
+.mm{display:flex;gap:5px;align-items:flex-end;height:20px}
+.mm i{width:6px;height:20px;background:var(--c-raise);position:relative;display:block}
+.mm b{position:absolute;inset:0;background:var(--c-accent);transform-origin:bottom;transform:scaleY(.08)}
+.cv{display:block;position:relative;background:#050505;overflow:hidden}
+.cv canvas{width:100%;height:100%;display:block}
+.cv .idx{position:absolute;top:10px;left:12px;font-family:var(--f-display);font-size:9.5px;letter-spacing:.18em;color:var(--c-ink);text-shadow:0 1px 4px rgba(0,0,0,.8);z-index:2}
+.cv .run{position:absolute;inset:0;z-index:3;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.55);border:0;color:var(--c-ink);font-family:var(--f-display);font-size:12px;letter-spacing:.16em;text-transform:uppercase;cursor:pointer}
+.sh-name{font-family:var(--f-display);font-size:14px;font-weight:600;letter-spacing:-.03em;color:var(--c-ink)}
+.map{display:grid;grid-template-columns:18px minmax(50px,1fr) auto;gap:9px;align-items:center;font-family:var(--f-display);font-size:9px;letter-spacing:.13em;color:var(--c-ink-3);text-transform:uppercase}
+.map .bd{color:var(--c-accent-2);font-weight:600}
+.map .bar{height:3px;background:var(--c-raise);overflow:hidden}
+.map .bar b{display:block;height:100%;background:var(--c-accent);transform-origin:left;transform:scaleX(0)}
+.spec{font-family:var(--f-display);font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:var(--c-ink-3)}
+.spec em{font-style:normal;color:var(--c-ink-2)}
+.pchips{display:flex;gap:6px;flex-wrap:wrap}
+.sh-deck{display:grid;grid-template-columns:1fr 300px;gap:var(--s-5);align-items:start}
+.shd-main .cv{aspect-ratio:16/9}
+.shd-meta{padding:var(--s-4) 0;display:grid;gap:var(--s-3)}
+.shd-meta .maps{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px}
+.chl{border:1px solid var(--c-rule-soft)}
+.chr{display:grid;grid-template-columns:26px 1fr 34px;gap:10px;align-items:center;width:100%;padding:11px 12px;background:transparent;border:0;border-bottom:1px solid var(--c-rule-soft);color:var(--c-ink-2);cursor:pointer;text-align:left;font-family:var(--f-display)}
+.chr:last-child{border-bottom:0}
+.chr .cn{font-size:9.5px;letter-spacing:.18em;color:var(--c-ink-3)}
+.chr .ct{font-size:11.5px;font-weight:600;letter-spacing:-.02em}
+.chr .ck{display:block;font-size:8.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--c-ink-3);margin-top:2px}
+.chr .bar{height:3px;background:var(--c-raise);overflow:hidden}
+.chr .bar b{display:block;height:100%;background:var(--c-accent);transform-origin:left;transform:scaleX(0)}
+.chr:hover{color:var(--c-ink)}
+.chr[aria-current]{background:var(--c-panel);color:var(--c-ink)}
+.chr[aria-current] .ct{color:var(--c-accent)}
+.chr.pend{opacity:.4;pointer-events:none}
+@media (max-width:900px){.sh-deck{grid-template-columns:1fr}}
+.tbtn[aria-pressed="true"]{border-color:var(--c-accent);color:var(--c-accent)}
+.tbtn .bt{color:var(--c-ink-3);margin-left:8px}
+.pend{opacity:.4;pointer-events:none}
+</style>
+<script src="../js/field.js" defer></script>
+<script src="../js/bgfield.js" defer></script>
+<script src="../js/shaders.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="topbar">
+<div class="topbar-in">
+<a class="tb-logo" href="../index.html"><img src="../assets/rtfx-wordmark-white.svg" alt="RT/FX — home"></a>
+<nav aria-label="Site"><a href="../index.html#work">← Projects</a><a href="../art/index.html">Art</a><a href="index.html" aria-current="page" style="color:var(--c-accent)">Shaders</a><a href="../gallery/index.html">Gallery</a><a href="../index.html#contact">Contact</a></nav>
+<span class="status st-ok tb-right"><span class="dot"></span>10 shaders</span>
+</div>
+</header>
+<main id="main">
+<div class="hero bg-grid">
+<canvas class="bgfield" aria-hidden="true"></canvas>
+<div class="wrap">
+<span class="label">Personal Works · Custom Shaders · Audio-Reactive</span>
+<h1 class="fh"><canvas class="fieldh" data-text="CUSTOM SHADERS" aria-hidden="true"></canvas><span class="sr">Custom Shaders</span></h1>
+<p class="sub">GLSL instruments built in Resolume Wire for the REVd studio, with audio-reactive inputs wired to the FFT. These previews run the real shader math in your browser — feed them a test track or your mic.</p>
+<div class="tickrule" aria-hidden="true"></div>
+</div>
+</div>
+<section id="shaders" aria-label="Shader deck">
+<div class="wrap">
+<div class="sig-row">
+<span class="row" id="trackRow"></span>
+<button class="btn btn--ghost" id="micBtn" type="button">Mic →</button>
+<span class="status st-idle" id="sigChip"><span class="dot"></span>Signal · Sim</span>
+<span class="mm" id="mmaster" aria-hidden="true"><i><b data-band="bass"></b></i><i><b data-band="mid"></b></i><i><b data-band="high"></b></i></span>
+<span class="sig-note">Mic audio stays in your browser — nothing is recorded</span>
+</div>
+<div class="sh-deck" id="vDeck">
+<div class="shd-main">
+<span class="cv chamfer"><span class="idx" id="dIdx">01</span><canvas id="dCv"></canvas><button class="run" id="shRun" type="button" hidden>▶ Run previews</button></span>
+<div class="shd-meta">
+<div style="display:flex;gap:12px;align-items:baseline;flex-wrap:wrap"><span class="sh-name" style="font-size:17px" id="dName"></span><span id="dSpec"></span></div>
+<span class="maps" id="dMaps"></span>
+<span id="dChips"></span>
+</div>
+</div>
+<div class="chl" id="dList" role="listbox" aria-label="Shader channels"></div>
+</div>
+</div>
+</section>
+</main>
+<footer>
+<div class="wrap foot">
+<img src="../assets/rtfx-wordmark-white.svg" alt="RT/FX">
+<span class="note">Custom Shaders · RT/FX · Creative technology · Washington, DC</span>
+<span class="links">
+  <a href="../index.html">Home</a>
+  <a href="../art/index.html">Art</a>
+  <a href="../gallery/index.html">Gallery</a>
+  <a href="../index.html#contact">Contact</a>
+</span>
+</div>
+</footer>
+</body>
+</html>

@@ -19,36 +19,30 @@ var S=[
 {id:'wavescope',file:'wavescope',name:'WaveScope',nodes:12,bpm:true,
  map:[['bass','Centre warp'],['mid','Trace ripple'],['high','Rim sparkle']],
  params:['Depth traces','Spread','Scan grid'],set:{palette:3,stage:.6}},
-{id:'voidcorridor',file:'voidcorridor',name:'VoidCorridor',nodes:13,bpm:true,
- map:[['bass','Centre warp'],['mid','Cell ripple'],['high','Rim sparkle']],
- params:['Tunnel warp','Trail','Glow'],set:{stage:.6}},
 {id:'cloudvortex',file:'cloudvortex',name:'CloudVortex',nodes:9,bpm:false,
  map:[['bass','Radius'],['mid','Rate'],['high','Turbulence']],
  params:['Loops','Rotation','Turbulence'],
  mods:{radius:function(sig,base){return base*(0.8+0.5*sig.bass)},
        rate:function(sig,base){return base*(0.55+0.9*sig.mid)},
        turbulance:function(sig,base){return base*(0.7+0.8*sig.high)}}},
-{id:'geotiles',file:'geotiles',name:'geotiles',nodes:11,bpm:false,
- map:[['bass','Scale pulse'],['mid','Speed'],['high','Color shift']],
- params:['Scale','Rotation speed','Color shift'],
- mods:{scale:function(sig,base){return base*(1-0.18*sig.bass)},
-       speed:function(sig,base){return base*(0.55+0.9*sig.mid)},
-       colorShift:function(sig,base){return base+0.35*sig.high}}},
 {id:'ghostsmoving',file:'ghostsmoving',name:'ghosts_moving',nodes:22,bpm:true,
  map:[['bass','Ghost size'],['mid','Drift'],['high','Glitch']],
  params:['Tiling','RGB offset','Scanlines','Halftone'],
+ set:{Speed:.02,Move_X:.08},
  mods:{Ghost_Size:function(sig,base){return base*(0.8+0.4*sig.bass)},
        Speed:function(sig,base){return base*(0.6+0.8*sig.mid)},
        Glitch_Amount:function(sig,base){return base*(0.4+1.4*sig.high)}}},
 {id:'kalicircuits',file:'kalicircuits',name:'KaliCircuits',nodes:10,bpm:false,
  map:[['bass','Glow'],['mid','Rate'],['high','Trace']],
  params:['Zoom','Trace','Runtime'],
+ set:{rate:.15},
  mods:{glow:function(sig,base){return base*(0.6+1.1*sig.bass)},
        rate:function(sig,base){return base*(0.5+1.1*sig.mid)},
        trace:function(sig,base){return base+30*sig.high}}},
 {id:'kishi',file:'kishi',name:'Kishi 2D Fractal',nodes:11,bpm:false,
  map:[['bass','Glow'],['mid','Speed'],['high','Repetition']],
  params:['Fractal layers','Space repetition','Glow'],
+ set:{speed:.01,iterations:2,fract_mult:1.5},
  mods:{glow_intensity:function(sig,base){return base*(0.55+1.5*sig.bass)},
        speed:function(sig,base){return base*(0.55+1.1*sig.mid)},
        fract_mult:function(sig,base){return base+0.25*sig.high}}},
@@ -414,7 +408,7 @@ function knobBase(sh,inp){
   if(sh.set&&sh.set.hasOwnProperty(inp.NAME))return sh.set[inp.NAME];
   return inp.DEFAULT;
 }
-function fmtV(v){return (Math.round(v*100)/100).toString()}
+function fmtV(v){return Math.abs(v)>=100?Math.round(v).toString():(Math.round(v*100)/100).toString()}
 var boundKnobs=[];
 function buildKnobs(sh,isf){
   var host=document.getElementById('dKnobs');

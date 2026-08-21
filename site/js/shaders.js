@@ -16,9 +16,12 @@ var S=[
  map:[['bass','Dial sweep'],['mid','Tick glow'],['high','Needle jitter']],
  params:['Dial rings','RPM speed','Glow'],
  set:{stage:.6,color1:[1,.69,.125,1],color2:[.35,.16,0,1],color3:[1,.851,.627,1],color4:[1,.42,0,1]}},
-{id:'wavescope',file:'wavescope',name:'WaveScope_V2',nodes:12,bpm:true,
+{id:'wavescope',file:'wavescope',name:'WaveScope',nodes:12,bpm:true,
  map:[['bass','Centre warp'],['mid','Trace ripple'],['high','Rim sparkle']],
- params:['Depth traces','Spread','Scan grid'],set:{palette:3,stage:.6}}
+ params:['Depth traces','Spread','Scan grid'],set:{palette:3,stage:.6}},
+{id:'maskspoke',file:'maskspoke',name:'mask_spoke',kind:'Luma mask',bpm:true,
+ map:[['bass','Spoke width'],['mid','Rotation'],['high','Edge']],
+ params:['Spokes','Rotation rate','Edge softness']}
 ];
 var TRACKS=[
  {id:'house',label:'House',bpm:130,src:'../assets/audio/house130.mp3'},
@@ -151,7 +154,7 @@ function inputValue(sh,inp){
   if(n==='high'||n==='Audio_High')return sig.high;
   if(n==='Audio_Level')return (sig.bass+sig.mid+sig.high)/3;
   if(n==='Beat_Pulse')return sig.beat;
-  if(n==='beat'&&/transport/i.test(l))return beatPos;
+  if(n==='beat')return /transport/i.test(l)?beatPos:sig.beat;
   if(n==='Beat_Transport')return beatPos;
   if(n==='bpm')return curBpm();
   return base;
@@ -258,7 +261,7 @@ function draw(t){
 var BAND={bass:'B',mid:'M',high:'H',beat:'BT'};
 function nn(i){return String(i+1).padStart(2,'0')}
 function mapRows(sh){return sh.map.map(function(r){return '<span class="map"><span class="bd">'+BAND[r[0]]+'</span><span class="bar"><b data-band="'+r[0]+'"></b></span><span>→ '+r[1]+'</span></span>'}).join('')}
-function specLine(sh){return '<span class="spec">Wire patch · <em>'+sh.nodes+' nodes</em> · <em>1920×1080</em> · <em>Wire · ISF</em>'+(sh.bpm?' · <em>BPM sync</em>':'')+'</span>'}
+function specLine(sh){return '<span class="spec">'+(sh.nodes?'Wire patch · <em>'+sh.nodes+' nodes</em> · ':'')+'<em>1920×1080</em> · <em>Wire · ISF</em>'+(sh.bpm?' · <em>BPM sync</em>':'')+'</span>'}
 /* knobs - built from the shader's own ISF header (real ranges, real labels).
    Audio-driven inputs stay off the panel: the FFT owns them. */
 var AUDIO_IN=/^(bass|mid|high|beat|bpm|Audio_|Beat_)/;
@@ -307,7 +310,7 @@ function buildKnobs(sh,isf){
 var dList=document.getElementById('dList');
 S.forEach(function(sh,i){
   var b=document.createElement('button');b.className='chr';b.type='button';
-  b.innerHTML='<span class="cn">'+nn(i)+'</span><span><span class="ct">'+sh.name+'</span><span class="ck">Generative'+(sh.bpm?' · BPM':'')+'</span></span><span class="bar"><b data-ch="'+i+'"></b></span>';
+  b.innerHTML='<span class="cn">'+nn(i)+'</span><span><span class="ct">'+sh.name+'</span><span class="ck">'+(sh.kind||'Generative')+(sh.bpm?' · BPM':'')+'</span></span><span class="bar"><b data-ch="'+i+'"></b></span>';
   b.addEventListener('click',function(){selectDeck(i)});
   dList.appendChild(b);
 });

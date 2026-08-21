@@ -23,6 +23,14 @@ var S=[
  map:[['bass','Spoke width'],['mid','Rotation'],['high','Edge']],
  params:['Spokes','Rotation rate','Edge softness']}
 ];
+/* deck palettes - four colors each plus the matching REVd zone for shaders
+   with a palette input. Amber is the site's own family and the default. */
+var PALETTES=[
+ {label:'Amber',zone:3,colors:[[1,.69,.125,1],[.35,.16,0,1],[1,.851,.627,1],[1,.42,0,1]]},
+ {label:'Threshold',zone:4,colors:[[1,.1,.04,1],[.4,0,.1,1],[1,.85,.85,1],[1,.16,.32,1]]},
+ {label:'Recovery',zone:1,colors:[[.04,.3,1,1],[0,.1,.35,1],[.8,.95,1,1],[0,.8,.95,1]]}
+];
+var curPal=0;
 var TRACKS=[
  {id:'house',label:'House',bpm:130,src:'../assets/audio/house130.mp3'},
  {id:'dnb',label:'DnB',bpm:174,src:'../assets/audio/dnb174.mp3'},
@@ -113,6 +121,35 @@ TRACKS.forEach(function(tr,i){
   tr.btn=b;trackRow.appendChild(b);
 });
 document.getElementById('micBtn').addEventListener('click',enableMic);
+
+/* palette picker - sets every shader's color inputs and zone; harmless where
+   a shader has neither (the mask stays a mask) */
+var palBtns=[];
+function applyPalette(pi){
+  curPal=pi;var p=PALETTES[pi];
+  S.forEach(function(sh){
+    sh.set=sh.set||{};
+    sh.set.color1=p.colors[0];sh.set.color2=p.colors[1];
+    sh.set.color3=p.colors[2];sh.set.color4=p.colors[3];
+    sh.set.palette=p.zone;
+    if(sh.user)delete sh.user.palette;
+  });
+  palBtns.forEach(function(b,k){b.setAttribute('aria-pressed',String(k===pi))});
+  var pr=progs&&curShader?progs[curShader.id]:null;
+  if(pr)buildKnobs(curShader,pr.isf);
+}
+var palRow=document.getElementById('palRow');
+if(palRow){
+  PALETTES.forEach(function(p,k){
+    var b=document.createElement('button');
+    b.type='button';b.className='btn btn--ghost palb';b.setAttribute('aria-pressed','false');
+    var sw=p.colors.map(function(c){return '<i style="background:rgb('+Math.round(c[0]*255)+','+Math.round(c[1]*255)+','+Math.round(c[2]*255)+')"></i>'}).join('');
+    b.innerHTML='<span class="sw">'+sw+'</span>'+p.label;
+    b.addEventListener('click',function(){applyPalette(k)});
+    palBtns.push(b);palRow.appendChild(b);
+  });
+  applyPalette(0);
+}
 
 /* ---- ISF loading: header JSON + body, shim prelude, uniform table */
 function parseIsf(src){

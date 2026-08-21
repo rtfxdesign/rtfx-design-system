@@ -53,6 +53,11 @@
 .palb .sw{display:inline-flex;gap:3px}
 .palb .sw i{width:8px;height:8px;display:block}
 .palb[aria-pressed="true"]{border-color:var(--c-accent);color:var(--c-accent)}
+.stem-row{margin-top:calc(-1*var(--s-4));gap:8px}
+.stemb{appearance:none;background:transparent;border:1px solid var(--c-rule);color:var(--c-ink-3);font-family:var(--f-display);font-size:9px;letter-spacing:.14em;text-transform:uppercase;padding:6px 10px;cursor:pointer;transition:color var(--m-snap) var(--e-snap),border-color var(--m-snap) var(--e-snap)}
+.stemb:hover{color:var(--c-ink)}
+.stemb[aria-pressed="true"]{border-color:var(--c-accent);color:var(--c-accent)}
+.stemb[aria-pressed="false"]{opacity:.55;text-decoration:line-through}
 .sh-name{font-family:var(--f-display);font-size:14px;font-weight:600;letter-spacing:-.03em;color:var(--c-ink)}
 .map{display:grid;grid-template-columns:18px minmax(50px,1fr) auto;gap:9px;align-items:center;font-family:var(--f-display);font-size:9px;letter-spacing:.13em;color:var(--c-ink-3);text-transform:uppercase}
 .map .bd{color:var(--c-accent-2);font-weight:600}
@@ -114,6 +119,7 @@
 <span class="mm" id="mmaster" aria-hidden="true"><i><b data-band="bass"></b></i><i><b data-band="mid"></b></i><i><b data-band="high"></b></i></span>
 <span class="sig-note">Mic audio stays in your browser — nothing is recorded</span>
 </div>
+<div class="sig-row stem-row" id="stemRow" hidden></div>
 <div class="sig-row pal-row">
 <span class="micro" style="color:var(--c-ink-3);letter-spacing:.16em;text-transform:uppercase">Palette</span>
 <span class="row" id="palRow"></span>

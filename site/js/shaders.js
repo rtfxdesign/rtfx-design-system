@@ -16,12 +16,6 @@ var S=[
  map:[['bass','Dial sweep'],['mid','Tick glow'],['high','Needle jitter']],
  params:['Dial rings','RPM speed','Glow'],
  set:{stage:.6,color1:[1,.69,.125,1],color2:[.35,.16,0,1],color3:[1,.851,.627,1],color4:[1,.42,0,1]}},
-{id:'faultlines',file:'faultlines',name:'FaultLines_V2',nodes:14,bpm:true,
- map:[['bass','Centre warp'],['mid','Cell ripple'],['high','Rim sparkle']],
- params:['Crack width','Trail','Glow'],set:{palette:3,stage:.6}},
-{id:'radialbreath',file:'radialbreath',name:'RadialBreath_V2',nodes:14,bpm:false,
- map:[['bass','Centre warp'],['mid','Stream ripple'],['high','Rim sparkle']],
- params:['Pulse rate','Glow','Trail'],set:{palette:3,stage:.6,intensity:1,lineGlow:.7}},
 {id:'wavescope',file:'wavescope',name:'WaveScope_V2',nodes:12,bpm:true,
  map:[['bass','Centre warp'],['mid','Trace ripple'],['high','Rim sparkle']],
  params:['Depth traces','Spread','Scan grid'],set:{palette:3,stage:.6}}
@@ -145,10 +139,11 @@ function prelude(isf){
     +'#define IMG_PIXEL(img,c) texture2D(img,(c)/u_res)\n'
     +isf.inputs.map(glslDecl).join('\n')+'\n';
 }
-/* value a given input should carry this frame */
+/* value a given input should carry this frame; knob overrides beat presets */
 function inputValue(sh,inp){
   var n=inp.NAME,base=inp.DEFAULT;
   if(sh.set&&sh.set.hasOwnProperty(n))base=sh.set[n];
+  if(sh.user&&sh.user.hasOwnProperty(n))base=sh.user[n];
   if(sh.mods&&sh.mods[n])return sh.mods[n](sig,base);
   var l=(inp.LABEL||'');
   if(n==='bass'||n==='Audio_Low')return sig.bass;
@@ -264,7 +259,51 @@ var BAND={bass:'B',mid:'M',high:'H',beat:'BT'};
 function nn(i){return String(i+1).padStart(2,'0')}
 function mapRows(sh){return sh.map.map(function(r){return '<span class="map"><span class="bd">'+BAND[r[0]]+'</span><span class="bar"><b data-band="'+r[0]+'"></b></span><span>→ '+r[1]+'</span></span>'}).join('')}
 function specLine(sh){return '<span class="spec">Wire patch · <em>'+sh.nodes+' nodes</em> · <em>1920×1080</em> · <em>Wire · ISF</em>'+(sh.bpm?' · <em>BPM sync</em>':'')+'</span>'}
-function chips(sh){return '<span class="pchips">'+sh.params.map(function(p){return '<span class="tag">'+p+'</span>'}).join('')+'</span>'}
+/* knobs - built from the shader's own ISF header (real ranges, real labels).
+   Audio-driven inputs stay off the panel: the FFT owns them. */
+var AUDIO_IN=/^(bass|mid|high|beat|bpm|Audio_|Beat_)/;
+function knobBase(sh,inp){
+  if(sh.user&&sh.user.hasOwnProperty(inp.NAME))return sh.user[inp.NAME];
+  if(sh.set&&sh.set.hasOwnProperty(inp.NAME))return sh.set[inp.NAME];
+  return inp.DEFAULT;
+}
+function fmtV(v){return (Math.round(v*100)/100).toString()}
+function buildKnobs(sh,isf){
+  var host=document.getElementById('dKnobs');
+  host.innerHTML='';
+  sh.user=sh.user||{};
+  isf.inputs.forEach(function(inp){
+    if(AUDIO_IN.test(inp.NAME))return;
+    if(inp.TYPE!=='float'&&inp.TYPE!=='long')return;
+    var row=document.createElement('label');row.className='knob';
+    var label=(inp.LABEL||inp.NAME).replace(/\s*\(.*\)$/,'');
+    if(inp.TYPE==='long'&&inp.VALUES){
+      var sel=document.createElement('select');
+      inp.VALUES.forEach(function(v,k){
+        var o=document.createElement('option');o.value=v;o.textContent=(inp.LABELS&&inp.LABELS[k])||v;sel.appendChild(o);
+      });
+      sel.value=knobBase(sh,inp);
+      sel.addEventListener('change',function(){sh.user[inp.NAME]=+sel.value});
+      row.innerHTML='<span class="kl">'+label+'</span>';
+      row.appendChild(sel);
+    }else{
+      var min=inp.MIN!==undefined?inp.MIN:0,max=inp.MAX!==undefined?inp.MAX:1;
+      var r=document.createElement('input');r.type='range';
+      r.min=min;r.max=max;r.step=(max-min)/200;
+      r.value=knobBase(sh,inp);
+      var kv=document.createElement('span');kv.className='kv';kv.textContent=fmtV(+r.value);
+      r.addEventListener('input',function(){sh.user[inp.NAME]=+r.value;kv.textContent=fmtV(+r.value)});
+      var top=document.createElement('span');top.className='kl';
+      top.textContent=label;top.appendChild(kv);
+      row.appendChild(top);row.appendChild(r);
+    }
+    host.appendChild(row);
+  });
+  var reset=document.createElement('button');
+  reset.type='button';reset.className='btn btn--ghost kreset';reset.textContent='Reset';
+  reset.addEventListener('click',function(){sh.user={};buildKnobs(sh,isf)});
+  host.appendChild(reset);
+}
 var dList=document.getElementById('dList');
 S.forEach(function(sh,i){
   var b=document.createElement('button');b.className='chr';b.type='button';
@@ -279,37 +318,28 @@ function selectDeck(i){
   document.getElementById('dName').textContent=curShader.name;
   document.getElementById('dSpec').innerHTML=specLine(curShader);
   document.getElementById('dMaps').innerHTML=mapRows(curShader);
-  document.getElementById('dChips').innerHTML=chips(curShader);
   var rows=dList.querySelectorAll('.chr');
   for(var j=0;j<rows.length;j++){if(j===i)rows[j].setAttribute('aria-current','true');else rows[j].removeAttribute('aria-current')}
   meterEls=[].slice.call(document.querySelectorAll('.map .bar b')).concat(
            [].slice.call(document.querySelectorAll('#mmaster b')),
            [].slice.call(document.querySelectorAll('.chr .bar b')));
-  loadShader(curShader);
+  var sh=curShader;
+  loadShader(sh).then(function(pr){if(pr&&curShader===sh)buildKnobs(sh,pr.isf)});
 }
 selectDeck(0);
 
-/* ---- loop: paused off-viewport; reduced-motion starts paused with a Run
-   control (playback of the previews is deliberate motion) */
-var running=false,visible=true,t0=performance.now(),rafId=0;
-var rm=window.matchMedia('(prefers-reduced-motion: reduce)');
-var runBtn=document.getElementById('shRun');
+/* ---- loop: always running, paused only while off-viewport */
+var visible=true,t0=performance.now(),rafId=0;
 function schedule(){if(!rafId)rafId=requestAnimationFrame(frame)}
-function setRunning(on){
-  running=on;
-  runBtn.hidden=on;
-  if(on)schedule();
-}
-runBtn.addEventListener('click',function(){setRunning(true)});
 if('IntersectionObserver'in window){
   new IntersectionObserver(function(es){
     visible=es[0].isIntersecting;
-    if(visible&&running)schedule();
+    if(visible)schedule();
   },{threshold:.05}).observe(deckRoot);
 }
 function frame(now){
   rafId=0;
-  if(!running||!visible)return;
+  if(!visible)return;
   var t=(now-t0)/1000;
   if((mode==='mic'||mode==='track')&&analyser)fftUpdate(now);else simUpdate(t);
   advanceTransport(t);
@@ -331,11 +361,10 @@ function frame(now){
   schedule();
 }
 // forced single frame regardless of visibility - console/testing hook
-window.__shFrame=function(){var r=running,v=visible;running=true;visible=true;frame(performance.now());running=r;visible=v};
+window.__shFrame=function(){var v=visible;visible=true;frame(performance.now());visible=v};
 if(!gl){
   document.getElementById('dName').textContent='WebGL unavailable';
-  runBtn.hidden=true;
 }else{
-  setRunning(!rm.matches);
+  schedule();
 }
 })();

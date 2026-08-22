@@ -102,7 +102,6 @@ var GENRES=[
  {id:'dnb',label:'DnB',bpm:174,stems:[['0-lead-vocals','Lead vox'],['1-backing-vocals','Back vox'],['2-drums','Drums'],['3-bass','Bass'],['4-percussion','Perc'],['5-synth','Synth'],['6-other','Other']]},
  {id:'hardstyle',label:'Hardstyle',bpm:180,stems:[['0-lead-vocals','Lead vox'],['1-backing-vocals','Back vox'],['2-drums','Drums'],['3-bass','Bass'],['4-percussion','Perc'],['5-synth','Synth'],['6-other','Other']]},
  {id:'reggaetone',label:'Reggaetone',bpm:92,stems:[['0-lead-vocals','Lead vox'],['1-drums','Drums'],['2-bass','Bass'],['3-percussion','Perc'],['4-synth','Synth'],['5-other','Other']]},
- {id:'steadyhands',label:'Steady Hands',bpm:88,stems:[['0-lead-vocals','Lead vox'],['1-backing-vocals','Back vox'],['2-drums','Drums'],['3-bass','Bass'],['4-keyboard','Keys'],['5-percussion','Perc'],['6-synth','Synth'],['7-other','Other']]},
  {id:'synthwave',label:'SynthWave',bpm:114,stems:[['0-lead-vocals','Lead vox'],['1-drums','Drums'],['2-bass','Bass'],['3-percussion','Perc'],['4-synth','Synth'],['5-other','Other']]}
 ];
 

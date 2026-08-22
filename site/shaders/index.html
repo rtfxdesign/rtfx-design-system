@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Custom Shaders — RT/FX</title>
-<meta name="description" content="Audio-reactive GLSL shaders built in Resolume Wire for the REVd studio, running live in your browser — feed them a test track or your mic.">
+<meta name="description" content="Audio-reactive GLSL shaders built in Resolume Wire for the REVd studio, running live in your browser — solo the stems and watch the instruments become visible.">
 <link rel="canonical" href="https://rtfx.space/shaders/">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Custom Shaders — RT/FX">
@@ -54,7 +54,7 @@ main .wrap{max-width:min(1420px,96vw)}
 .pal-row{margin-top:calc(-1*var(--s-4))}
 .palb{display:inline-flex;align-items:center;gap:8px;font-size:10px;padding:7px 12px}
 .palb .sw{display:inline-flex;gap:3px}
-.palb .sw i{width:8px;height:8px;display:block}
+.palb .sw i{width:8px;height:8px;display:block;outline:1px solid var(--c-rule)}
 .palb[aria-pressed="true"]{border-color:var(--c-accent);color:var(--c-accent)}
 .stem-row{margin-top:calc(-1*var(--s-4));gap:8px}
 .stemb{appearance:none;background:transparent;border:1px solid var(--c-rule);color:var(--c-ink-3);font-family:var(--f-display);font-size:9px;letter-spacing:.14em;text-transform:uppercase;padding:6px 10px;cursor:pointer;transition:color var(--m-snap) var(--e-snap),border-color var(--m-snap) var(--e-snap)}
@@ -109,7 +109,7 @@ main .wrap{max-width:min(1420px,96vw)}
 <div class="wrap">
 <span class="label">Personal Works · Custom Shaders · Audio-Reactive</span>
 <h1 class="fh"><canvas class="fieldh" data-text="CUSTOM SHADERS" aria-hidden="true"></canvas><span class="sr">Custom Shaders</span></h1>
-<p class="sub">GLSL instruments built in Resolume Wire for the REVd studio, with audio-reactive inputs wired to the FFT. These previews run the real shader math in your browser — feed them a test track or your mic.</p>
+<p class="sub">GLSL instruments built in Resolume Wire for the REVd studio, with audio-reactive inputs wired to the FFT. These previews run the real shader math in your browser — solo the stems and watch the instruments become visible.</p>
 <div class="tickrule" aria-hidden="true"></div>
 </div>
 </div>
@@ -117,10 +117,8 @@ main .wrap{max-width:min(1420px,96vw)}
 <div class="wrap">
 <div class="sig-row">
 <span class="row" id="trackRow"></span>
-<button class="btn btn--ghost" id="micBtn" type="button">Mic →</button>
 <span class="status st-idle" id="sigChip"><span class="dot"></span>Signal · Sim</span>
 <span class="mm" id="mmaster" aria-hidden="true"><i><b data-band="bass"></b></i><i><b data-band="mid"></b></i><i><b data-band="high"></b></i></span>
-<span class="sig-note">Mic audio stays in your browser — nothing is recorded</span>
 </div>
 <div class="sig-row stem-row" id="stemRow" hidden></div>
 <div class="sig-row pal-row">

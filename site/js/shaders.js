@@ -1,8 +1,8 @@
 /* RT/FX — custom shaders deck. Runs the real REVd Wire ISF shaders in WebGL:
    fetches each .fs from shaders/isf/, parses the ISF JSON header, shims the
    ISF surface (RENDERSIZE/TIME/PASSINDEX/bufA/IMG_NORM_PIXEL), and drives the
-   patches' own audio inputs from a live FFT - sim by default, test tracks or
-   mic on demand. Persistent bufA passes get a ping-pong framebuffer pair. */
+   patches' own audio inputs from a live FFT - sim by default, stem
+   playback on demand. Persistent bufA passes get a ping-pong framebuffer pair. */
 (function(){
 'use strict';
 var deckRoot=document.getElementById('vDeck');if(!deckRoot)return;
@@ -67,12 +67,16 @@ var S=[
  map:[['bass','Spoke width'],['mid','Rotation'],['high','Edge']],
  params:['Spokes','Rotation rate','Edge softness']}
 ];
-/* deck palettes - four colors each plus the matching REVd zone for shaders
-   with a palette input. Amber is the site's own family and the default. */
+/* deck palettes - each a dark-to-light ramp anchored on true black, plus the
+   matching REVd zone for shaders with a palette input. Amber is the site's
+   own family and the default. Ramp order: [black, dark, mid, light]. */
 var PALETTES=[
- {label:'Amber',zone:3,colors:[[1,.69,.125,1],[.35,.16,0,1],[1,.851,.627,1],[1,.42,0,1]]},
- {label:'Threshold',zone:4,colors:[[1,.1,.04,1],[.4,0,.1,1],[1,.85,.85,1],[1,.16,.32,1]]},
- {label:'Recovery',zone:1,colors:[[.04,.3,1,1],[0,.1,.35,1],[.8,.95,1,1],[0,.8,.95,1]]}
+ {label:'Amber',zone:3,colors:[[0,0,0,1],[.35,.16,0,1],[1,.69,.125,1],[1,.851,.627,1]]},
+ {label:'Threshold',zone:4,colors:[[0,0,0,1],[.4,0,.1,1],[1,.1,.04,1],[1,.85,.85,1]]},
+ {label:'Sprint',zone:5,colors:[[0,0,0,1],[.35,0,.1,1],[1,.16,.32,1],[1,.95,.88,1]]},
+ {label:'Recovery',zone:1,colors:[[0,0,0,1],[0,.1,.35,1],[.04,.3,1,1],[.8,.95,1,1]]},
+ {label:'Endurance',zone:2,colors:[[0,0,0,1],[0,.18,.14,1],[0,.85,.7,1],[.55,1,.75,1]]},
+ {label:'Mono',zone:0,colors:[[0,0,0,1],[.22,.22,.22,1],[.62,.62,.62,1],[1,1,1,1]]}
 ];
 var curPal=0;
 /* stem players - one folder per genre under assets/audio/stems/<id>/, all
@@ -92,10 +96,10 @@ var GENRES=[
  {id:'synthwave',label:'SynthWave',bpm:114,stems:[['0-lead-vocals','Lead vox'],['1-drums','Drums'],['2-bass','Bass'],['3-percussion','Perc'],['4-synth','Synth'],['5-other','Other']]}
 ];
 
-/* ---- signal engine: sim / track / mic -> bass, mid, high, beat pulse, and
+/* ---- signal engine: sim / stem playback -> bass, mid, high, beat pulse, and
    a running beat transport for the patches' "Transport Beat" inputs. */
 var sig={bass:0,mid:0,high:0,beat:0};
-var mode='sim',simBpm=124,actx=null,analyser=null,fdata=null,bins=null,micNode=null,curTrack=-1;
+var mode='sim',simBpm=124,actx=null,analyser=null,fdata=null,bins=null,curTrack=-1;
 var lastBeat=0,ema=.2,beatPos=0,beatIvl=.48,lastT=0;
 var pk=[.25,.25,.25];
 function h1(n){var s=Math.sin(n*127.1)*43758.5453;return s-Math.floor(s)}
@@ -123,9 +127,9 @@ function fftUpdate(now){
 }
 function advanceTransport(t){
   var dt=Math.min(.1,t-lastT);lastT=t;
-  beatPos+=mode==='mic'?dt/Math.max(.25,beatIvl):dt*(simBpm/60);
+  beatPos+=dt*(simBpm/60);
 }
-function curBpm(){return mode==='mic'?Math.round(60/Math.max(.25,beatIvl)):simBpm}
+function curBpm(){return simBpm}
 var master=null;
 function ensureCtx(){
   if(actx)return;
@@ -149,15 +153,7 @@ function stopGenre(){
   }
   if(stemRow){stemRow.hidden=true;stemRow.innerHTML='';}
 }
-function toSim(){stopGenre();if(micNode)micNode.disconnect();mode='sim';setChip('st-idle','Signal · Sim')}
-function enableMic(){
-  ensureCtx();actx.resume();
-  var attach=function(){stopGenre();micNode.connect(analyser);mode='mic';setChip('st-live','Signal · Mic live')};
-  if(micNode){attach();return;}
-  navigator.mediaDevices.getUserMedia({audio:{echoCancellation:false,noiseSuppression:false}})
-    .then(function(stream){micNode=actx.createMediaStreamSource(stream);attach()})
-    .catch(function(){setChip('st-idle','Mic blocked · Sim')});
-}
+function toSim(){stopGenre();mode='sim';setChip('st-idle','Signal · Sim')}
 function setStem(st,on){
   st.on=on;
   if(st.gain&&actx)st.gain.gain.setTargetAtTime(on?1:0,actx.currentTime,.02);
@@ -178,7 +174,6 @@ function playGenre(i){
   var g=GENRES[i];
   if(curTrack===i){toSim();return;}
   ensureCtx();actx.resume();
-  if(micNode)micNode.disconnect();
   stopGenre();
   if(!g.loaded){
     g.loaded=true;
@@ -205,7 +200,7 @@ function playGenre(i){
     });
   });
   Promise.all(ready).then(function(){
-    if(token!==loadSeq||curTrack!==-1||mode==='mic')return; // user moved on while loading
+    if(token!==loadSeq||curTrack!==-1)return; // user moved on while loading
     g.stems.forEach(function(st){
       st.gain.gain.value=st.on?1:0;
       st.el.currentTime=0;
@@ -225,7 +220,6 @@ GENRES.forEach(function(g,i){
   b.addEventListener('click',function(){playGenre(i)});
   g.btn=b;trackRow.appendChild(b);
 });
-document.getElementById('micBtn').addEventListener('click',enableMic);
 
 /* palette picker - sets every shader's color inputs and zone; harmless where
    a shader has neither (the mask stays a mask) */
@@ -235,8 +229,10 @@ function applyPalette(pi){
   S.forEach(function(sh){
     if(sh.kind==='Luma mask')return; // masks stay black and white
     sh.set=sh.set||{};
-    sh.set.color1=p.colors[0];sh.set.color2=p.colors[1];
-    sh.set.color3=p.colors[2];sh.set.color4=p.colors[3];
+    // ramp is [black, dark, mid, light]; primaries come from the bright end -
+    // black is the ground the shaders paint on, not a paint color
+    sh.set.color1=p.colors[2];sh.set.color2=p.colors[1];
+    sh.set.color3=p.colors[3];sh.set.color4=p.colors[2];
     sh.set.palette=p.zone;
     if(sh.user)delete sh.user.palette;
   });
@@ -520,7 +516,7 @@ function frame(now){
   rafId=0;
   if(!visible)return;
   var t=(now-t0)/1000;
-  if((mode==='mic'||mode==='track')&&analyser)fftUpdate(now);else simUpdate(t);
+  if(mode==='track'&&analyser)fftUpdate(now);else simUpdate(t);
   advanceTransport(t);
   if(gl)draw(t);
   for(var i=0;i<meterEls.length;i++){

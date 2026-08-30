@@ -28,13 +28,23 @@ const PUBLIC = 'https://rtfx.space/';
 const R2_REMOTE = 'r2:rtfx-portfolio';
 const R2_PUBLIC = 'https://media.rtfx.space/';
 
+// The config path is passed explicitly. When Studio runs as a Windows service
+// (LocalSystem) it cannot read the per-user rclone.conf inside the profile even
+// with APPDATA overridden, so a copy lives in C:\ProgramData\rtfx (ACL'd to
+// allen + SYSTEM + Administrators). Falls back to the per-user default when the
+// ProgramData copy is absent (running Studio by hand on another machine).
+const RCLONE_CONF = [
+  'C:\\ProgramData\\rtfx\\rclone.conf',
+  path.join(process.env.APPDATA || '', 'rclone', 'rclone.conf')
+].find(p => { try { return fs.existsSync(p); } catch { return false; } }) || 'C:\\ProgramData\\rtfx\\rclone.conf';
+
 function r2Copy(localPath, key) {
-  execFileSync('rclone', ['copyto', localPath, `${R2_REMOTE}/${key}`],
+  execFileSync('rclone', ['--config', RCLONE_CONF, 'copyto', localPath, `${R2_REMOTE}/${key}`],
     { stdio: ['ignore', 'ignore', 'pipe'], maxBuffer: 1 << 20 });
 }
 function r2Delete(key) {
   try {
-    execFileSync('rclone', ['deletefile', `${R2_REMOTE}/${key}`], { stdio: 'ignore' });
+    execFileSync('rclone', ['--config', RCLONE_CONF, 'deletefile', `${R2_REMOTE}/${key}`], { stdio: 'ignore' });
   } catch { /* already gone */ }
 }
 

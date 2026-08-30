@@ -591,9 +591,10 @@ document.addEventListener('DOMContentLoaded', () => {
     try {
       const res = await (await fetch('/api/gallery', { method: 'POST', body: form })).json();
       if (!res.success) throw new Error(res.error || 'upload failed');
-      status.textContent = res.exifFound
+      const clip = res.video ? ` — clip on R2${res.sound ? ', sound kept' : ''}` : '';
+      status.textContent = (res.exifFound
         ? `Added as frame ${res.frame} — date ${res.record.date} (${res.record.dateSource})`
-        : `Added as frame ${res.frame} — no date found in the file, add one below`;
+        : `Added as frame ${res.frame} — no date found in the file, add one below`) + clip;
       $('#galleryForm').reset();
       $('#galleryCat').value = 'studio';
       loadGallery();

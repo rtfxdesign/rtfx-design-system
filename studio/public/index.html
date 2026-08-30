@@ -288,9 +288,11 @@
       Date and GPS are read from the file <em>before</em> it is resized — export from
       Lightroom with <strong>Metadata: All</strong> and location info left in, or they
       arrive empty and you fill them in below.
+      Video clips work too: the mp4 is pushed to R2 (media.rtfx.space) and only the
+      poster still ships with the site. A clip with an audio track keeps its sound.
     </p>
     <form id="galleryForm">
-      <input type="file" id="galleryFile" name="mediaFile" accept="image/*" required>
+      <input type="file" id="galleryFile" name="mediaFile" accept="image/*,video/*" required>
       <div class="field-row">
         <label>Description (alt text)<input type="text" id="galleryAlt" placeholder="What is in the picture"></label>
         <label>Location<input type="text" id="galleryLocation" placeholder="Fells Point, Baltimore"></label>

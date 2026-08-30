@@ -22,6 +22,24 @@ const galleryThumbDir = path.join(galleryMediaDir, 'thumbs');
 
 const PUBLIC = 'https://rtfx.space/';
 
+// Video frames live on R2 and are served from media.rtfx.space - an mp4 never
+// ships inside site/ (it would ride every Netlify deploy). Only the poster
+// still is kept locally, like any other gallery image.
+const R2_REMOTE = 'r2:rtfx-portfolio';
+const R2_PUBLIC = 'https://media.rtfx.space/';
+
+function r2Copy(localPath, key) {
+  execFileSync('rclone', ['copyto', localPath, `${R2_REMOTE}/${key}`],
+    { stdio: ['ignore', 'ignore', 'pipe'], maxBuffer: 1 << 20 });
+}
+function r2Delete(key) {
+  try {
+    execFileSync('rclone', ['deletefile', `${R2_REMOTE}/${key}`], { stdio: 'ignore' });
+  } catch { /* already gone */ }
+}
+
+const VIDEO_EXT = /\.(mp4|mov|m4v|webm|avi)$/i;
+
 const eventsPath = path.join(siteDir, 'gallery', 'events.json');
 
 function readFrames() {
@@ -158,6 +176,17 @@ function figureHtml({ num, thumbUrl, w, h, alt, cat }) {
     + `</span><figcaption><span class="micro">${num}</span></figcaption></span></figure>`;
 }
 
+// Matches the markup the live video frames (272+) already use: the figure
+// stays class="ai" so the count/remove regexes and filters treat it like any
+// frame; the inner .ph picks up .vid so site.js wires the play button.
+function videoFigureHtml({ num, videoUrl, posterUrl, alt, cat, sound }) {
+  return `<figure class="ai" data-cat="${esc(cat || 'studio')}" id="f${num}" data-frame="${num}">`
+    + `<span class="in"><span class="ph vid">`
+    + `<video src="${esc(videoUrl)}" poster="${esc(posterUrl)}" preload="metadata"${sound ? ' data-sound="1"' : ' muted'} loop playsinline aria-label="${esc(alt)}"></video>`
+    + `<button class="vplay" type="button" aria-pressed="false">▶ Play clip</button>`
+    + `</span><figcaption><span class="micro">${num}</span></figcaption></span></figure>`;
+}
+
 function insertFigure(html, figure) {
   // newest first, so a fresh upload is visible without scrolling 254 frames
   const open = html.indexOf('<div class="arch">');
@@ -244,6 +273,66 @@ function addFrame({ tempPath, originalName, alt, cat, location, tags, optimizeIm
   return { frame: num, record: data.frames[num], exifFound: !!meta.date || !!meta.gps };
 }
 
+/**
+ * Add one video clip to the gallery. The processed mp4 is pushed to R2 before
+ * anything on the page or in frames.json mentions it - if the upload fails,
+ * the frame simply never existed. keepAudio follows the source: a clip with a
+ * track keeps it and is marked sound, so site.js lets it play audible.
+ * @param optimizeVideo (input, mp4Out, posterOut, {keepAudio}) - injected from server.js
+ * @param hasAudioTrack (input) => bool - injected from server.js
+ */
+function addVideoFrame({ tempPath, originalName, alt, cat, location, tags, optimizeVideo, hasAudioTrack }) {
+  if (!fs.existsSync(tempPath)) throw new Error('upload not found');
+  fs.mkdirSync(galleryMediaDir, { recursive: true });
+
+  // filename date fallback still applies; video files carry no EXIF magick can read
+  const meta = extractMeta(tempPath, originalName);
+
+  const data = readFrames();
+  const num = nextNumber(data);
+  const slug = path.basename(originalName || 'clip', path.extname(originalName || ''))
+    .toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 40) || 'clip';
+  const base = `${num}-${slug}`;
+
+  const posterPath = path.join(galleryMediaDir, `${base}-poster.webp`);
+  const tmpMp4 = path.join(require('os').tmpdir(), `rtfx-gallery-${base}.mp4`);
+  const sound = hasAudioTrack(tempPath);
+  try {
+    optimizeVideo(tempPath, tmpMp4, posterPath, { keepAudio: sound });
+    if (!fs.existsSync(tmpMp4) || !fs.existsSync(posterPath)) throw new Error('video processing failed');
+    r2Copy(tmpMp4, `assets/gallery/${base}.mp4`);
+  } catch (e) {
+    if (fs.existsSync(posterPath)) fs.unlinkSync(posterPath);
+    throw e;
+  } finally {
+    if (fs.existsSync(tmpMp4)) fs.unlinkSync(tmpMp4);
+  }
+
+  let html = fs.readFileSync(galleryHtmlPath, 'utf8');
+  html = insertFigure(html, videoFigureHtml({
+    num,
+    videoUrl: `${R2_PUBLIC}assets/gallery/${base}.mp4`,
+    posterUrl: `${PUBLIC}assets/gallery/${base}-poster.webp`,
+    alt: alt || slug.replace(/-/g, ' '), cat: cat || 'studio', sound
+  }));
+  html = syncCount(html);
+  fs.writeFileSync(galleryHtmlPath, html);
+
+  data.frames[num] = {
+    file: `assets/gallery/${base}.mp4`,
+    date: meta.date,
+    dateSource: meta.dateSource,
+    location: location || null,
+    gps: meta.gps || null,
+    sound,
+    tags: Array.isArray(tags) ? tags : (tags ? String(tags).split(',').map(s => s.trim()).filter(Boolean) : [])
+  };
+  data.nextFree = String(Number(num) + 1).padStart(3, '0');
+  writeFrames(data);
+
+  return { frame: num, record: data.frames[num], exifFound: !!meta.date, video: true, sound };
+}
+
 function updateFrame(num, patch) {
   const data = readFrames();
   const rec = data.frames[num];
@@ -273,9 +362,18 @@ function deleteFrame(num) {
   if (/^assets\/gallery\//.test(rec.file)) {
     const still = Object.entries(data.frames).some(([k, v]) => k !== num && v.file === rec.file);
     if (!still) {
-      const base = path.basename(rec.file);
-      for (const p of [path.join(galleryMediaDir, base), path.join(galleryThumbDir, base)]) {
-        if (fs.existsSync(p)) fs.unlinkSync(p);
+      if (VIDEO_EXT.test(rec.file)) {
+        // the clip lives on R2; the poster is the only local file
+        r2Delete(rec.file);
+        const poster = path.basename(rec.file, path.extname(rec.file)) + '-poster.webp';
+        for (const p of [path.join(galleryMediaDir, poster), path.join(galleryThumbDir, poster)]) {
+          if (fs.existsSync(p)) fs.unlinkSync(p);
+        }
+      } else {
+        const base = path.basename(rec.file);
+        for (const p of [path.join(galleryMediaDir, base), path.join(galleryThumbDir, base)]) {
+          if (fs.existsSync(p)) fs.unlinkSync(p);
+        }
       }
     }
   }
@@ -308,7 +406,7 @@ function listFrames() {
  * beats a browser multi-upload - Studio is a local tool, and these run to
  * hundreds of files.
  */
-function importFolder({ folder, event, date, location, summary, client, tags, cat, optimizeImage, onProgress }) {
+function importFolder({ folder, event, date, location, summary, client, tags, cat, optimizeImage, optimizeVideo, hasAudioTrack, onProgress }) {
   if (!folder || !fs.existsSync(folder)) throw new Error('folder not found: ' + folder);
   const stat = fs.statSync(folder);
   if (!stat.isDirectory()) throw new Error('not a folder: ' + folder);
@@ -316,10 +414,12 @@ function importFolder({ folder, event, date, location, summary, client, tags, ca
   const eventName = (event || path.basename(folder)).trim();
   // create or update the event from the invoice details supplied with the import
   const ev = upsertEvent({ name: eventName, date, location, summary, client });
+  // video clips ride along when the processors are supplied (they always are
+  // from the server route; older callers that pass only optimizeImage still work)
   const files = fs.readdirSync(folder)
-    .filter(f => /\.(jpe?g|png|webp|tiff?)$/i.test(f))
+    .filter(f => /\.(jpe?g|png|webp|tiff?)$/i.test(f) || (optimizeVideo && VIDEO_EXT.test(f)))
     .sort();
-  if (!files.length) throw new Error('no images in ' + folder);
+  if (!files.length) throw new Error('no media in ' + folder);
 
   const added = [], failed = [];
   files.forEach((name, idx) => {
@@ -331,7 +431,9 @@ function importFolder({ folder, event, date, location, summary, client, tags, ca
       let out;
       try {
         // location is left on the event, not copied onto every frame
-        out = addFrame({ tempPath: tmp, originalName: name, alt: '', cat, location: null, tags, optimizeImage });
+        out = VIDEO_EXT.test(name)
+          ? addVideoFrame({ tempPath: tmp, originalName: name, alt: '', cat, location: null, tags, optimizeVideo, hasAudioTrack })
+          : addFrame({ tempPath: tmp, originalName: name, alt: '', cat, location: null, tags, optimizeImage });
       } finally {
         if (fs.existsSync(tmp)) fs.unlinkSync(tmp);
       }
@@ -368,5 +470,5 @@ function listEvents() {
     .map(([key, count]) => ({ key, count, ...(defs[key] || {}) }));
 }
 
-module.exports = { listFrames, addFrame, updateFrame, deleteFrame, extractMeta, readFrames,
+module.exports = { listFrames, addFrame, addVideoFrame, updateFrame, deleteFrame, extractMeta, readFrames,
   importFolder, listEvents, readEvents, upsertEvent, deleteEvent, eventKey };

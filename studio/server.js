@@ -653,22 +653,26 @@ app.get('/api/gallery', (req, res) => {
 });
 
 app.post('/api/gallery', upload.single('mediaFile'), (req, res) => {
-  if (!req.file) return res.status(400).json({ success: false, error: 'No image provided.' });
+  if (!req.file) return res.status(400).json({ success: false, error: 'No media provided.' });
   const ext = path.extname(req.file.originalname).toLowerCase();
-  if (!allowedImageExtensions.has(ext)) {
+  const isVideo = allowedVideoExtensions.has(ext);
+  if (!allowedImageExtensions.has(ext) && !isVideo) {
     if (fs.existsSync(req.file.path)) fs.unlinkSync(req.file.path);
-    return res.status(400).json({ success: false, error: 'Gallery frames are images only.' });
+    return res.status(400).json({ success: false, error: 'Gallery frames are images or video clips.' });
   }
   try {
-    const out = gallery.addFrame({
+    const common = {
       tempPath: req.file.path,
       originalName: req.file.originalname,
       alt: req.body.alt,
       cat: req.body.cat,
       location: req.body.location,
-      tags: req.body.tags,
-      optimizeImage
-    });
+      tags: req.body.tags
+    };
+    // video: mp4 goes to R2, poster stays local; image: webp + thumb stay local
+    const out = isVideo
+      ? gallery.addVideoFrame({ ...common, optimizeVideo, hasAudioTrack })
+      : gallery.addFrame({ ...common, optimizeImage });
     res.json({ success: true, ...out });
   } catch (e) {
     res.status(500).json({ success: false, error: e.message });
@@ -705,7 +709,9 @@ app.post('/api/gallery/import', express.json(), (req, res) => {
       client: req.body.client,
       tags: req.body.tags,
       cat: req.body.cat || 'field',
-      optimizeImage
+      optimizeImage,
+      optimizeVideo,
+      hasAudioTrack
     });
     res.json({ success: true, ...out });
   } catch (e) {

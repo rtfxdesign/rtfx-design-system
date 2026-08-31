@@ -7,7 +7,7 @@
   "location": "free text|null",
   "tags": "string[]"
  },
- "nextFree": "331",
+ "nextFree": "335",
  "frames": {
   "101": {
    "file": "assets/portfolio_lightroom/allen_portfolio020.webp",
@@ -1228,6 +1228,36 @@
    "event": "f1-event-2025",
    "subject": "crowd"
   },
+  "332": {
+   "file": "assets/gallery/332-potomachotel01.mp4",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "gps": null,
+   "sound": false,
+   "tags": [],
+   "event": "potomac-hotel"
+  },
+  "333": {
+   "file": "assets/gallery/333-potomachotel02.mp4",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "gps": null,
+   "sound": false,
+   "tags": [],
+   "event": "potomac-hotel"
+  },
+  "334": {
+   "file": "assets/gallery/334-potomachotel03.mp4",
+   "date": null,
+   "dateSource": null,
+   "location": null,
+   "gps": null,
+   "sound": false,
+   "tags": [],
+   "event": "potomac-hotel"
+  },
   "003": {
    "file": "assets/solomute/solomute_projects_003.webp",
    "date": null,
@@ -1958,6 +1988,7 @@
   "259",
   "260",
   "261",
-  "262"
+  "262",
+  "331"
  ]
 }

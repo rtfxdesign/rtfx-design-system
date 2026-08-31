@@ -91,6 +91,13 @@
    "location": null,
    "summary": "A custom visual-content package created for the Le Pasefika runway environment. Focus the edit on wide-format screen compositions, fashion moments, and images where content, models, and staging read as one design.",
    "client": null
+  },
+  "potomac-hotel": {
+   "name": "Potomac Hotel",
+   "date": "2026-08-30",
+   "location": "Potomac Hotel",
+   "summary": null,
+   "client": null
   }
  }
 }

@@ -29,10 +29,23 @@ chips.forEach(function(c){c.addEventListener('click',function(){chips.forEach(fu
 document.querySelectorAll('.ai[data-cat]').forEach(function(it){it.hidden=(f!=='all'&&it.dataset.cat!==f)})})});
 // random pools: show 6 of N
 document.querySelectorAll('[data-pool]').forEach(function(w){var items=Array.prototype.slice.call(w.querySelectorAll('[data-p]'));if(items.length<=6)return;var idx=items.map(function(_,i){return i});for(var i=idx.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=idx[i];idx[i]=idx[j];idx[j]=t}var show=idx.slice(0,6);items.forEach(function(el,i){el.hidden=show.indexOf(i)<0})});
-// X-Route: logo-derived signal paths for selected project cards
-var signalMarkup='<span class="signal-layer" aria-hidden="true"><svg viewBox="0 0 100 62.5" preserveAspectRatio="none"><path class="signal-trace" pathLength="1" d="M-4 9H17L31 23H45L62 43H80L104 59"/><path class="signal-trace" pathLength="1" d="M104 7H84L64 27H54L38 48H21L11 57H-4"/><path class="signal-trace" pathLength="1" d="M0 33H21L29 41H38"/><path class="signal-trace" pathLength="1" d="M100 35H82L74 27H64"/><path class="signal-mark" pathLength="1" d="M35 14L63 48H78"/><path class="signal-mark" pathLength="1" d="M66 14L38 48H23"/><circle class="signal-node" style="--signal-delay:180ms" cx="17" cy="9" r="1.15"/><circle class="signal-node" style="--signal-delay:240ms" cx="31" cy="23" r="1.15"/><circle class="signal-node" style="--signal-delay:300ms" cx="62" cy="43" r="1.15"/><circle class="signal-node" style="--signal-delay:210ms" cx="84" cy="7" r="1.15"/><circle class="signal-node" style="--signal-delay:280ms" cx="64" cy="27" r="1.15"/><circle class="signal-node" style="--signal-delay:340ms" cx="38" cy="48" r="1.15"/></svg></span><span class="signal-scan" aria-hidden="true"></span>';
+// X-Route: logo-derived signal paths for selected project cards.
+// Two geometries share the design: the portrait body is the landscape circuit
+// transposed, and "xMidYMid slice" (not "none") keeps units square on any
+// aspect - stretching skewed the 45° traces and squashed the nodes on 1:1
+// and 9:16 frames. The variant is picked per host when the layer is injected.
+var SIG_L={vb:'0 0 100 62.5',body:'<path class="signal-trace" pathLength="1" d="M-4 9H17L31 23H45L62 43H80L104 59"/><path class="signal-trace" pathLength="1" d="M104 7H84L64 27H54L38 48H21L11 57H-4"/><path class="signal-trace" pathLength="1" d="M0 33H21L29 41H38"/><path class="signal-trace" pathLength="1" d="M100 35H82L74 27H64"/><path class="signal-mark" pathLength="1" d="M35 14L63 48H78"/><path class="signal-mark" pathLength="1" d="M66 14L38 48H23"/><circle class="signal-node" style="--signal-delay:180ms" cx="17" cy="9" r="1.15"/><circle class="signal-node" style="--signal-delay:240ms" cx="31" cy="23" r="1.15"/><circle class="signal-node" style="--signal-delay:300ms" cx="62" cy="43" r="1.15"/><circle class="signal-node" style="--signal-delay:210ms" cx="84" cy="7" r="1.15"/><circle class="signal-node" style="--signal-delay:280ms" cx="64" cy="27" r="1.15"/><circle class="signal-node" style="--signal-delay:340ms" cx="38" cy="48" r="1.15"/>'};
+var SIG_P={vb:'0 0 62.5 100',body:'<path class="signal-trace" pathLength="1" d="M9 -4V17L23 31V45L43 62V80L59 104"/><path class="signal-trace" pathLength="1" d="M7 104V84L27 64V54L48 38V21L57 11V-4"/><path class="signal-trace" pathLength="1" d="M33 0V21L41 29V38"/><path class="signal-trace" pathLength="1" d="M35 100V82L27 74V64"/><path class="signal-mark" pathLength="1" d="M14 35L48 63V78"/><path class="signal-mark" pathLength="1" d="M14 66L48 38V23"/><circle class="signal-node" style="--signal-delay:180ms" cx="9" cy="17" r="1.15"/><circle class="signal-node" style="--signal-delay:240ms" cx="23" cy="31" r="1.15"/><circle class="signal-node" style="--signal-delay:300ms" cx="43" cy="62" r="1.15"/><circle class="signal-node" style="--signal-delay:210ms" cx="7" cy="84" r="1.15"/><circle class="signal-node" style="--signal-delay:280ms" cx="27" cy="64" r="1.15"/><circle class="signal-node" style="--signal-delay:340ms" cx="48" cy="38" r="1.15"/>'};
+function signalMarkup(host){
+var r=host.getBoundingClientRect(),w=r.width,h=r.height;
+// a lazy image that has not loaded yet leaves the box collapsed - fall back
+// to the width/height attributes the gallery stamps on every img
+if(!w||!h){var m=host.querySelector('img,video');if(m){w=+m.getAttribute('width')||0;h=+m.getAttribute('height')||0}}
+var s=(h>w)?SIG_P:SIG_L;
+return '<span class="signal-layer" aria-hidden="true"><svg viewBox="'+s.vb+'" preserveAspectRatio="xMidYMid slice">'+s.body+'</svg></span><span class="signal-scan" aria-hidden="true"></span>';
+}
 function xrCorner(el,e){var r=el.getBoundingClientRect();var h=e.clientX<r.left+r.width/2?"l":"r";var v=e.clientY<r.top+r.height/2?"t":"b";el.dataset.signalCorner=h+v}
-document.querySelectorAll(".grid-work .work").forEach(function(card){var thumb=card.querySelector(".thumb");if(!thumb)return;thumb.insertAdjacentHTML("beforeend",signalMarkup);card.addEventListener("pointerenter",function(e){xrCorner(card,e)})});
+document.querySelectorAll(".grid-work .work").forEach(function(card){var thumb=card.querySelector(".thumb");if(!thumb)return;thumb.insertAdjacentHTML("beforeend",signalMarkup(thumb));card.addEventListener("pointerenter",function(e){xrCorner(card,e)})});
 // gallery frames and home teasers get the same effect, armed on first hover -
 // injecting the SVG into hundreds of figures upfront would bloat the DOM for
 // figures most visitors never touch.
@@ -40,7 +53,7 @@ document.querySelectorAll(".grid-work .work").forEach(function(card){var thumb=c
 document.querySelectorAll(pair[0]).forEach(function(host){
 host.addEventListener("pointerenter",function(e){
 var t=host.querySelector(pair[1]);
-if(t&&!t.querySelector(".signal-layer"))t.insertAdjacentHTML("beforeend",signalMarkup);
+if(t&&!t.querySelector(".signal-layer"))t.insertAdjacentHTML("beforeend",signalMarkup(t));
 xrCorner(host,e);
 });
 });

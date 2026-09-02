@@ -16,6 +16,9 @@ var rm=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 var host=cv.parentElement;
 var HERO=cv.id==='bgfield'||(cv.parentElement&&cv.parentElement.classList.contains('hero'));
 var W=0,H=0,P=[],raf=0,last=0,running=true;
+// phones draw at ~30fps: the ambient drift reads the same at half rate and
+// several of these fields can be on screen at once, so this halves the draw
+var SMALL=window.matchMedia('(max-width:640px)').matches,lastDraw=0;
 var ptr={x:-9e3,y:-9e3,px:-9e3,py:-9e3,active:false,speed:0};
 
 // pre-rendered glow sprites: [r,g,b]. neutral bodies + amber for charge.
@@ -68,6 +71,7 @@ if(P.length>MAX)P.shift();
 }
 
 function tick(now){
+if(SMALL&&now-lastDraw<30){raf=requestAnimationFrame(tick);return}lastDraw=now;
 var dt=last?Math.min(3.5,Math.max(.2,(now-last)/16.667)):1;last=now;
 // feedback: fade what is already there, then add light on top
 ctx.globalCompositeOperation='destination-out';

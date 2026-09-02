@@ -9,11 +9,16 @@
 <meta property="og:type" content="article">
 <meta property="og:title" content="Custom Shaders — RT/FX">
 <meta property="og:description" content="Audio-reactive GLSL instruments vibe-coded and built in Resolume Wire, running the real math live in your browser.">
+<meta property="og:image" content="https://rtfx.space/og.png">
+<meta property="og:image:alt" content="RT/FX custom shaders">
 <meta property="og:url" content="https://rtfx.space/shaders/">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#000000">
 <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="../assets/apple-touch-icon-180.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Martian+Mono:wght@300..800&family=Space+Grotesk:wght@300..700&display=swap">
 <link rel="stylesheet" href="../css/site.css">
 <style>
 .hero h1.fh{margin:12px 0 16px}
@@ -40,7 +45,7 @@ main .wrap{max-width:min(1420px,96vw)}
 .kreset{align-self:end;justify-self:start;font-size:10px;padding:6px 12px}
 .knob .kr{display:inline-flex;gap:8px;align-items:center}
 .kb{display:inline-flex;gap:3px}
-.kbb{appearance:none;background:transparent;border:1px solid var(--c-rule);color:var(--c-ink-3);font-family:var(--f-display);font-size:8px;letter-spacing:.05em;width:16px;height:14px;line-height:1;padding:0;cursor:pointer}
+.kbb{appearance:none;background:transparent;border:1px solid var(--c-rule);color:var(--c-ink-3);font-family:var(--f-display);font-size:9px;letter-spacing:.05em;width:22px;height:18px;line-height:1;padding:0;cursor:pointer}
 .kbb:hover{color:var(--c-ink);border-color:var(--c-ink-2)}
 .kbb[aria-pressed="true"]{background:var(--c-accent);border-color:var(--c-accent);color:var(--c-on-accent,#000)}
 .knob input[type=range][disabled]{cursor:default}
@@ -49,6 +54,8 @@ main .wrap{max-width:min(1420px,96vw)}
 .cv .fs{position:absolute;right:10px;bottom:10px;z-index:2;appearance:none;background:rgba(0,0,0,.55);border:1px solid var(--c-rule);color:var(--c-ink-2);font-family:var(--f-display);font-size:9px;letter-spacing:.14em;text-transform:uppercase;padding:6px 10px;cursor:pointer;opacity:0;transition:opacity var(--m-snap) var(--e-snap),color var(--m-snap) var(--e-snap)}
 .cv:hover .fs,.cv .fs:focus-visible{opacity:1}
 .cv .fs:hover{color:var(--c-accent);border-color:var(--c-accent)}
+/* touch: no hover to reveal the fullscreen button, and fingers need bigger bind toggles */
+@media (hover:none){.cv .fs{opacity:1}.kbb{width:28px;height:24px;font-size:10px}}
 .cv:fullscreen{background:#000}
 .cv:fullscreen canvas{width:100%;height:100%}
 .pal-row{margin-top:calc(-1*var(--s-4))}
@@ -99,7 +106,7 @@ main .wrap{max-width:min(1420px,96vw)}
 <header class="topbar">
 <div class="topbar-in">
 <a class="tb-logo" href="../index.html"><img src="../assets/rtfx-wordmark-white.svg" alt="RT/FX — home"></a>
-<nav aria-label="Site"><a href="../index.html#work">← Projects</a><a href="../art/index.html">Art</a><a href="index.html" aria-current="page" style="color:var(--c-accent)">Shaders</a><a href="../gallery/index.html">Gallery</a><a href="../index.html#contact">Contact</a></nav>
+<nav aria-label="Site"><a href="../index.html#work">← Projects</a><a href="../gallery/index.html">Gallery</a><a href="../art/index.html">Art</a><a href="../shaders/index.html" aria-current="page">Shaders</a><a href="../index.html#contact">Contact</a></nav>
 <span class="status st-ok tb-right"><span class="dot"></span>15 shaders</span>
 </div>
 </header>
@@ -143,12 +150,7 @@ main .wrap{max-width:min(1420px,96vw)}
 <div class="wrap foot">
 <img src="../assets/rtfx-wordmark-white.svg" alt="RT/FX">
 <span class="note">Custom Shaders · RT/FX · Creative technology · Washington, DC</span>
-<span class="links">
-  <a href="../index.html">Home</a>
-  <a href="../art/index.html">Art</a>
-  <a href="../gallery/index.html">Gallery</a>
-  <a href="../index.html#contact">Contact</a>
-</span>
+<span class="links"><a href="../index.html">Home</a><a href="../gallery/index.html">Gallery</a><a href="../art/index.html">Art</a><a href="../shaders/index.html">Shaders</a><a href="../index.html#contact">Contact</a></span>
 </div>
 </footer>
 </body>

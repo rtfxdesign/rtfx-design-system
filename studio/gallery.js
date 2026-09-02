@@ -236,7 +236,7 @@ function nextNumber(data) {
  * Add one image to the gallery.
  * @param optimizeImage (input, webpOut, jpgOut|null, maxEdge) - injected from server.js
  */
-function addFrame({ tempPath, originalName, alt, cat, location, tags, optimizeImage }) {
+function addFrame({ tempPath, originalName, alt, cat, location, tags, eventName, optimizeImage }) {
   if (!fs.existsSync(tempPath)) throw new Error('upload not found');
   fs.mkdirSync(galleryMediaDir, { recursive: true });
   fs.mkdirSync(galleryThumbDir, { recursive: true });
@@ -262,9 +262,11 @@ function addFrame({ tempPath, originalName, alt, cat, location, tags, optimizeIm
   const thumbUrl = `${PUBLIC}assets/gallery/thumbs/${name}`;
 
   let html = fs.readFileSync(galleryHtmlPath, 'utf8');
+  // an event import names the frame after the event; a loose upload falls
+  // back to the filename (a camera name like "img-0215" is still better than nothing)
   html = insertFigure(html, figureHtml({
     num, thumbUrl, w: d.w, h: d.h,
-    alt: alt || slug.replace(/-/g, ' '), cat: cat || 'studio'
+    alt: alt || (eventName ? `${eventName} — frame ${num}` : slug.replace(/-/g, ' ')), cat: cat || 'studio'
   }));
   html = syncCount(html);
   fs.writeFileSync(galleryHtmlPath, html);
@@ -291,7 +293,7 @@ function addFrame({ tempPath, originalName, alt, cat, location, tags, optimizeIm
  * @param optimizeVideo (input, mp4Out, posterOut, {keepAudio}) - injected from server.js
  * @param hasAudioTrack (input) => bool - injected from server.js
  */
-function addVideoFrame({ tempPath, originalName, alt, cat, location, tags, optimizeVideo, hasAudioTrack }) {
+function addVideoFrame({ tempPath, originalName, alt, cat, location, tags, eventName, optimizeVideo, hasAudioTrack }) {
   if (!fs.existsSync(tempPath)) throw new Error('upload not found');
   fs.mkdirSync(galleryMediaDir, { recursive: true });
 
@@ -323,7 +325,7 @@ function addVideoFrame({ tempPath, originalName, alt, cat, location, tags, optim
     num,
     videoUrl: `${R2_PUBLIC}assets/gallery/${base}.mp4`,
     posterUrl: `${PUBLIC}assets/gallery/${base}-poster.webp`,
-    alt: alt || slug.replace(/-/g, ' '), cat: cat || 'studio', sound
+    alt: alt || (eventName ? `${eventName} — motion` : slug.replace(/-/g, ' ')), cat: cat || 'studio', sound
   }));
   html = syncCount(html);
   fs.writeFileSync(galleryHtmlPath, html);
@@ -442,8 +444,8 @@ function importFolder({ folder, event, date, location, summary, client, tags, ca
       try {
         // location is left on the event, not copied onto every frame
         out = VIDEO_EXT.test(name)
-          ? addVideoFrame({ tempPath: tmp, originalName: name, alt: '', cat, location: null, tags, optimizeVideo, hasAudioTrack })
-          : addFrame({ tempPath: tmp, originalName: name, alt: '', cat, location: null, tags, optimizeImage });
+          ? addVideoFrame({ tempPath: tmp, originalName: name, alt: '', cat, location: null, tags, eventName: ev.name, optimizeVideo, hasAudioTrack })
+          : addFrame({ tempPath: tmp, originalName: name, alt: '', cat, location: null, tags, eventName: ev.name, optimizeImage });
       } finally {
         if (fs.existsSync(tmp)) fs.unlinkSync(tmp);
       }

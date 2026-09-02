@@ -16,6 +16,9 @@
 <meta name="theme-color" content="#000000">
 <link rel="icon" href="../../assets/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="../../assets/apple-touch-icon-180.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Martian+Mono:wght@300..800&family=Space+Grotesk:wght@300..700&display=swap">
 <link rel="stylesheet" href="../../css/site.css">
 <script src="../../js/site.js" defer></script>
 <script src="../../js/bgfield.js" defer></script>
@@ -25,7 +28,7 @@
 <header class="topbar">
 <div class="topbar-in">
 <a class="tb-logo" href="../../index.html"><img src="../../assets/rtfx-wordmark-white.svg" alt="RT/FX — home"></a>
-<nav aria-label="Site"><a href="../../index.html#work">← Projects</a><a href="../../gallery/index.html">Gallery</a><a href="../../index.html#contact">Contact</a></nav>
+<nav aria-label="Site"><a href="../../index.html#work">← Projects</a><a href="../../gallery/index.html">Gallery</a><a href="../../art/index.html">Art</a><a href="../../shaders/index.html">Shaders</a><a href="../../index.html#contact">Contact</a></nav>
 </div>
 </header>
 <main id="main">
@@ -36,7 +39,7 @@
 <p class="display-m" style="color:var(--c-ink-2)">The picture cannot blink.</p>
 <div class="tickrule" aria-hidden="true"></div>
 <div class="csh-grid"><div class="csh-cell"><span class="k">Format</span><span class="v">Multi-camera live programs</span></div><div class="csh-cell"><span class="k">Role</span><span class="v">V1 · Switcher · Systems Operator</span></div><div class="csh-cell"><span class="k">Rooms</span><span class="v">Corporate · galas · inaugural</span></div></div>
-<figure class="hero-media vid"><span class="ph chamfer"><video src="https://media.rtfx.space/field-archive/qts-switching.mp4" poster="https://rtfx.space/field-archive/qts-control-b.webp" preload="metadata" muted loop playsinline aria-label="Hands operating a Blackmagic ATEM switcher during a corporate program"></video><button class="vplay" type="button" aria-pressed="false">▶ Play clip</button></span><figcaption class="micro">Fig 01 · ATEM position, program running</figcaption></figure>
+<figure class="hero-media vid"><span class="ph chamfer"><video src="https://media.rtfx.space/field-archive/qts-switching.mp4" poster="../../field-archive/qts-control-b.webp" preload="metadata" muted loop playsinline aria-label="Hands operating a Blackmagic ATEM switcher during a corporate program"></video><button class="vplay" type="button" aria-pressed="false">▶ Play clip</button></span><figcaption class="micro">Fig 01 · ATEM position, program running</figcaption></figure>
 </div>
 </div>
 <section aria-labelledby="s-ovw">
@@ -59,7 +62,7 @@
 <div class="sec-t"><span class="sec-num">01 · Position</span><h2 id="s-chap" class="display-m">Everything converges here</h2></div>
 <p class="sec-note">Sources, monitoring, and the program cut — one position, no second take.</p>
 </div>
-<div class="fig-grid"><figure><span class="ph chamfer"><img src="https://rtfx.space/field-archive/qts-stage.webp" alt="Corporate event stage and program displays at QTS Data Center" loading="lazy"></span><figcaption>QTS — the audience-facing result.</figcaption></figure><figure class="vid"><span class="ph chamfer"><video src="https://media.rtfx.space/field-archive/control-rack.mp4" preload="metadata" muted loop playsinline aria-label="Compact equipment rack and monitors assembled at a live control position"></video><button class="vplay" type="button" aria-pressed="false">▶ Play clip</button></span><figcaption>A control position, assembled for the day.</figcaption></figure><figure class="vid"><span class="ph chamfer"><video src="https://media.rtfx.space/field-archive/inauguration-ball.mp4" preload="metadata" muted loop playsinline aria-label="Formal ballroom program running on screens at the 2025 Inauguration Ball"></video><button class="vplay" type="button" aria-pressed="false">▶ Play clip</button></span><figcaption>2025 Inauguration Ball — formal program, live.</figcaption></figure><figure class="vid"><span class="ph chamfer"><video src="https://media.rtfx.space/field-archive/annual-meeting-playback.mp4" preload="metadata" muted loop playsinline aria-label="Presentation media playing back on stage screens at an annual meeting"></video><button class="vplay" type="button" aria-pressed="false">▶ Play clip</button></span><figcaption>Annual meeting — long-form playback, cued.</figcaption></figure></div>
+<div class="fig-grid"><figure><span class="ph chamfer"><img src="../../field-archive/qts-stage.webp" alt="Corporate event stage and program displays at QTS Data Center" loading="lazy"></span><figcaption>QTS — the audience-facing result.</figcaption></figure><figure class="vid"><span class="ph chamfer"><video src="https://media.rtfx.space/field-archive/control-rack.mp4" preload="metadata" muted loop playsinline aria-label="Compact equipment rack and monitors assembled at a live control position"></video><button class="vplay" type="button" aria-pressed="false">▶ Play clip</button></span><figcaption>A control position, assembled for the day.</figcaption></figure><figure class="vid"><span class="ph chamfer"><video src="https://media.rtfx.space/field-archive/inauguration-ball.mp4" preload="metadata" muted loop playsinline aria-label="Formal ballroom program running on screens at the 2025 Inauguration Ball"></video><button class="vplay" type="button" aria-pressed="false">▶ Play clip</button></span><figcaption>2025 Inauguration Ball — formal program, live.</figcaption></figure><figure class="vid"><span class="ph chamfer"><video src="https://media.rtfx.space/field-archive/annual-meeting-playback.mp4" preload="metadata" muted loop playsinline aria-label="Presentation media playing back on stage screens at an annual meeting"></video><button class="vplay" type="button" aria-pressed="false">▶ Play clip</button></span><figcaption>Annual meeting — long-form playback, cued.</figcaption></figure></div>
 </div>
 </section>
 <section aria-labelledby="s-doc">
@@ -77,15 +80,15 @@
 <figure class="vid"><span class="ph chamfer"><video src="https://media.rtfx.space/work/show-systems/media/inaug-05.mp4" poster="media/inaug-05-poster.webp" preload="metadata" muted loop playsinline aria-label="2025 Inauguration Ball — motion documentation"></video><button class="vplay" type="button" aria-pressed="false">▶ Play clip</button></span></figure>
 <figure class="vid"><span class="ph chamfer"><video src="https://media.rtfx.space/work/show-systems/media/summit-01.mp4" poster="media/summit-01-poster.webp" preload="metadata" muted loop playsinline aria-label="2025 Capitol Summit — motion documentation"></video><button class="vplay" type="button" aria-pressed="false">▶ Play clip</button></span></figure>
 <figure class="vid"><span class="ph chamfer"><video src="https://media.rtfx.space/work/show-systems/media/summit-02.mp4" poster="media/summit-02-poster.webp" preload="metadata" muted loop playsinline aria-label="2025 Capitol Summit — motion documentation"></video><button class="vplay" type="button" aria-pressed="false">▶ Play clip</button></span></figure>
-<figure><span class="ph chamfer"><img src="https://rtfx.space/assets/portfolio_lightroom/allen_portfolio019.webp" alt="Portfolio and field documentation frame 100" loading="lazy" decoding="async"></span></figure>
-<figure><span class="ph chamfer"><img src="https://rtfx.space/assets/portfolio_lightroom/allen_portfolio043.webp" alt="Portfolio and field documentation frame 124" loading="lazy" decoding="async"></span></figure>
-<figure><span class="ph chamfer"><img src="https://rtfx.space/assets/portfolio_lightroom/allen_portfolio044.webp" alt="Portfolio and field documentation frame 125" loading="lazy" decoding="async"></span></figure>
-<figure><span class="ph chamfer"><img src="https://rtfx.space/assets/portfolio_lightroom/allen_portfolio045.webp" alt="Portfolio and field documentation frame 126" loading="lazy" decoding="async"></span></figure>
-<figure><span class="ph chamfer"><img src="https://rtfx.space/assets/portfolio_lightroom/allen_portfolio046.webp" alt="Portfolio and field documentation frame 127" loading="lazy" decoding="async"></span></figure>
-<figure><span class="ph chamfer"><img src="https://rtfx.space/assets/portfolio_lightroom/allen_portfolio047.webp" alt="Portfolio and field documentation frame 128" loading="lazy" decoding="async"></span></figure>
-<figure><span class="ph chamfer"><img src="https://rtfx.space/assets/portfolio_lightroom/allen_portfolio052.webp" alt="Portfolio and field documentation frame 133" loading="lazy" decoding="async"></span></figure>
-<figure><span class="ph chamfer"><img src="https://rtfx.space/assets/portfolio_lightroom/allen_portfolio054.webp" alt="Portfolio and field documentation frame 135" loading="lazy" decoding="async"></span></figure>
-<figure><span class="ph chamfer"><img src="https://rtfx.space/assets/aegportfolio/img_9575_jpg.webp" alt="AEG portfolio field image 054" loading="lazy" decoding="async"></span></figure>
+<figure><span class="ph chamfer"><img src="../../assets/portfolio_lightroom/allen_portfolio019.webp" alt="Portfolio and field documentation frame 100" loading="lazy" decoding="async"></span></figure>
+<figure><span class="ph chamfer"><img src="../../assets/portfolio_lightroom/allen_portfolio043.webp" alt="Portfolio and field documentation frame 124" loading="lazy" decoding="async"></span></figure>
+<figure><span class="ph chamfer"><img src="../../assets/portfolio_lightroom/allen_portfolio044.webp" alt="Portfolio and field documentation frame 125" loading="lazy" decoding="async"></span></figure>
+<figure><span class="ph chamfer"><img src="../../assets/portfolio_lightroom/allen_portfolio045.webp" alt="Portfolio and field documentation frame 126" loading="lazy" decoding="async"></span></figure>
+<figure><span class="ph chamfer"><img src="../../assets/portfolio_lightroom/allen_portfolio046.webp" alt="Portfolio and field documentation frame 127" loading="lazy" decoding="async"></span></figure>
+<figure><span class="ph chamfer"><img src="../../assets/portfolio_lightroom/allen_portfolio047.webp" alt="Portfolio and field documentation frame 128" loading="lazy" decoding="async"></span></figure>
+<figure><span class="ph chamfer"><img src="../../assets/portfolio_lightroom/allen_portfolio052.webp" alt="Portfolio and field documentation frame 133" loading="lazy" decoding="async"></span></figure>
+<figure><span class="ph chamfer"><img src="../../assets/portfolio_lightroom/allen_portfolio054.webp" alt="Portfolio and field documentation frame 135" loading="lazy" decoding="async"></span></figure>
+<figure><span class="ph chamfer"><img src="../../assets/aegportfolio/img_9575_jpg.webp" alt="AEG portfolio field image 054" loading="lazy" decoding="async"></span></figure>
 </div>
 </div>
 </section>
@@ -102,7 +105,7 @@
 <div class="wrap foot">
 <img src="../../assets/rtfx-wordmark-white.svg" alt="RT/FX">
 <span class="note">Signal Flow Under Pressure · RT/FX · Creative technology · Washington, DC</span>
-<span class="links"><a href="../../index.html">Home</a><a href="../../gallery/index.html">Gallery</a><a href="../../index.html#contact">Contact</a></span>
+<span class="links"><a href="../../index.html">Home</a><a href="../../gallery/index.html">Gallery</a><a href="../../art/index.html">Art</a><a href="../../shaders/index.html">Shaders</a><a href="../../index.html#contact">Contact</a></span>
 </div>
 </footer>
 </body>

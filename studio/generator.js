@@ -67,8 +67,11 @@ function generateArtPage() {
         </figcaption>
         </figure>`;
     } else {
+      // same card as the video pieces - .ai belongs to the photo gallery and
+      // dragged its chamfer frame and X-Route hover in here, so still images
+      // sat in a double frame next to the plain video cards
       mediaTag = `
-        <figure class="ai"><span class="in"><span class="ph chamfer">
+        <figure><span class="ph chamfer">
           <img src="${src}" alt="${title}" loading="lazy">
         </span>
         <figcaption>
@@ -76,7 +79,7 @@ function generateArtPage() {
           <b class="art-t">${title}</b>
           <span class="art-tools">${tools}</span>
           <p>${description}</p>
-        </figcaption></span>
+        </figcaption>
         </figure>`;
     }
     cardsHtml += `  ${mediaTag}\n`;
@@ -93,12 +96,16 @@ function generateArtPage() {
 <meta property="og:type" content="article">
 <meta property="og:title" content="Art Gallery — RT/FX">
 <meta property="og:description" content="Personal art, generative visual studies, optical feedback systems, and spatial textures by Allen Grabo.">
-<meta property="og:image" content="../assets/og-image-1200x630.png">
+<meta property="og:image" content="https://rtfx.space/og.png">
+<meta property="og:image:alt" content="RT/FX art gallery">
 <meta property="og:url" content="https://rtfx.space/art/">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#000000">
 <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="../assets/apple-touch-icon-180.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Martian+Mono:wght@300..800&family=Space+Grotesk:wght@300..700&display=swap">
 <link rel="stylesheet" href="../css/site.css">
 <style>
 .art-t { display: block; font-family: var(--f-display); font-size: 15px; font-weight: 700; color: var(--c-ink); margin: 6px 0 2px; }
@@ -123,7 +130,7 @@ function generateArtPage() {
 <header class="topbar">
 <div class="topbar-in">
 <a class="tb-logo" href="../index.html"><img src="../assets/rtfx-wordmark-white.svg" alt="RT/FX — home"></a>
-<nav aria-label="Site"><a href="../index.html#work">← Projects</a><a href="index.html" aria-current="page" style="color:var(--c-accent)">Art</a><a href="../shaders/index.html">Shaders</a><a href="../gallery/index.html">Gallery</a><a href="../index.html#contact">Contact</a></nav>
+<nav aria-label="Site"><a href="../index.html#work">← Projects</a><a href="../gallery/index.html">Gallery</a><a href="../art/index.html" aria-current="page">Art</a><a href="../shaders/index.html">Shaders</a><a href="../index.html#contact">Contact</a></nav>
 <span class="status st-ok tb-right"><span class="dot"></span>${artworks.length} works</span>
 </div>
 </header>
@@ -153,12 +160,7 @@ ${cardsHtml}
 <div class="wrap foot">
 <img src="../assets/rtfx-wordmark-white.svg" alt="RT/FX">
 <span class="note">Art Gallery · RT/FX · Creative technology · Washington, DC</span>
-<span class="links">
-  <a href="../index.html">Home</a>
-  <a href="index.html">Art</a>
-  <a href="../gallery/index.html">Gallery</a>
-  <a href="../index.html#contact">Contact</a>
-</span>
+<span class="links"><a href="../index.html">Home</a><a href="../gallery/index.html">Gallery</a><a href="../art/index.html">Art</a><a href="../shaders/index.html">Shaders</a><a href="../index.html#contact">Contact</a></span>
 </div>
 </footer>
 </body>

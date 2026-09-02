@@ -1,5 +1,7 @@
 /* rtfx.space — site CSS, generated from RT/FX design system (brand kit v0.4, P1 Signal) */
-@import url('https://fonts.googleapis.com/css2?family=Martian+Mono:wght@300..800&family=Space+Grotesk:wght@300..700&display=swap');
+/* fonts are linked from each page <head> (preconnect + stylesheet) rather than
+   @imported here - an @import can only start after this file has arrived,
+   which put the font files a full round trip behind first paint */
 :root{
 --c-bg:#000000;--c-panel:#0A0A0A;--c-raise:#141414;
 --c-rule:#262626;--c-rule-soft:#1A1A1A;
@@ -50,6 +52,8 @@ p{text-wrap:pretty}
 .skip{position:absolute;left:-9999px;top:0;z-index:100;background:var(--c-accent);color:var(--c-on-accent);font-family:var(--f-display);font-size:11px;letter-spacing:.16em;text-transform:uppercase;padding:12px 22px;text-decoration:none}
 .skip:focus{left:0;color:var(--c-on-accent)}
 section{padding:var(--s-8) 0;border-bottom:1px solid var(--c-rule-soft)}
+/* anchor targets clear the sticky topbar instead of sliding under it */
+main [id]{scroll-margin-top:72px}
 section:last-of-type{border-bottom:none}
 .sec-head{margin-bottom:var(--s-7);display:flex;gap:var(--s-4);align-items:baseline;flex-wrap:wrap}
 .sec-num{font-family:var(--f-display);font-size:11px;letter-spacing:.2em;color:var(--c-accent);font-weight:600}
@@ -65,10 +69,23 @@ section:last-of-type{border-bottom:none}
 .tb-logo img{height:22px;width:auto}
 .tb-logo{padding-bottom:9px}
 .topbar nav{display:flex;gap:var(--s-4);flex-wrap:wrap;justify-content:center}
-.topbar nav a{font-family:var(--f-display);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--c-ink-2);text-decoration:none;padding:4px 0}
+.topbar nav a{font-family:var(--f-display);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--c-ink-2);text-decoration:none;padding:8px 0}
 .topbar nav a:hover{color:var(--c-ink)}
 .topbar nav a[aria-current]{color:var(--c-accent)}
 .tb-right{margin-left:auto}
+/* phones: one bar, one row. The nav becomes a horizontal strip that scrolls
+   under a fade instead of wrapping - wrapped, the sticky bar was eating a
+   quarter of the viewport on every page. The count chip goes; it is décor. */
+@media (max-width:640px){
+.topbar-in{flex-wrap:nowrap;align-items:center;gap:var(--s-4);padding:6px var(--gutter)}
+.tb-logo{padding-bottom:0;flex:none;display:flex}
+.tb-logo img{height:18px}
+.topbar nav{flex:1;min-width:0;flex-wrap:nowrap;justify-content:flex-start;gap:10px;overflow-x:auto;scrollbar-width:none;padding-right:28px;mask-image:linear-gradient(90deg,#000 calc(100% - 28px),transparent);-webkit-mask-image:linear-gradient(90deg,#000 calc(100% - 28px),transparent)}
+.topbar nav::-webkit-scrollbar{display:none}
+.topbar nav a{font-size:10.5px;letter-spacing:.08em;padding:12px 0;white-space:nowrap}
+.topbar .tb-right{display:none}
+.topbar-in>nav:only-child{margin:0}
+}
 /* status + tags + buttons */
 .status{display:inline-flex;align-items:center;gap:7px;font-family:var(--f-display);font-size:10px;letter-spacing:.16em;text-transform:uppercase;text-decoration:none}
 .status .dot{width:7px;height:7px;background:currentColor;flex:none}
@@ -130,8 +147,12 @@ section:last-of-type{border-bottom:none}
 .teaser img{width:100%;height:100%;object-fit:cover}
 .teaser figcaption{margin-top:8px}
 /* practice */
-.grid-practice{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1px;background:var(--c-rule-soft);border:1px solid var(--c-rule-soft);margin-bottom:var(--s-5)}
-.grid-practice>div{background:var(--c-panel);padding:var(--s-5)}
+/* cell grids draw their own dividers (a 1px shadow off each cell's top and
+   left edge, the outer ones clipped by the container) instead of showing a
+   filled gap - the gap trick left a blank "ghost cell" wherever a row did not
+   fill, most visibly on phones where three cells sit in two columns */
+.grid-practice{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:0;border:1px solid var(--c-rule-soft);overflow:hidden;margin-bottom:var(--s-5)}
+.grid-practice>div{background:var(--c-panel);padding:var(--s-5);box-shadow:-1px 0 0 0 var(--c-rule-soft),0 -1px 0 0 var(--c-rule-soft)}
 .grid-practice .label{display:block;margin-bottom:var(--s-3);color:var(--c-accent)}
 .grid-practice .heading{display:block;margin-bottom:8px}
 /* experience */
@@ -155,8 +176,8 @@ textarea{min-height:120px;resize:vertical}
 .hp{position:absolute;left:-9999px}
 .spec-inline{margin-top:var(--s-6)}
 /* spec grid */
-.csh-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(148px,1fr));gap:1px;background:var(--c-rule-soft)}
-.csh-cell{background:var(--c-bg);padding:var(--s-4) var(--s-4) var(--s-4) 0}
+.csh-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(148px,1fr));gap:0;overflow:hidden}
+.csh-cell{background:var(--c-bg);padding:var(--s-4) var(--s-4) var(--s-4) 0;box-shadow:-1px 0 0 0 var(--c-rule-soft),0 -1px 0 0 var(--c-rule-soft)}
 .csh-cell .k{font-family:var(--f-display);font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--c-ink-3);display:block;margin-bottom:7px}
 .csh-cell .v{font-family:var(--f-display);font-size:13px;letter-spacing:-.03em;color:var(--c-ink);font-weight:500}
 /* case pages */
@@ -175,8 +196,8 @@ textarea{min-height:120px;resize:vertical}
 .ovw{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:var(--s-5);margin-top:var(--s-7)}
 .ovw .k{display:block;margin-bottom:var(--s-2);color:var(--c-accent)}
 .ovw p{font-size:13.5px;color:var(--c-ink-2)}
-.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:1px;background:var(--c-rule-soft);border:1px solid var(--c-rule-soft);margin-top:var(--s-7)}
-.stats>div{background:var(--c-panel);padding:var(--s-4)}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:0;border:1px solid var(--c-rule-soft);overflow:hidden;margin-top:var(--s-7)}
+.stats>div{background:var(--c-panel);padding:var(--s-4);box-shadow:-1px 0 0 0 var(--c-rule-soft),0 -1px 0 0 var(--c-rule-soft)}
 .stats b{display:block;font-family:var(--f-display);font-size:clamp(20px,2.4vw,30px);font-weight:700;letter-spacing:-.05em;color:var(--c-accent);margin-bottom:4px}
 .stats span{font-family:var(--f-display);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--c-ink-3)}
 /* galleries */
@@ -347,3 +368,29 @@ footer{border-top:1px solid var(--c-rule);padding:var(--s-7) 0;margin-top:0}
 #wordfield{display:block;width:100%;height:clamp(90px,13vw,150px);margin:var(--s-5) auto var(--s-6);cursor:crosshair}
 .hero-full .label{color:var(--c-accent)}
 .topbar-in>nav:only-child{margin:0 auto}
+/* phones: filter facets become single scroll rows (stacked, the two chip
+   blocks pushed the first photo two screens down); inputs go to 16px so iOS
+   stops zooming the contact form on focus; chips get a legibility bump */
+@media (max-width:640px){
+.filters .chips{flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;padding-bottom:6px;margin-bottom:0}
+.filters .chips::-webkit-scrollbar{display:none}
+.filters .chip{flex:none;white-space:nowrap}
+.filters{margin-bottom:var(--s-5)}
+.chip{font-size:10.5px;padding:10px 14px}
+input,textarea{font-size:16px}
+}
+/* touch devices have no hover: the card effects are keyed to :hover and would
+   otherwise stick on whatever was last tapped (dimmed frame, drawn circuit)
+   until something else is touched. Neutralise them where hover cannot occur. */
+@media (hover:none){
+.work:hover{background:var(--c-rule);transform:none}
+.ai:hover{background:var(--c-rule-soft);transform:none}
+.work:hover::before,.ai:hover::before,.teaser [data-p]:hover .ph::before{animation:none}
+.work:hover .thumb img,.ai:hover .ph img,.ai:hover .ph video,.teaser [data-p]:hover .ph img{transform:none;filter:none}
+.work:hover .signal-layer,.ai:hover .signal-layer,.teaser [data-p]:hover .signal-layer{opacity:0}
+.work:hover .signal-trace,.work:hover .signal-mark,.work:hover .signal-node,.work:hover .signal-scan,
+.ai:hover .signal-trace,.ai:hover .signal-mark,.ai:hover .signal-node,.ai:hover .signal-scan,
+.teaser [data-p]:hover .signal-trace,.teaser [data-p]:hover .signal-mark,.teaser [data-p]:hover .signal-node,.teaser [data-p]:hover .signal-scan{animation:none}
+.work:hover .go{color:var(--c-accent);text-shadow:none}
+.work:hover .arrow{transform:none}
+}

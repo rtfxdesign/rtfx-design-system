@@ -24,6 +24,8 @@
 .art-t { display: block; font-family: var(--f-display); font-size: 15px; font-weight: 700; color: var(--c-ink); margin: 6px 0 2px; }
 .art-tools { display: block; font-family: var(--f-display); font-size: 10px; letter-spacing: .1em; color: var(--c-accent); text-transform: uppercase; margin-bottom: 6px; }
 .art-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: var(--s-5); }
+/* wide screens: the grid breaks out (site.css); larger cards keep it at four across */
+@media (min-width: 1440px) { .art-grid { grid-template-columns: repeat(auto-fit, minmax(380px, 1fr)); } }
 .art-grid figure { margin: 0; background: var(--c-panel); border: 1px solid var(--c-rule-soft); padding: 12px; }
 .art-grid figure:hover { border-color: var(--c-accent); }
 .art-grid figcaption { margin-top: 12px; }

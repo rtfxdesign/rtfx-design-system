@@ -47,7 +47,7 @@ p{text-wrap:pretty}
 .inline-fx:hover::after,.inline-fx:focus-visible::after{opacity:1}
 .bg-grid{background-image:linear-gradient(to right,rgba(255,255,255,.026) 1px,transparent 1px),linear-gradient(to bottom,rgba(255,255,255,.026) 1px,transparent 1px);background-size:64px 64px}
 /* layout */
-.wrap{max-width:1180px;margin:0 auto;padding:0 var(--gutter);position:relative;z-index:1}
+.wrap{max-width:1320px;margin:0 auto;padding:0 var(--gutter);position:relative;z-index:1}
 .row{display:flex;gap:var(--s-3);flex-wrap:wrap;align-items:center}
 .skip{position:absolute;left:-9999px;top:0;z-index:100;background:var(--c-accent);color:var(--c-on-accent);font-family:var(--f-display);font-size:11px;letter-spacing:.16em;text-transform:uppercase;padding:12px 22px;text-decoration:none}
 .skip:focus{left:0;color:var(--c-on-accent)}
@@ -65,7 +65,7 @@ section:last-of-type{border-bottom:none}
 .sec-side{margin-left:auto}
 /* topbar */
 .topbar{position:sticky;top:0;z-index:60;background:rgba(0,0,0,.92);backdrop-filter:blur(14px)}
-.topbar-in{max-width:1180px;margin:0 auto;padding:13px var(--gutter);display:flex;align-items:flex-end;gap:var(--s-5);flex-wrap:wrap}
+.topbar-in{max-width:1320px;margin:0 auto;padding:13px var(--gutter);display:flex;align-items:flex-end;gap:var(--s-5);flex-wrap:wrap}
 .tb-logo img{height:22px;width:auto}
 .tb-logo{padding-bottom:9px}
 .topbar nav{display:flex;gap:var(--s-4);flex-wrap:wrap;justify-content:center}
@@ -254,6 +254,10 @@ figcaption em,figcaption i{color:var(--c-ink-3)}
 .chip:hover{color:var(--c-ink)}
 .chip[aria-pressed="true"]{background:var(--c-accent);color:var(--c-on-accent)}
 .arch{columns:3;column-gap:var(--s-4)}
+/* extra width buys the gallery more columns, not just bigger frames
+   (the breakout itself is in the wide-screen block at the end of the file) */
+@media (min-width:1500px){.arch{columns:4}}
+@media (min-width:2100px){.arch{columns:5}}
 @media (max-width:960px){.arch{columns:2}}
 @media (max-width:600px){.arch{columns:1}}
 .ai{break-inside:avoid;margin:0 0 var(--s-4);background:var(--c-rule-soft);padding:1px}
@@ -378,6 +382,16 @@ footer{border-top:1px solid var(--c-rule);padding:var(--s-7) 0;margin-top:0}
 .filters{margin-bottom:var(--s-5)}
 .chip{font-size:10.5px;padding:10px 14px}
 input,textarea{font-size:16px}
+}
+/* wide screens: copy keeps the reading column, media breaks out of it toward
+   the screen edges. Text wants a measure; pictures do not - at 1180px a big
+   monitor was 40% black. Widths are capped so cards grow into more columns
+   rather than ballooning. margin-left works because .wrap is centred, so
+   50% of it is the viewport centre. */
+@media (min-width:1440px){
+.grid-work,.fig-grid,.art-grid,.teaser,.arch{width:min(96vw,1760px);margin-left:calc(50% - min(48vw,880px))}
+.hero-media{width:min(96vw,1500px);margin-left:calc(50% - min(48vw,750px))}
+.grid-work{grid-template-columns:repeat(auto-fit,minmax(360px,1fr))}
 }
 /* touch devices have no hover: the card effects are keyed to :hover and would
    otherwise stick on whatever was last tapped (dimmed frame, drawn circuit)

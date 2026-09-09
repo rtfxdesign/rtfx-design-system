@@ -48,15 +48,32 @@ function resolveFfmpegPath() {
 
 const ffmpegPath = resolveFfmpegPath();
 
+// Every call here is execFileSync, so a child that blocks forever freezes the
+// whole server, not just its own request. As a LocalSystem service there is no
+// console to answer a credential prompt, so git's helper would wait forever:
+// these force auth to fail fast instead, and callers that touch the network
+// pass a timeout as a backstop.
+const nonInteractiveEnv = {
+  GIT_TERMINAL_PROMPT: '0',
+  GIT_ASKPASS: '',
+  SSH_ASKPASS: '',
+  GCM_INTERACTIVE: 'never'
+};
+
 function runFile(command, args, options = {}) {
   try {
     return execFileSync(command, args, {
       cwd: options.cwd || workspaceDir,
       encoding: 'utf8',
       maxBuffer: 32 * 1024 * 1024,
-      stdio: options.stdio || ['ignore', 'pipe', 'pipe']
+      stdio: options.stdio || ['ignore', 'pipe', 'pipe'],
+      env: { ...process.env, ...nonInteractiveEnv },
+      ...(options.timeout ? { timeout: options.timeout } : {})
     });
   } catch (error) {
+    if (error.code === 'ETIMEDOUT') {
+      throw new Error(`${command} ${args[0] || ''} timed out after ${Math.round(options.timeout / 1000)}s and was stopped.`);
+    }
     const detail = String(error.stderr || error.stdout || error.message).trim();
     throw new Error(detail || `${command} failed.`);
   }
@@ -1109,12 +1126,12 @@ app.post('/api/deploy', async (req, res) => {
     }
 
     sendLog('Checking GitHub for newer changes...');
-    runFile('git', ['fetch', 'origin', 'main']);
+    runFile('git', ['fetch', 'origin', 'main'], { timeout: 90000 });
     const behind = Number(runFile('git', ['rev-list', '--count', 'HEAD..origin/main']).trim() || 0);
     if (behind > 0) throw new Error('GitHub has newer changes. Update the local checkout before publishing.');
 
     sendLog('Pushing main to GitHub...');
-    runFile('git', ['push', 'origin', 'main']);
+    runFile('git', ['push', 'origin', 'main'], { timeout: 120000 });
     sendLog('GitHub push complete.');
 
     sendLog('Creating Netlify preview...');

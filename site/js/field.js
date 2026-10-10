@@ -35,9 +35,11 @@ var small=W<640;
 if(small){var s1=fit('INFRASTRUCTURE',H*0.34,W*0.94);font(Math.min(s1*1.6,H*0.34));o.fillText('ART',W/2,H*0.3);font(s1);o.fillText('INFRASTRUCTURE',W/2,H*0.68);}
 else{fit(TEXT,H*0.5,W*0.94);o.fillText(TEXT,W/2,H*0.52);}
 }else{
-o.textAlign='left';
+// data-align="center" centres set type (the link page name card); default stays left for section heads
+var CENTER=cv.dataset.align==='center';
+o.textAlign=CENTER?'center':'left';
 fit(TEXT,H*0.72,W*0.98);
-o.fillText(TEXT,1,H*0.55);
+o.fillText(TEXT,CENTER?W/2:1,H*0.55);
 }
 var data=o.getImageData(0,0,W,H).data;
 P=[];

@@ -4,9 +4,9 @@ Single-page, self-hosted "linktree" for QR codes and NFC tags. Lives at
 `site/allen/` so it deploys with the main Netlify site as `rtfx.space/allen/`.
 
 ## Files
-- `index.html` — the page. Loads the shared `css/site.css` by absolute URL (so it works at the subdomain root), reuses the site topbar/footer, and arms the X-Route hover on each link row with a small inline script. Photo is desaturated at rest and saturates on hover.
+- `index.html` — the page. Loads the shared `css/site.css` by absolute URL (so it works at the subdomain root), reuses the site topbar/footer, and arms the X-Route hover on each link row with a small inline script. Photo is desaturated at rest and saturates on hover. The name is a particle field (`js/field.js`, `data-align="center"`). From 900px the page is two columns: identity left, actions right.
 - `allen.webp` / `allen.jpg` — headshot, 480×480 (from the 1011px PNG master; WebP first, JPEG fallback).
-- `aeg-sig-white.png` — signature, 240px wide.
+- `aeg-sig-white.png` — signature, cropped to the ink.
 - `rtfx-wordmark-white.svg` — logo (copied from `/assets`).
 - `files/allen_grabo.vcf` — "Add contact to phone" card (name, title, cell, email, URLs, IG, YT). CRLF line endings.
 - `files/allen_rtfx_space_qr.svg` / `_2048.png` — QR, black on white, for print.

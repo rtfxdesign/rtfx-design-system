@@ -41,7 +41,8 @@ main>nav{position:sticky;top:72px}
 .card .fieldh{height:clamp(44px,9vw,64px);width:100%}
 .card .label{color:var(--c-accent);font-size:11px}
 .role{color:var(--c-ink-2);font-size:14px;line-height:1.55;display:flex;flex-direction:column;gap:2px}
-.card .tickrule{width:100%;margin-top:var(--s-2)}
+.card .tickrule{width:100%;margin-top:var(--s-2);animation:tick-slide 4s linear infinite}
+@keyframes tick-slide{from{background-position:0 0,0 0}to{background-position:-40px 0,-40px 0}}
 /* link rows: X-Route hover from site.css (.ai) on a chamfer-sm row */
 .lnk{list-style:none;display:flex;flex-direction:column;gap:var(--s-3)}
 .lnk .ai{--chamfer:var(--chamfer-sm);display:block;margin:0;text-decoration:none;color:inherit;background:var(--c-rule)}
@@ -52,19 +53,25 @@ main>nav{position:sticky;top:72px}
 .lnk .ai .micro{display:block;color:var(--c-ink-2);text-transform:none;letter-spacing:.04em;font-size:11px;text-align:right;white-space:nowrap}
 .lnk .ai:hover .micro,.lnk .ai:focus-visible .micro{color:var(--c-ink)}
 .lnk .ai:focus-visible{outline:none}
+/* quieter circuit on rows: no grid wash, no glow, hairline traces at low opacity, small nodes */
+.lnk .ai .signal-layer{background-image:none}
+.lnk .ai .signal-layer svg{filter:none}
+.lnk .ai .signal-trace{opacity:.32}
+.lnk .ai .signal-mark{stroke:var(--c-accent);stroke-width:1;opacity:.28}
+.lnk .ai .signal-node{stroke:none;opacity:.7}
+.lnk .ai .signal-scan{width:8%;background:linear-gradient(90deg,transparent,rgba(255,176,32,.12),rgba(255,217,160,.18),rgba(255,176,32,.12),transparent)}
+.lnk .ai.fill .signal-trace,.lnk .ai.fill .signal-mark{stroke:var(--c-on-accent);opacity:.18}
+.lnk .ai.fill .signal-node{fill:var(--c-on-accent);opacity:.35}
 /* nodes are sized in the 400×58 strip geometry below, so no card-scale override is needed */
 /* the one amber element: primary action */
 .lnk .ai.fill,.lnk .ai.fill:hover{background:var(--c-accent)}
 .lnk .ai.fill .in{background:var(--c-accent);color:var(--c-on-accent)}
 .lnk .ai.fill .micro,.lnk .ai.fill:hover .micro{color:var(--c-on-accent)}
 .lnk .ai.fill:hover .in{background:var(--c-accent-2)}
-.lnk .ai.fill .signal-trace,.lnk .ai.fill .signal-mark{stroke:var(--c-on-accent)}
-.lnk .ai.fill .signal-node{fill:var(--c-on-accent);stroke:var(--c-on-accent)}
-.lnk .ai.fill .signal-layer{background-image:linear-gradient(rgba(0,0,0,.08) 1px,transparent 1px),linear-gradient(90deg,rgba(0,0,0,.08) 1px,transparent 1px)}
-.lnk .ai.fill .signal-layer svg{filter:none}
 /* footer: site pattern plus signature */
 .foot{flex-direction:column;align-items:center;text-align:center;gap:var(--s-4)}
 .foot .links{margin-left:0;justify-content:center}
+.foot .motto{color:var(--c-accent)}
 .foot .sig{height:112px;width:auto;opacity:.9}
 </style>
 </head>
@@ -103,8 +110,7 @@ main>nav{position:sticky;top:72px}
 <footer>
 <div class="wrap foot">
 <img class="sig" src="aeg-sig-white.png" alt="Allen Grabo signature">
-<img src="https://rtfx.space/assets/rtfx-wordmark-white.svg" alt="RT/FX">
-<span class="note">Creative technology · Washington, DC</span>
+<span class="label motto">Artifex Machina</span>
 <span class="links"><a href="https://www.instagram.com/allengrabo" target="_blank" rel="noopener">Instagram</a><a href="https://www.youtube.com/@rtfxdesign" target="_blank" rel="noopener">YouTube</a><a href="mailto:rtfxdesign@gmail.com">Email</a><a href="files/allen_rtfx_space_qr.svg">QR ↓</a></span>
 </div>
 </footer>
@@ -113,7 +119,7 @@ main>nav{position:sticky;top:72px}
 // a 100x62.5 card geometry; rows are ~7:1, so this is the same vocabulary laid out
 // as a 400x58 strip: two traces run the width with 45° jogs, X marks sit in the row.
 (function(){
-var SIG='<span class="signal-layer" aria-hidden="true"><svg viewBox="0 0 400 58" preserveAspectRatio="xMidYMid slice"><path class="signal-trace" pathLength="1" d="M-4 12H60L74 26H150L164 40H250L264 26H340L354 12H404"/><path class="signal-trace" pathLength="1" d="M404 46H330L316 32H240L226 46H140L126 32H60L46 46H-4"/><path class="signal-trace" pathLength="1" d="M0 29H30L38 21H58"/><path class="signal-trace" pathLength="1" d="M400 29H370L362 37H342"/><path class="signal-mark" pathLength="1" d="M186 15L214 43"/><path class="signal-mark" pathLength="1" d="M214 15L186 43"/><path class="signal-mark" pathLength="1" d="M84 21L100 37"/><path class="signal-mark" pathLength="1" d="M100 21L84 37"/><path class="signal-mark" pathLength="1" d="M300 21L316 37"/><path class="signal-mark" pathLength="1" d="M316 21L300 37"/><circle class="signal-node" style="--signal-delay:180ms" cx="60" cy="12" r="1.7"/><circle class="signal-node" style="--signal-delay:240ms" cx="164" cy="40" r="1.7"/><circle class="signal-node" style="--signal-delay:300ms" cx="264" cy="26" r="1.7"/><circle class="signal-node" style="--signal-delay:210ms" cx="354" cy="12" r="1.7"/><circle class="signal-node" style="--signal-delay:280ms" cx="126" cy="32" r="1.7"/><circle class="signal-node" style="--signal-delay:340ms" cx="316" cy="32" r="1.7"/><circle class="signal-node" style="--signal-delay:260ms" cx="46" cy="46" r="1.7"/></svg></span><span class="signal-scan" aria-hidden="true"></span>';
+var SIG='<span class="signal-layer" aria-hidden="true"><svg viewBox="0 0 400 58" preserveAspectRatio="xMidYMid slice"><path class="signal-trace" pathLength="1" d="M-4 12H60L74 26H150L164 40H250L264 26H340L354 12H404"/><path class="signal-trace" pathLength="1" d="M404 46H330L316 32H240L226 46H140L126 32H60L46 46H-4"/><path class="signal-trace" pathLength="1" d="M0 29H30L38 21H58"/><path class="signal-trace" pathLength="1" d="M400 29H370L362 37H342"/><path class="signal-mark" pathLength="1" d="M186 15L214 43"/><path class="signal-mark" pathLength="1" d="M214 15L186 43"/><path class="signal-mark" pathLength="1" d="M84 21L100 37"/><path class="signal-mark" pathLength="1" d="M100 21L84 37"/><path class="signal-mark" pathLength="1" d="M300 21L316 37"/><path class="signal-mark" pathLength="1" d="M316 21L300 37"/><circle class="signal-node" style="--signal-delay:180ms" cx="60" cy="12" r="1.1"/><circle class="signal-node" style="--signal-delay:240ms" cx="164" cy="40" r="1.1"/><circle class="signal-node" style="--signal-delay:300ms" cx="264" cy="26" r="1.1"/><circle class="signal-node" style="--signal-delay:210ms" cx="354" cy="12" r="1.1"/><circle class="signal-node" style="--signal-delay:280ms" cx="126" cy="32" r="1.1"/><circle class="signal-node" style="--signal-delay:340ms" cx="316" cy="32" r="1.1"/><circle class="signal-node" style="--signal-delay:260ms" cx="46" cy="46" r="1.1"/></svg></span><span class="signal-scan" aria-hidden="true"></span>';
 document.querySelectorAll(".lnk .ai").forEach(function(a){
 a.querySelector(".ph").innerHTML=SIG;
 a.addEventListener("pointerenter",function(e){var r=a.getBoundingClientRect();a.dataset.signalCorner=(e.clientX<r.left+r.width/2?"l":"r")+(e.clientY<r.top+r.height/2?"t":"b")});

@@ -31,3 +31,18 @@
   [headers.values]
     Cache-Control = "public, max-age=2592000"
 
+
+# allen.rtfx.space → serves /allen/ at the subdomain root (requires the
+# subdomain to be added as a domain alias on this Netlify site and a Cloudflare
+# CNAME allen → <site>.netlify.app, DNS-only / grey cloud).
+[[redirects]]
+  from = "https://allen.rtfx.space/*"
+  to = "/allen/:splat"
+  status = 200
+  force = true
+
+# Short résumé URL used on the link page and business cards.
+[[redirects]]
+  from = "/resume/*"
+  to = "/assets/allen-grabo-resume.pdf"
+  status = 302

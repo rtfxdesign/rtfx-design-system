@@ -1,133 +1,75 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Allen Grabo — RT/FX</title>
-<meta name="description" content="Allen Grabo, creative technologist. Live visuals, show control, projection mapping, LED. All links in one place.">
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Dr Allen Grabo — RT/FX</title>
+<meta name="description" content="Senior Video Engineer (V1) · Immersive Visual Designer · Washington DC">
 <link rel="canonical" href="https://allen.rtfx.space/">
 <meta property="og:type" content="profile">
-<meta property="og:title" content="Allen Grabo — RT/FX">
-<meta property="og:description" content="Creative technologist · Washington, DC. Portfolio, contact, and socials.">
-<meta property="og:image" content="https://rtfx.space/og.png">
+<meta property="og:title" content="Dr Allen Grabo — RT/FX">
+<meta property="og:description" content="Senior Video Engineer (V1) · Creative Technologist · Immersive Visual Designer · DC / NOVA / MD">
+<meta property="og:image" content="https://rtfx.space/allen/allen.jpg">
 <meta property="og:url" content="https://allen.rtfx.space/">
-<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:card" content="summary">
 <meta name="theme-color" content="#000000">
-<meta name="robots" content="index,follow">
 <link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="../assets/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="../assets/apple-touch-icon-180.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Martian+Mono:wght@300..800&family=Space+Grotesk:wght@300..700&display=swap">
 <style>
-/* rtfx tokens (brand kit v0.4, P1 Signal) — inlined so this page is self-contained */
-:root{
---c-bg:#000000;--c-panel:#0A0A0A;--c-raise:#141414;--c-rule:#262626;--c-rule-soft:#1A1A1A;
---c-ink:#FAFAFA;--c-ink-2:#A3A3A3;--c-ink-3:#6E6E6E;
---c-accent:#FFB020;--c-accent-2:#FFD9A0;--c-on-accent:#000000;
---f-display:'Martian Mono',ui-monospace,monospace;--f-body:'Space Grotesk',system-ui,sans-serif;
---s-2:8px;--s-3:12px;--s-4:16px;--s-5:24px;--s-6:32px;--s-7:48px;--s-8:64px;
---chamfer:12px;--chamfer-sm:7px;--inline-gap:5px;
---m-snap:160ms;--e-snap:steps(3);
-}
+:root{--c-bg:#000000;--c-panel:#0A0A0A;--c-raise:#141414;--c-rule:#262626;--c-rule-soft:#1A1A1A;--c-ink:#FAFAFA;--c-ink-2:#A3A3A3;--c-ink-3:#6E6E6E;--c-accent:#FFB020;--c-accent-2:#FFD9A0;--c-on-accent:#000000;--f-display:'Martian Mono',ui-monospace,monospace;--f-body:'Space Grotesk',system-ui,sans-serif;--s-2:8px;--s-3:12px;--s-4:16px;--s-5:24px;--s-6:32px;--s-7:48px;--chamfer:12px;--chamfer-sm:7px;--m-snap:160ms}
 *{box-sizing:border-box;margin:0;padding:0}
-html{background:var(--c-bg)}
-body{background:var(--c-bg);color:var(--c-ink);font-family:var(--f-body);font-size:15px;line-height:1.65;-webkit-font-smoothing:antialiased;min-height:100vh;min-height:100dvh;display:flex;flex-direction:column}
+body{background:var(--c-bg);color:var(--c-ink);font-family:var(--f-body);font-size:15px;line-height:1.65;-webkit-font-smoothing:antialiased;min-height:100svh}
+a{color:var(--c-accent)}a:hover{color:var(--c-accent-2)}
 ::selection{background:var(--c-accent);color:var(--c-on-accent)}
-.bg-grid{background-image:linear-gradient(to right,rgba(255,255,255,.026) 1px,transparent 1px),linear-gradient(to bottom,rgba(255,255,255,.026) 1px,transparent 1px);background-size:64px 64px}
-.skip{position:absolute;left:-999px;top:0;background:var(--c-accent);color:var(--c-on-accent);padding:8px 12px;font-family:var(--f-display);font-size:11px}
-.skip:focus{left:8px;top:8px;z-index:9}
-main{flex:1;width:100%;max-width:520px;margin:0 auto;padding:clamp(28px,7vh,72px) 16px var(--s-7);padding-left:max(16px,env(safe-area-inset-left));padding-right:max(16px,env(safe-area-inset-right))}
-
-/* head */
-.id{display:flex;flex-direction:column;gap:var(--s-4);margin-bottom:var(--s-6)}
-.id img{width:150px;height:auto;display:block}
-.label{font-family:var(--f-display);font-size:11px;letter-spacing:.16em;text-transform:uppercase;font-weight:500;color:var(--c-ink-3)}
-.label b{color:var(--c-ink-2);font-weight:500}
-h1{font-family:var(--f-display);font-weight:700;font-size:clamp(28px,8vw,40px);letter-spacing:-.05em;line-height:1}
-.sub{color:var(--c-ink-2);font-size:14px;max-width:44ch}
-.sub em{color:var(--c-ink);font-style:italic}
-
-/* tick rule — once per screen */
-.tickrule{height:14px;background-image:repeating-linear-gradient(90deg,var(--c-ink-3) 0 1px,transparent 1px 8px),repeating-linear-gradient(90deg,var(--c-accent) 0 1px,transparent 1px 40px);background-size:100% 5px,100% 10px;background-repeat:repeat-x;margin:var(--s-5) 0 var(--s-6)}
-
-/* link list — bordered chamfer rows */
-.links{list-style:none;display:flex;flex-direction:column;gap:var(--s-3)}
-.lk{display:block;text-decoration:none;color:inherit;background:var(--c-rule);padding:1px;clip-path:polygon(var(--chamfer) 0,100% 0,100% calc(100% - var(--chamfer)),calc(100% - var(--chamfer)) 100%,0 100%,0 var(--chamfer));transition:background var(--m-snap) var(--e-snap);position:relative}
-.lk:hover,.lk:focus-visible{background:var(--c-accent);outline:none}
-.lk .in{background:var(--c-panel);clip-path:polygon(var(--chamfer) 0,100% 0,100% calc(100% - var(--chamfer)),calc(100% - var(--chamfer)) 100%,0 100%,0 var(--chamfer));display:grid;grid-template-columns:1fr auto;align-items:center;gap:var(--s-4);padding:16px 18px;min-height:64px}
-.lk .k{font-family:var(--f-display);font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--c-ink-3);display:block;margin-bottom:4px}
-.lk .t{font-family:var(--f-display);font-size:15px;font-weight:600;letter-spacing:-.04em;color:var(--c-ink)}
-.lk .g{font-family:var(--f-display);font-size:16px;color:var(--c-ink-3);transition:transform var(--m-snap) var(--e-snap),color var(--m-snap)}
-.lk:hover .g,.lk:focus-visible .g{color:var(--c-accent);transform:translateX(4px)}
-/* the one accent element: primary link */
-.lk--primary{background:var(--c-accent)}
-.lk--primary .in{background:var(--c-accent);color:var(--c-on-accent)}
-.lk--primary .k,.lk--primary .t,.lk--primary .g{color:var(--c-on-accent)}
-.lk--primary:hover .in,.lk--primary:focus-visible .in{background:var(--c-accent-2)}
-.lk--primary:hover,.lk--primary:focus-visible{background:var(--c-accent-2)}
-.lk--primary:hover .g{color:var(--c-on-accent)}
-
-/* section labels */
-.sec{display:flex;gap:var(--s-3);align-items:baseline;margin:var(--s-6) 0 var(--s-3)}
-.sec-num{font-family:var(--f-display);font-size:11px;letter-spacing:.2em;color:var(--c-ink-3);font-weight:600}
-
-/* footer */
-footer{border-top:1px solid var(--c-rule-soft);padding:var(--s-5) 16px calc(var(--s-5) + env(safe-area-inset-bottom))}
-.foot{max-width:520px;margin:0 auto;display:flex;flex-wrap:wrap;gap:var(--s-3) var(--s-5);align-items:center;justify-content:space-between}
-.foot img{width:14px;height:14px;display:block}
+:focus-visible{outline:2px solid var(--c-accent);outline-offset:3px}
+img{max-width:100%;display:block}
+.chamfer{clip-path:polygon(var(--chamfer) 0,100% 0,100% calc(100% - var(--chamfer)),calc(100% - var(--chamfer)) 100%,0 100%,0 var(--chamfer))}
+.chamfer-sm{clip-path:polygon(var(--chamfer-sm) 0,100% 0,100% calc(100% - var(--chamfer-sm)),calc(100% - var(--chamfer-sm)) 100%,0 100%,0 var(--chamfer-sm))}
+.cham-box{background:var(--c-rule);padding:1px;transition:background var(--m-snap)}
+.cham-box>.in{display:block;background:var(--c-panel);height:100%}
+.tickrule{height:14px;background-image:repeating-linear-gradient(90deg,var(--c-ink-3) 0 1px,transparent 1px 8px),repeating-linear-gradient(90deg,var(--c-accent) 0 1px,transparent 1px 40px);background-size:100% 5px,100% 10px;background-repeat:repeat-x}
 .micro{font-family:var(--f-display);font-size:10px;letter-spacing:.2em;text-transform:uppercase;font-weight:500;color:var(--c-ink-3)}
-.motto{color:var(--c-accent)}
-.foot a{color:var(--c-ink-3);text-decoration:none}
-.foot a:hover{color:var(--c-ink)}
-
-@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition-duration:.01ms!important}}
-</style>
-</head>
-<body class="bg-grid">
-<a class="skip" href="#links">Skip to links</a>
+.label{font-family:var(--f-display);font-size:11px;letter-spacing:.16em;text-transform:uppercase;font-weight:500;color:var(--c-ink-3)}
+.display-l{font-family:var(--f-display);font-weight:700;font-size:clamp(26px,7vw,34px);letter-spacing:-.05em;line-height:1;text-wrap:balance}
+main{max-width:440px;margin:0 auto;padding:var(--s-6) 20px var(--s-7);display:flex;flex-direction:column;gap:var(--s-5)}
+.top{display:flex;justify-content:space-between;align-items:center}
+.top img{width:120px;height:auto}
+.card{display:flex;flex-direction:column;align-items:center;text-align:center;gap:var(--s-4);padding:var(--s-6) var(--s-5) var(--s-5)}
+.photo{width:160px;height:160px;flex:none;background:var(--c-rule);padding:1px}
+.photo img{width:100%;height:100%;object-fit:cover;object-position:50% 30%}
+.role{color:var(--c-ink-2);font-size:14px;line-height:1.55;text-align:center;display:flex;flex-direction:column;gap:2px}
+.card .label{text-align:center}
+.in.card{display:flex}
+.links{display:flex;flex-direction:column;gap:var(--s-3)}
+.links a{text-decoration:none;color:inherit;display:block}
+.links a:hover,.links a:focus-visible{background:var(--c-accent);color:inherit}
+.links .in{display:flex;justify-content:space-between;align-items:center;gap:var(--s-4);min-height:58px;padding:0 var(--s-5)}
+.links b{font-family:var(--f-display);font-size:12px;font-weight:600;letter-spacing:.16em;text-transform:uppercase}
+.links .micro{color:var(--c-ink-2);text-transform:none;letter-spacing:.04em;font-size:11px;text-align:right}
+.links a:hover .micro,.links a:focus-visible .micro{color:var(--c-ink)}
+.links a.fill{background:var(--c-accent)}.links a.fill .in{background:var(--c-accent);color:var(--c-on-accent)}.links a.fill .micro{color:var(--c-on-accent)}.links a.fill:hover,.links a.fill:focus-visible{background:var(--c-accent-2)}.links a.fill:hover .in,.links a.fill:focus-visible .in{background:var(--c-accent-2)}
+foot,footer{display:flex;flex-direction:column;align-items:center;gap:var(--s-4);text-align:center}
+.sig{width:60px;height:auto}
+@media (prefers-reduced-motion:reduce){*{transition-duration:.01ms!important}}
+</style></head>
+<body>
 <main>
-<header class="id">
-<img src="rtfx-wordmark-white.svg" alt="rtfx" width="150" height="40">
-<div>
-<span class="label">Allen Grabo · <b>Creative technologist</b> · Washington, DC</span>
-<h1>Visual systems<br>for real space.</h1>
-</div>
-<p class="sub">Live visuals, show control, projection mapping, LED walls, and the hardware glue in between. <em>Artifex Machina.</em></p>
-</header>
-
+<div class="top"><img src="rtfx-wordmark-white.svg" alt="RT/FX"><span class="micro">Links · 01</span></div>
+<div class="cham-box chamfer"><div class="in chamfer card">
+<div class="photo chamfer"><picture><source srcset="allen.webp" type="image/webp"><img class="chamfer" src="allen.jpg" alt="Allen Grabo" width="480" height="480"></picture></div>
+<h1 class="display-l">DR ALLEN GRABO</h1>
+<p class="role"><span class="label" style="font-size:13px;margin-bottom:6px">DC / NOVA / MD</span><span style="margin:5px">Senior Video Engineer (V1)</span><span style="margin:5px">Creative Technologist</span><span style="margin:5px">Immersive Visual Designer</span></p>
+</div></div>
 <div class="tickrule" aria-hidden="true"></div>
-
-<nav id="links" aria-label="Links">
-<div class="sec" style="margin-top:0"><span class="sec-num">01</span><span class="label">Contact</span></div>
-<ul class="links">
-<li><a class="lk lk--primary" href="https://rtfx.space/" rel="noopener"><span class="in"><span><span class="k">Portfolio</span><span class="t">rtfx.space</span></span><span class="g" aria-hidden="true">→</span></span></a></li>
-<li><a class="lk" href="mailto:rtfxdesign@gmail.com"><span class="in"><span><span class="k">Email</span><span class="t">rtfxdesign@gmail.com</span></span><span class="g" aria-hidden="true">↗</span></span></a></li>
-<li><a class="lk" href="files/allen_grabo.vcf" download><span class="in"><span><span class="k">Save contact</span><span class="t">Add to phone (.vcf)</span></span><span class="g" aria-hidden="true">↓</span></span></a></li>
-</ul>
-
-<div class="sec"><span class="sec-num">02</span><span class="label">Elsewhere</span></div>
-<ul class="links">
-<li><a class="lk" href="https://www.instagram.com/allengrabo" target="_blank" rel="noopener"><span class="in"><span><span class="k">Instagram</span><span class="t">@allengrabo</span></span><span class="g" aria-hidden="true">↗</span></span></a></li>
-<li><a class="lk" href="https://www.youtube.com/@rtfxdesign" target="_blank" rel="noopener"><span class="in"><span><span class="k">YouTube</span><span class="t">@rtfxdesign</span></span><span class="g" aria-hidden="true">↗</span></span></a></li>
-<li><a class="lk" href="https://rtfx.space/assets/allen-grabo-resume.pdf" target="_blank" rel="noopener"><span class="in"><span><span class="k">Résumé</span><span class="t">PDF</span></span><span class="g" aria-hidden="true">↗</span></span></a></li>
-</ul>
-
-<div class="sec"><span class="sec-num">03</span><span class="label">Work</span></div>
-<ul class="links">
-<li><a class="lk" href="https://rtfx.space/#work" rel="noopener"><span class="in"><span><span class="k">Case studies</span><span class="t">Selected projects</span></span><span class="g" aria-hidden="true">→</span></span></a></li>
-<li><a class="lk" href="https://rtfx.space/gallery/" rel="noopener"><span class="in"><span><span class="k">Gallery</span><span class="t">Inside the room</span></span><span class="g" aria-hidden="true">→</span></span></a></li>
-<li><a class="lk" href="https://rtfx.space/shaders/" rel="noopener"><span class="in"><span><span class="k">Shaders</span><span class="t">Generative systems</span></span><span class="g" aria-hidden="true">→</span></span></a></li>
-</ul>
+<nav class="links">
+<a class="cham-box chamfer-sm fill" href="files/allen_grabo.vcf" download="Allen Grabo.vcf"><span class="in chamfer-sm"><b>Add contact to phone</b><span class="micro">.vcf ↓</span></span></a>
+<a class="cham-box chamfer-sm" href="tel:+14405069880"><span class="in chamfer-sm"><b>Cell</b><span class="micro">440.506.9880</span></span></a>
+<a class="cham-box chamfer-sm" href="mailto:rtfxdesign@gmail.com"><span class="in chamfer-sm"><b>Email</b><span class="micro">rtfxdesign@gmail.com</span></span></a>
+<a class="cham-box chamfer-sm" href="https://www.rtfx.space" target="_blank" rel="noopener"><span class="in chamfer-sm"><b>Website</b><span class="micro">rtfx.space ↗</span></span></a>
+<a class="cham-box chamfer-sm" href="https://rtfx.space/resume/" target="_blank" rel="noopener"><span class="in chamfer-sm"><b>Résumé</b><span class="micro">rtfx.space/resume ↗</span></span></a>
+<a class="cham-box chamfer-sm" href="https://www.instagram.com/allengrabo" target="_blank" rel="noopener"><span class="in chamfer-sm"><b>Instagram</b><span class="micro">@allengrabo ↗</span></span></a>
+<a class="cham-box chamfer-sm" href="https://www.youtube.com/@rtfxdesign" target="_blank" rel="noopener"><span class="in chamfer-sm"><b>YouTube</b><span class="micro">@rtfxdesign ↗</span></span></a>
 </nav>
+<footer><img class="sig" src="aeg-sig-white.png" alt="Allen Grabo signature"><span class="micro">RT/FX · Creative technology · Washington, DC</span><a class="micro" href="files/allen_rtfx_space_qr.svg">QR code ↓</a></footer>
 </main>
-<footer>
-<div class="foot">
-<span class="micro"><img src="rtfx-mark-x-white.svg" alt="" aria-hidden="true" style="display:inline-block;vertical-align:-2px;margin-right:8px">RTFX DESIGN · DC</span>
-<span class="micro motto">Artifex Machina</span>
-<a class="micro" href="files/allen_rtfx_space_qr.svg">QR ↓</a>
-</div>
-</footer>
-</body>
-</html>
+</body></html>

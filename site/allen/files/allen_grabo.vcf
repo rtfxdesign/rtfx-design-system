@@ -1,14 +1,14 @@
 BEGIN:VCARD
 VERSION:3.0
-N:Grabo;Allen;;;
-FN:Allen Grabo
-ORG:RTFX Design
-TITLE:Creative Technologist
+N:Grabo;Allen;;Dr;
+FN:Dr Allen Grabo
+ORG:RT/FX
+TITLE:Senior Video Engineer (V1) · Immersive Visual Designer
+TEL;TYPE=CELL:+14405069880
 EMAIL;TYPE=INTERNET,PREF:rtfxdesign@gmail.com
-URL:https://rtfx.space/
+URL:https://www.rtfx.space
 URL;TYPE=links:https://allen.rtfx.space/
+ADR;TYPE=WORK:;;;Washington;DC;;USA
 X-SOCIALPROFILE;TYPE=instagram:https://www.instagram.com/allengrabo
 X-SOCIALPROFILE;TYPE=youtube:https://www.youtube.com/@rtfxdesign
-ADR;TYPE=WORK:;;;Washington;DC;;USA
-NOTE:Live visuals, show control, projection mapping, LED. Artifex Machina.
 END:VCARD

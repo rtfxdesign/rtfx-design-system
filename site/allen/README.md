@@ -4,16 +4,19 @@ Single-page, self-hosted "linktree" for QR codes and NFC tags. Lives at
 `site/allen/` so it deploys with the main Netlify site as `rtfx.space/allen/`.
 
 ## Files
-- `index.html` — the page. Tokens are inlined; no JS; fonts from Google Fonts.
-- `rtfx-wordmark-white.svg`, `rtfx-mark-x-white.svg` — logo cuts (copied from `/assets`).
-- `files/allen_grabo.vcf` — "Save contact" card (name, org, email, URLs, IG, YT).
+- `index.html` — the page (Allen's contact-card layout). Tokens inlined; no JS; fonts from Google Fonts.
+- `allen.webp` / `allen.jpg` — headshot, 480×480 (from the 1011px PNG master; WebP first, JPEG fallback).
+- `aeg-sig-white.png` — signature, 240px wide.
+- `rtfx-wordmark-white.svg` — logo (copied from `/assets`).
+- `files/allen_grabo.vcf` — "Add contact to phone" card (name, title, cell, email, URLs, IG, YT). CRLF line endings.
 - `files/allen_rtfx_space_qr.svg` / `_2048.png` — QR, black on white, for print.
 - `files/allen_rtfx_space_qr_onblack.svg` / `_2048.png` — QR, white on black, for screens.
   All four encode `https://allen.rtfx.space/` (version 3, ECC level Q).
 
 ## Editing links
-Each link is one `<li>` in `index.html`. Keep exactly one `.lk--primary`
-(the amber card) per page. Glyphs: `→` internal, `↗` external/mail, `↓` download.
+Each link is one `<a class="cham-box chamfer-sm">` in `index.html`. Keep exactly
+one `.fill` (the amber card) per page. Glyphs: `↗` external, `↓` download.
+`rtfx.space/resume/` is a 302 in `netlify.toml` to `assets/allen-grabo-resume.pdf`.
 
 ## Making allen.rtfx.space live (one-time, manual)
 1. Netlify → the rtfx.space site → Domain management → Add domain alias

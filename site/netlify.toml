@@ -40,3 +40,9 @@
   to = "/allen/:splat"
   status = 200
   force = true
+
+# Short résumé URL used on the link page and business cards.
+[[redirects]]
+  from = "/resume/*"
+  to = "/assets/allen-grabo-resume.pdf"
+  status = 302

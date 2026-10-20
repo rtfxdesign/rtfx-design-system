@@ -202,3 +202,58 @@ x.setAttribute('aria-pressed',String(x===c));
 apply();
 });
 })();
+// home: section playhead + scroll-spy, tech-tag lookup, copy email, contact form
+(function(){
+var bar=document.querySelector('.topbar');
+var links=[].slice.call(document.querySelectorAll('.topbar nav a[href^="#"]'));
+var spy=links.map(function(a){return {a:a,s:document.getElementById(a.getAttribute('href').slice(1))}}).filter(function(x){return x.s});
+// the playhead rides the bottom edge of the sticky bar: scroll progress through
+// the page, drawn with transform so it never triggers layout
+if(bar&&spy.length){
+var ph=document.createElement('span');ph.className='playhead';ph.setAttribute('aria-hidden','true');bar.appendChild(ph);
+var tick=0;
+var paint=function(){tick=0;
+var max=document.documentElement.scrollHeight-innerHeight;ph.style.transform='scaleX('+(max>0?Math.min(1,scrollY/max):0).toFixed(4)+')';
+// active section: the last one whose top has passed a line a third of the way down
+var line=bar.offsetHeight+innerHeight*.33,cur=null;
+spy.forEach(function(x){if(x.s.getBoundingClientRect().top<=line)cur=x});
+if(scrollY+innerHeight>=document.documentElement.scrollHeight-2)cur=spy[spy.length-1];
+spy.forEach(function(x){if(x===cur)x.a.setAttribute('aria-current','location');else x.a.removeAttribute('aria-current')});
+};
+addEventListener('scroll',function(){if(!tick)tick=requestAnimationFrame(paint)},{passive:true});
+addEventListener('resize',function(){if(!tick)tick=requestAnimationFrame(paint)});
+paint();
+}
+// tech tags: which case studies on this site mention the tool
+var out=document.getElementById('tag-use');
+var tags=[].slice.call(document.querySelectorAll('.tag--btn'));
+tags.forEach(function(t){t.addEventListener('click',function(){
+var open=t.getAttribute('aria-expanded')==='true';
+tags.forEach(function(o){o.setAttribute('aria-expanded','false')});
+if(open||!out){if(out)out.hidden=true;return}
+t.setAttribute('aria-expanded','true');
+var name=t.firstChild.textContent.trim();
+out.textContent='';out.appendChild(document.createTextNode(name+' · used on '));
+t.dataset.use.split('|').forEach(function(u,i,arr){var p=u.split('::');var a=document.createElement('a');a.href=p[0];a.textContent=p[1];out.appendChild(a);if(i<arr.length-1)out.appendChild(document.createTextNode(' · '))});
+out.hidden=false;
+})});
+// copy email: only offered where the clipboard API exists
+document.querySelectorAll('.js-copy').forEach(function(b){if(!navigator.clipboard)return;b.hidden=false;
+b.addEventListener('click',function(){navigator.clipboard.writeText(b.dataset.copy).then(function(){b.textContent='Copied';setTimeout(function(){b.textContent='Copy email'},2000)}).catch(function(){})})});
+// contact: the message box grows with the brief, and the form sends without
+// leaving the page. Any failure falls back to the plain POST to /thanks/.
+var f=document.querySelector('form.js-contact');
+if(!f||!window.fetch||!window.FormData||!window.URLSearchParams)return;
+var ta=f.querySelector('textarea');
+if(ta){var grow=function(){ta.style.height='auto';ta.style.height=Math.max(120,ta.scrollHeight+2)+'px'};ta.addEventListener('input',grow)}
+f.addEventListener('submit',function(e){
+e.preventDefault();
+var btn=f.querySelector('button[type="submit"]');if(btn){btn.disabled=true;btn.textContent='Sending…'}
+fetch(f.getAttribute('action')||'/',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams(new FormData(f)).toString()})
+.then(function(r){if(!r.ok)throw 0;
+var d=document.createElement('div');d.className='sent';d.setAttribute('role','status');d.tabIndex=-1;
+d.innerHTML='<span class="label">Received</span><p class="sent-t">Message received.</p><p class="body-s">Your note is in the queue. You’ll get a straight answer — usually within two working days. Urgent room? Email <a href="mailto:rtfxdesign@gmail.com">rtfxdesign@gmail.com</a> directly.</p>';
+f.replaceWith(d);d.focus();
+}).catch(function(){HTMLFormElement.prototype.submit.call(f)});
+});
+})();

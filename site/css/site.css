@@ -408,3 +408,27 @@ input,textarea{font-size:16px}
 .work:hover .go{color:var(--c-accent);text-shadow:none}
 .work:hover .arrow{transform:none}
 }
+/* home: scroll playhead on the sticky bar's bottom edge (transform only) */
+.playhead{position:absolute;left:0;right:0;bottom:0;height:2px;background:var(--c-accent);transform:scaleX(0);transform-origin:0 50%;pointer-events:none;box-shadow:0 0 8px rgba(255,176,32,.55)}
+.topbar nav a[aria-current="location"]{box-shadow:inset 0 -2px 0 var(--c-accent)}
+/* Selected Experiences: group heads inside 01 */
+.grp-h{display:block;margin:var(--s-6) 0 var(--s-3);color:var(--c-ink-2)}
+.sub-h+.grp-h{margin-top:0}
+/* tech tags that know where they were used */
+.tag--btn{border:0;cursor:pointer;color:var(--c-ink);transition:background var(--m-snap),color var(--m-snap)}
+.tag--btn:hover{background:var(--c-rule)}
+.tag--btn[aria-expanded="true"]{background:var(--c-accent);color:var(--c-on-accent)}
+.tag-n{color:var(--c-accent);margin-left:4px}
+.tag--btn[aria-expanded="true"] .tag-n{color:var(--c-on-accent)}
+.tag-use{margin-top:var(--s-3);color:var(--c-ink-2);line-height:1.9}
+.tag-use a{color:var(--c-accent)}
+/* contact extras */
+.client-up{margin-top:var(--s-4)}
+.sent{padding:var(--s-5) 0;border-top:1px solid var(--c-rule)}
+.sent:focus{outline:none}
+.sent .label{color:var(--c-ok)}
+.sent-t{font-family:var(--f-display);font-size:18px;font-weight:600;letter-spacing:-.03em;margin:var(--s-2) 0}
+/* grouped rows keep one card size: a two-card group must not stretch to halves */
+@media (min-width:1000px){#work .grid-work{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (min-width:641px) and (max-width:999px){#work .grid-work{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:640px){#work .grid-work{grid-template-columns:minmax(0,1fr)}}

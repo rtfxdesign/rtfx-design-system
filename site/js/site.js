@@ -202,7 +202,7 @@ x.setAttribute('aria-pressed',String(x===c));
 apply();
 });
 })();
-// home: section playhead + scroll-spy, tech-tag lookup, copy email, contact form
+// home: section playhead + scroll-spy, tech-tag lookup, copy email
 (function(){
 var bar=document.querySelector('.topbar');
 var links=[].slice.call(document.querySelectorAll('.topbar nav a[href^="#"]'));
@@ -240,20 +240,4 @@ out.hidden=false;
 // copy email: only offered where the clipboard API exists
 document.querySelectorAll('.js-copy').forEach(function(b){if(!navigator.clipboard)return;b.hidden=false;
 b.addEventListener('click',function(){navigator.clipboard.writeText(b.dataset.copy).then(function(){b.textContent='Copied';setTimeout(function(){b.textContent='Copy email'},2000)}).catch(function(){})})});
-// contact: the message box grows with the brief, and the form sends without
-// leaving the page. Any failure falls back to the plain POST to /thanks/.
-var f=document.querySelector('form.js-contact');
-if(!f||!window.fetch||!window.FormData||!window.URLSearchParams)return;
-var ta=f.querySelector('textarea');
-if(ta){var grow=function(){ta.style.height='auto';ta.style.height=Math.max(120,ta.scrollHeight+2)+'px'};ta.addEventListener('input',grow)}
-f.addEventListener('submit',function(e){
-e.preventDefault();
-var btn=f.querySelector('button[type="submit"]');if(btn){btn.disabled=true;btn.textContent='Sending…'}
-fetch(f.getAttribute('action')||'/',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams(new FormData(f)).toString()})
-.then(function(r){if(!r.ok)throw 0;
-var d=document.createElement('div');d.className='sent';d.setAttribute('role','status');d.tabIndex=-1;
-d.innerHTML='<span class="label">Received</span><p class="sent-t">Message received.</p><p class="body-s">Your note is in the queue. You’ll get a straight answer — usually within two working days. Urgent room? Email <a href="mailto:rtfxdesign@gmail.com">rtfxdesign@gmail.com</a> directly.</p>';
-f.replaceWith(d);d.focus();
-}).catch(function(){HTMLFormElement.prototype.submit.call(f)});
-});
 })();

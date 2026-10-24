@@ -424,11 +424,9 @@ input,textarea{font-size:16px}
 .tag-use a{color:var(--c-accent)}
 /* contact extras */
 .client-up{margin-top:var(--s-4)}
-.sent{padding:var(--s-5) 0;border-top:1px solid var(--c-rule)}
-.sent:focus{outline:none}
-.sent .label{color:var(--c-ok)}
-.sent-t{font-family:var(--f-display);font-size:18px;font-weight:600;letter-spacing:-.03em;margin:var(--s-2) 0}
 /* grouped rows keep one card size: a two-card group must not stretch to halves */
 @media (min-width:1000px){#work .grid-work{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media (min-width:641px) and (max-width:999px){#work .grid-work{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (max-width:640px){#work .grid-work{grid-template-columns:minmax(0,1fr)}}
+.brief .label{display:block;margin-bottom:var(--s-3);color:var(--c-accent)}
+.brief .caplist{margin-bottom:var(--s-5)}

@@ -202,7 +202,7 @@ document.addEventListener('DOMContentLoaded', () => {
       previewMedia.replaceChildren();
       $('.drop-prompt', dropzone).hidden = false;
       await loadArtworks();
-      alert(`"${data.artwork.title}" is ready in the local /art/ page. Publish when you are ready.`);
+      alert(`"${data.artwork.title}" is ready in the local /art/ page. Publishing to rtfx.space happens from the rtfx.space repo.`);
     } catch (error) { alert(`Upload failed: ${error.message}`); }
     finally { setButtonBusy(btnSubmit, false); }
   });
@@ -449,7 +449,7 @@ document.addEventListener('DOMContentLoaded', () => {
         method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload)
       });
       await loadProjects(state.selectedProject.slug);
-      alert('Project page saved locally. Use Preview Site to review it, then publish when ready.');
+      alert('Project page saved locally. Use Preview Site to review it. Publishing to rtfx.space happens from the rtfx.space repo.');
     } catch (error) { alert(`Save failed: ${error.message}`); }
     finally { setButtonBusy(btnSaveProject, false); }
   });
@@ -480,44 +480,6 @@ document.addEventListener('DOMContentLoaded', () => {
     } catch (error) { alert(`Media upload failed: ${error.message}`); }
     finally { event.target.value = ''; event.target.disabled = false; }
   });
-
-  // Publish pipeline
-  const btnDeploy = $('#btnDeploy');
-  const deployModal = $('#deployModal');
-  const deployLogs = $('#deployLogs');
-  btnDeploy.addEventListener('click', async () => {
-    if (!confirm('Commit the current site changes, validate a Netlify preview, and publish them to rtfx.space?')) return;
-    deployModal.hidden = false;
-    deployLogs.textContent = 'Initializing publish pipeline...\n';
-    btnDeploy.disabled = true;
-    try {
-      const response = await fetch('/api/deploy', { method: 'POST' });
-      if (!response.ok || !response.body) throw new Error(`Publish request failed with HTTP ${response.status}.`);
-      const reader = response.body.getReader();
-      const decoder = new TextDecoder();
-      let buffer = '';
-      while (true) {
-        const { done, value } = await reader.read();
-        buffer += decoder.decode(value || new Uint8Array(), { stream: !done });
-        const messages = buffer.split('\n\n');
-        buffer = messages.pop() || '';
-        messages.forEach((message) => {
-          if (!message.startsWith('data: ')) return;
-          try {
-            const payload = JSON.parse(message.slice(6));
-            if (payload.log) {
-              deployLogs.textContent += `${payload.log}\n`;
-              deployLogs.scrollTop = deployLogs.scrollHeight;
-            }
-          } catch { /* Ignore partial event data. */ }
-        });
-        if (done) break;
-      }
-    } catch (error) { deployLogs.textContent += `Publish failed: ${error.message}\n`; }
-    finally { btnDeploy.disabled = false; }
-  });
-
-  $('#btnCloseModal').addEventListener('click', () => { deployModal.hidden = true; });
 
   // ---- gallery ------------------------------------------------------------
   async function loadGallery() {

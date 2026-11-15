@@ -7,7 +7,6 @@ const { after, before, test } = require('node:test');
 const {
   app,
   applyHeroImageHtml,
-  assertPublishableBranch,
   hasAudioTrack,
   deletePageMediaHtml,
   decodeHtml,
@@ -185,8 +184,3 @@ test('caption generation requires a configured or session API key', async () => 
   assert.match(payload.error, /OpenAI API key/);
 });
 
-test('publish branch guard only allows main', () => {
-  assert.doesNotThrow(() => assertPublishableBranch('main'));
-  assert.throws(() => assertPublishableBranch('agent/unfinished'), /Publishing is only allowed from main/);
-  assert.throws(() => assertPublishableBranch(''), /detached HEAD/);
-});

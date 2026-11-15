@@ -25,7 +25,6 @@ function projectDirOf(slug) {
 function projectUrlBase(slug) {
   return rootProjectSlugs.includes(slug) ? slug : `work/${slug}`;
 }
-const productionSiteId = process.env.NETLIFY_SITE_ID || '570ae585-ebd5-4f35-a1ca-aa8f1c9b00e5';
 const productionUrl = process.env.PRODUCTION_URL || 'https://rtfx.space';
 const allowedImageExtensions = new Set(['.avif', '.gif', '.jpeg', '.jpg', '.png', '.tif', '.tiff', '.webp']);
 const allowedVideoExtensions = new Set(['.avi', '.m4v', '.mov', '.mp4', '.webm']);
@@ -1035,41 +1034,6 @@ app.post('/api/projects/:slug/page-media/:mediaId/caption-options', async (req, 
   }
 });
 
-// =====================================================================
-//  DEPLOY API
-// =====================================================================
-
-function parseCliJson(output) {
-  const start = output.indexOf('{');
-  const end = output.lastIndexOf('}');
-  if (start < 0 || end < start) throw new Error('Netlify did not return deployment details.');
-  return JSON.parse(output.slice(start, end + 1));
-}
-
-function deployToNetlify(production = false) {
-  const netlifyArgs = ['netlify', 'deploy'];
-  if (production) netlifyArgs.push('--prod');
-  netlifyArgs.push('--site', productionSiteId, '--dir', '.', '--json');
-  const command = process.platform === 'win32' ? 'cmd.exe' : 'npx';
-  const args = process.platform === 'win32' ? ['/d', '/s', '/c', 'npx', ...netlifyArgs] : netlifyArgs;
-  return parseCliJson(runFile(command, args, { cwd: siteDir }));
-}
-
-function assertPublishableBranch(branch) {
-  if (branch !== 'main') {
-    throw new Error(`Publishing is only allowed from main. Current branch: ${branch || 'detached HEAD'}.`);
-  }
-}
-
-async function verifyDeploy(url) {
-  for (const route of ['/', '/art/']) {
-    const response = await fetch(`${url}${route}`, { redirect: 'follow' });
-    if (!response.ok) throw new Error(`Preview validation failed for ${route} with HTTP ${response.status}.`);
-    const contentType = response.headers.get('content-type') || '';
-    if (!contentType.includes('text/html')) throw new Error(`Preview validation returned the wrong content type for ${route}.`);
-  }
-}
-
 app.get('/api/status', (req, res) => {
   try {
     const branch = runFile('git', ['branch', '--show-current']).trim();
@@ -1077,84 +1041,11 @@ app.get('/api/status', (req, res) => {
       success: true,
       branch,
       ffmpegPath,
-      productionUrl,
-      productionSiteId,
       captionAiReady: Boolean(process.env.OPENAI_API_KEY),
       captionModel: process.env.OPENAI_CAPTION_MODEL || 'gpt-5.6-luna'
     });
   } catch (error) {
     res.status(500).json({ success: false, error: error.message });
-  }
-});
-
-app.post('/api/deploy', async (req, res) => {
-  res.setHeader('Content-Type', 'text/event-stream');
-  res.setHeader('Cache-Control', 'no-cache');
-  res.setHeader('Connection', 'keep-alive');
-  res.flushHeaders();
-
-  function sendLog(message) {
-    res.write(`data: ${JSON.stringify({ log: message })}\n\n`);
-  }
-
-  sendLog('Starting guarded publish pipeline...');
-
-  try {
-    const branch = runFile('git', ['branch', '--show-current']).trim();
-    assertPublishableBranch(branch);
-
-    const status = runFile('git', ['status', '--porcelain', '--untracked-files=all']);
-    const changes = status.split(/\r?\n/).filter(Boolean);
-    const outsideSite = changes.filter(line => {
-      const changedPath = line.slice(3).replace(/^"|"$/g, '').replace(/\\/g, '/');
-      return !changedPath.startsWith('site/');
-    });
-    if (outsideSite.length) {
-      throw new Error('There are changes outside the site folder. Commit or set them aside before publishing from Studio.');
-    }
-
-    if (changes.length) {
-      sendLog('Staging site changes...');
-      runFile('git', ['add', '--', 'site']);
-      const staged = runFile('git', ['diff', '--cached', '--name-only']).trim();
-      if (staged) {
-        runFile('git', ['commit', '-m', 'Update site from RTFX Studio']);
-        sendLog('Committed site changes.');
-      }
-    } else {
-      sendLog('No uncommitted site changes found.');
-    }
-
-    sendLog('Checking GitHub for newer changes...');
-    runFile('git', ['fetch', 'origin', 'main'], { timeout: 90000 });
-    const behind = Number(runFile('git', ['rev-list', '--count', 'HEAD..origin/main']).trim() || 0);
-    if (behind > 0) throw new Error('GitHub has newer changes. Update the local checkout before publishing.');
-
-    sendLog('Pushing main to GitHub...');
-    runFile('git', ['push', 'origin', 'main'], { timeout: 120000 });
-    sendLog('GitHub push complete.');
-
-    sendLog('Creating Netlify preview...');
-    const preview = deployToNetlify(false);
-    const previewUrl = preview.deploy_url || preview.deploy_ssl_url;
-    if (!previewUrl) throw new Error('Netlify preview URL was not returned.');
-    sendLog(`Preview ready: ${previewUrl}`);
-
-    sendLog('Validating homepage and art gallery...');
-    await verifyDeploy(previewUrl);
-    sendLog('Preview validation passed.');
-
-    sendLog(`Publishing to ${productionUrl}...`);
-    const production = deployToNetlify(true);
-    const liveUrl = production.url || productionUrl;
-    await verifyDeploy(liveUrl);
-    sendLog(`Publish complete: ${liveUrl}`);
-    res.write(`data: ${JSON.stringify({ done: true, success: true, url: liveUrl })}\n\n`);
-    res.end();
-  } catch (err) {
-    sendLog(`Publish stopped: ${err.message}`);
-    res.write(`data: ${JSON.stringify({ done: true, success: false, error: err.message })}\n\n`);
-    res.end();
   }
 });
 
@@ -1178,7 +1069,6 @@ if (require.main === module) {
 module.exports = {
   app,
   applyHeroImageHtml,
-  assertPublishableBranch,
   hasAudioTrack,
   rootProjectSlugs,
   workDir,
